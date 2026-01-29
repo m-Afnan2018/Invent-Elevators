@@ -1,5 +1,5 @@
-import Cabin from "../models/Cabin.js";
-import Product from "../models/Product.js";
+import Cabin from "../models/cabin.js";
+import Product from "../models/product.js";
 
 /**
  * CREATE / ADD cabin details

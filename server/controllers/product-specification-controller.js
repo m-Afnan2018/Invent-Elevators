@@ -1,5 +1,5 @@
-import ProductSpecification from "../models/ProductSpecification.js";
-import Product from "../models/Product.js";
+import ProductSpecification from "../models/product-specification.js";
+import Product from "../models/product.js";
 
 /**
  * ADD specification to product

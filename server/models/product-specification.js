@@ -9,14 +9,22 @@ const productSpecificationSchema = new mongoose.Schema(
         },
         key: {
             type: String,
-            required: true
+            required: true,
+            trim: true
         },
         value: {
             type: String,
-            required: true
+            required: true,
+            trim: true
         }
     },
     { timestamps: true }
+);
+
+// prevent duplicate keys per product
+productSpecificationSchema.index(
+    { productId: 1, key: 1 },
+    { unique: true }
 );
 
 export default mongoose.model(

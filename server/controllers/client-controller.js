@@ -1,4 +1,4 @@
-import Client from "../models/Client.js";
+import Client from "../models/client.js";
 
 /**
  * CREATE client

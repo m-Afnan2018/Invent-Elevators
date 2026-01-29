@@ -1,5 +1,5 @@
-import ElevatorMachine from "../models/ElevatorMachine.js";
-import Product from "../models/Product.js";
+import ElevatorMachine from "../models/elevator-machine.js";
+import Product from "../models/product.js";
 
 /**
  * CREATE machine

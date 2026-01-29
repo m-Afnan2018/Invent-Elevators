@@ -1,6 +1,6 @@
-import Product from "../models/Product.js";
-import ProductImage from "../models/ProductImage.js";
-import ProductSpecification from "../models/ProductSpecification.js";
+import Product from "../models/product.js";
+import ProductImage from "../models/product-image.js";
+import ProductSpecification from "../models/product-specification.js";
 
 // CREATE product
 export const createProduct = async (req, res) => {

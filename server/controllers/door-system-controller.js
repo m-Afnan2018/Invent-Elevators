@@ -1,5 +1,5 @@
-import DoorSystem from "../models/DoorSystem.js";
-import Product from "../models/Product.js";
+import DoorSystem from "../models/door-system.js";
+import Product from "../models/product.js";
 
 /**
  * CREATE door system

@@ -1,4 +1,4 @@
-import ProjectClient from "../models/ProjectClient.js";
+import ProjectClient from "../models/project-client.js";
 
 /**
  * ASSIGN client to project

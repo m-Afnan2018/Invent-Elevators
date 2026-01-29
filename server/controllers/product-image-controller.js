@@ -1,5 +1,5 @@
-import ProductImage from "../models/ProductImage.js";
-import Product from "../models/Product.js";
+import ProductImage from "../models/product-image.js";
+import Product from "../models/product.js";
 
 /**
  * ADD image to product

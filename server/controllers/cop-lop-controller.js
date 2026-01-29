@@ -1,5 +1,5 @@
-import CopLopPanel from "../models/CopLopPanel.js";
-import Product from "../models/Product.js";
+import CopLopPanel from "../models/cop-lop-panel.js";
+import Product from "../models/product.js";
 
 /**
  * CREATE COP / LOP panel

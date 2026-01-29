@@ -14,17 +14,17 @@ app.use(morgan("dev"));
 
 // Import routes
 import companyRoutes from "./routes/company-routes";
-import authRoutes from "./routes/authRoutes.js";
-import categoryRoutes from "./routes/categoryRoutes.js";
-import productRoutes from "./routes/productRoutes.js";
-import productSpecificationRoutes from "./routes/productSpecificationRoutes.js";
-import cabinRoutes from "./routes/cabinRoutes.js";
-import doorSystemRoutes from "./routes/doorSystemRoutes.js";
-import elevatorMachineRoutes from "./routes/elevatorMachineRoutes.js";
-import projectRoutes from "./routes/projectRoutes.js";
-import clientRoutes from "./routes/clientRoutes.js";
-import projectClientRoutes from "./routes/projectClientRoutes.js";
-import inquiryRoutes from "./routes/inquiryRoutes.js";
+import authRoutes from "./routes/auth-routes.js";
+import categoryRoutes from "./routes/categories-routes.js";
+import productRoutes from "./routes/products-routes.js";
+import productSpecificationRoutes from "./routes/product-specification-routes.js";
+import cabinRoutes from "./routes/cabin-routes.js";
+import doorSystemRoutes from "./routes/door-system-routes.js";
+import elevatorMachineRoutes from "./routes/elevator-machine-routes.js";
+import projectRoutes from "./routes/project-routes.js";
+import clientRoutes from "./routes/client-routes.js";
+import projectClientRoutes from "./routes/project-client-routes.js";
+import inquiryRoutes from "./routes/inquiry-routes.js";
 
 // Using Routes
 app.use("/api/companies", companyRoutes);

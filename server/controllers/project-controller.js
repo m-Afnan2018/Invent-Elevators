@@ -1,5 +1,5 @@
-import Project from "../models/Project.js";
-import ProjectClient from "../models/ProjectClient.js";
+import Project from "../models/project.js";
+import ProjectClient from "../models/project-client.js";
 
 /**
  * CREATE project
