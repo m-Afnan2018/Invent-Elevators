@@ -1,0 +1,14 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "This is the server for Invent Lift Service",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "Lift"
+  ],
+  "author": "Mohammad Afnan",
+  "license": "ISC"
+}
