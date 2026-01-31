@@ -1,0 +1,37 @@
+.card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    width: 100%;
+}
+
+.card h3 {
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.statBox {
+    background: #f7f7f7;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+}
+
+.value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+}
+
+.label {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #666;
+}

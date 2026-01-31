@@ -1,0 +1,11 @@
+.top {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .top {
+        grid-template-columns: 1fr;
+    }
+}

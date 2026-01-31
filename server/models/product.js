@@ -1,45 +1,45 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema(
     {
-        companyId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Company",
-            required: true
-        },
         categoryId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Category",
-            required: true
+            required: true,
         },
+
+        // null if category has no subcategory
+        subCategoryId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "SubCategory",
+            default: null,
+        },
+
         name: {
             type: String,
             required: true,
-            trim: true
+            trim: true,
         },
-        slug: {
-            type: String,
+
+        price: {
+            type: Number,
             required: true,
-            lowercase: true
+            min: 0,
         },
-        shortDescription: {
-            type: String
-        },
-        longDescription: {
-            type: String
-        },
-        status: {
+
+        description: {
             type: String,
-            enum: ["active", "inactive"],
-            default: "active"
-        }
+            default: "",
+        },
+
+        // Dynamic fields live here
+        attributes: {
+            type: Map,
+            of: mongoose.Schema.Types.Mixed,
+            default: {},
+        },
     },
     { timestamps: true }
 );
 
-productSchema.index(
-    { companyId: 1, categoryId: 1, slug: 1 },
-    { unique: true }
-);
-
-export default mongoose.model("Product", productSchema);
+module.exports = mongoose.model("Product", productSchema);

@@ -1,0 +1,8 @@
+.header{
+    display: flex;
+    gap: 1rem;
+}
+
+.header>div{
+    width: 100%;
+}

@@ -1,0 +1,99 @@
+.header {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    z-index: 1000;
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: auto;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+    color: #111;
+    text-decoration: none;
+}
+
+/* Menu */
+.menu {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: #444;
+    font-weight: 500;
+}
+
+/* CTA */
+.cta,
+.ctaDesktop {
+    background: #000;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.cta:hover,
+.ctaDesktop:hover {
+    background: #222;
+}
+
+/* Hamburger */
+.hamburger {
+    display: none;
+    font-size: 26px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Mobile CTA hidden on desktop */
+.mobileCta {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .menu {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        flex-direction: column;
+        padding: 20px;
+        display: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    .menuOpen {
+        display: flex;
+    }
+
+    .ctaDesktop {
+        display: none;
+    }
+
+    .mobileCta {
+        display: block;
+        margin-top: 10px;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}

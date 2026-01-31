@@ -1,0 +1,28 @@
+.filters {
+    margin-top: 28px;
+    background: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    display: flex;
+    gap: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.filters select,
+.filters input {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    min-width: 180px;
+}
+
+.filters input {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .filters {
+        flex-direction: column;
+    }
+}
