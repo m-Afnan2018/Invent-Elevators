@@ -1,12 +1,40 @@
-const express = require("express");
+/**
+ * Category Routes
+ * ---------------
+ * All category related API endpoints.
+ *
+ * Base URL:
+ * /api/categories
+ */
+
+import express from "express";
+import {
+    createCategory,
+    getAllCategories,
+    getCategoryById,
+    updateCategory,
+    deleteCategory,
+} from "../controllers/category.controller.js";
+
 const router = express.Router();
 
-const {
-    createCategory,
-    getCategories,
-} = require("../controllers/category.controller");
+/* ---------------------------------------------------
+   Category Routes
+--------------------------------------------------- */
 
+// Create category
 router.post("/", createCategory);
-router.get("/", getCategories);
 
-module.exports = router;
+// Get all categories
+router.get("/", getAllCategories);
+
+// Get single category
+router.get("/:id", getCategoryById);
+
+// Update category
+router.put("/:id", updateCategory);
+
+// Disable category (soft delete)
+router.delete("/:id", deleteCategory);
+
+export default router;

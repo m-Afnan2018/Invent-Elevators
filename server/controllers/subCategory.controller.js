@@ -1,40 +1,48 @@
 /**
- * Category Controller
- * -------------------
- * Handles all category related operations.
+ * SubCategory Controller
+ * ----------------------
+ * Handles all sub-category related operations.
  *
- * Why controller layer?
- * - Keeps routes clean
- * - Business logic stays centralized
+ * SubCategory always belongs to a Category.
  */
 
+import SubCategory from "../models/SubCategory.model.js";
 import Category from "../models/Category.model.js";
 
 /* ---------------------------------------------------
-   Create Category
+   Create Sub Category
 --------------------------------------------------- */
-export const createCategory = async (req, res) => {
+export const createSubCategory = async (req, res) => {
     try {
-        const { name, description, image } = req.body;
+        const { category, name, description } = req.body;
 
         // Basic validation
-        if (!name) {
+        if (!category || !name) {
             return res.status(400).json({
                 success: false,
-                message: "Category name is required",
+                message: "Category and sub-category name are required",
             });
         }
 
-        const category = await Category.create({
+        // Check if parent category exists
+        const categoryExists = await Category.findById(category);
+        if (!categoryExists) {
+            return res.status(404).json({
+                success: false,
+                message: "Parent category not found",
+            });
+        }
+
+        const subCategory = await SubCategory.create({
+            category,
             name,
             description,
-            image,
         });
 
         res.status(201).json({
             success: true,
-            message: "Category created successfully",
-            data: category,
+            message: "Sub-category created successfully",
+            data: subCategory,
         });
     } catch (error) {
         res.status(500).json({
@@ -45,15 +53,17 @@ export const createCategory = async (req, res) => {
 };
 
 /* ---------------------------------------------------
-   Get All Categories
+   Get All Sub Categories
 --------------------------------------------------- */
-export const getAllCategories = async (req, res) => {
+export const getAllSubCategories = async (req, res) => {
     try {
-        const categories = await Category.find().sort({ createdAt: -1 });
+        const subCategories = await SubCategory.find()
+            .populate("category", "name")
+            .sort({ createdAt: -1 });
 
         res.status(200).json({
             success: true,
-            data: categories,
+            data: subCategories,
         });
     } catch (error) {
         res.status(500).json({
@@ -64,22 +74,20 @@ export const getAllCategories = async (req, res) => {
 };
 
 /* ---------------------------------------------------
-   Get Single Category
+   Get Sub Categories By Category
 --------------------------------------------------- */
-export const getCategoryById = async (req, res) => {
+export const getSubCategoriesByCategory = async (req, res) => {
     try {
-        const category = await Category.findById(req.params.id);
+        const { categoryId } = req.params;
 
-        if (!category) {
-            return res.status(404).json({
-                success: false,
-                message: "Category not found",
-            });
-        }
+        const subCategories = await SubCategory.find({
+            category: categoryId,
+            isActive: true,
+        }).sort({ createdAt: -1 });
 
         res.status(200).json({
             success: true,
-            data: category,
+            data: subCategories,
         });
     } catch (error) {
         res.status(500).json({
@@ -90,27 +98,27 @@ export const getCategoryById = async (req, res) => {
 };
 
 /* ---------------------------------------------------
-   Update Category
+   Update Sub Category
 --------------------------------------------------- */
-export const updateCategory = async (req, res) => {
+export const updateSubCategory = async (req, res) => {
     try {
-        const updatedCategory = await Category.findByIdAndUpdate(
+        const updatedSubCategory = await SubCategory.findByIdAndUpdate(
             req.params.id,
             req.body,
             { new: true }
         );
 
-        if (!updatedCategory) {
+        if (!updatedSubCategory) {
             return res.status(404).json({
                 success: false,
-                message: "Category not found",
+                message: "Sub-category not found",
             });
         }
 
         res.status(200).json({
             success: true,
-            message: "Category updated successfully",
-            data: updatedCategory,
+            message: "Sub-category updated successfully",
+            data: updatedSubCategory,
         });
     } catch (error) {
         res.status(500).json({
@@ -121,26 +129,26 @@ export const updateCategory = async (req, res) => {
 };
 
 /* ---------------------------------------------------
-   Soft Delete Category (Disable)
+   Soft Delete Sub Category (Disable)
 --------------------------------------------------- */
-export const deleteCategory = async (req, res) => {
+export const deleteSubCategory = async (req, res) => {
     try {
-        const category = await Category.findByIdAndUpdate(
+        const subCategory = await SubCategory.findByIdAndUpdate(
             req.params.id,
             { isActive: false },
             { new: true }
         );
 
-        if (!category) {
+        if (!subCategory) {
             return res.status(404).json({
                 success: false,
-                message: "Category not found",
+                message: "Sub-category not found",
             });
         }
 
         res.status(200).json({
             success: true,
-            message: "Category disabled successfully",
+            message: "Sub-category disabled successfully",
         });
     } catch (error) {
         res.status(500).json({

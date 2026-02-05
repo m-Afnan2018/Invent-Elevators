@@ -1,105 +1,90 @@
-const Product = require("../models/Product");
-const Category = require("../models/Category");
-const SubCategory = require("../models/SubCategory");
-const Attribute = require("../models/Attribute");
+/**
+ * Product Controller
+ * ------------------
+ * Handles lift product (complete configuration) operations.
+ *
+ * A Product connects:
+ * - Category
+ * - SubCategory
+ * - Multiple Components (by type)
+ */
 
-// CREATE PRODUCT
-exports.createProduct = async (req, res) => {
+import Product from "../models/Product.model.js";
+import Category from "../models/Category.model.js";
+import SubCategory from "../models/SubCategory.model.js";
+import Component from "../models/Component.model.js";
+
+/* ---------------------------------------------------
+   Create Product
+--------------------------------------------------- */
+export const createProduct = async (req, res) => {
     try {
         const {
-            categoryId,
-            subCategoryId = null,
+            category,
+            subCategory,
             name,
-            price,
             description,
-            attributes = {},
+            capacity,
+            stops,
+            speed,
+            components,
         } = req.body;
 
-        // category check
-        const category = await Category.findById(categoryId);
-        if (!category) {
+        // Basic validation
+        if (!category || !name) {
+            return res.status(400).json({
+                success: false,
+                message: "Category and product name are required",
+            });
+        }
+
+        // Check category exists
+        const categoryExists = await Category.findById(category);
+        if (!categoryExists) {
             return res.status(404).json({
                 success: false,
                 message: "Category not found",
             });
         }
 
-        // subcategory check
-        if (subCategoryId) {
-            const subCategory = await SubCategory.findOne({
-                _id: subCategoryId,
-                categoryId,
-            });
-            if (!subCategory) {
-                return res.status(400).json({
+        // Check sub-category exists (if provided)
+        if (subCategory) {
+            const subCategoryExists = await SubCategory.findById(subCategory);
+            if (!subCategoryExists) {
+                return res.status(404).json({
                     success: false,
-                    message: "Invalid subcategory",
+                    message: "Sub-category not found",
                 });
             }
         }
 
-        // fetch attribute definitions
-        const attributeDefs = await Attribute.find({
-            categoryId,
-            subCategoryId: subCategoryId || null,
-        });
-
-        // validation
-        for (const attr of attributeDefs) {
-            const value = attributes[attr.key];
-
-            if (attr.required && (value === undefined || value === null)) {
-                return res.status(400).json({
-                    success: false,
-                    message: `Field '${attr.label}' is required`,
-                });
-            }
-
-            if (value !== undefined) {
-                if (attr.type === "number" && typeof value !== "number") {
-                    return res.status(400).json({
+        // Optional: Validate components exist
+        if (components && components.length > 0) {
+            for (const item of components) {
+                const componentExists = await Component.findById(item.component);
+                if (!componentExists) {
+                    return res.status(404).json({
                         success: false,
-                        message: `${attr.label} must be a number`,
-                    });
-                }
-
-                if (attr.type === "text" && typeof value !== "string") {
-                    return res.status(400).json({
-                        success: false,
-                        message: `${attr.label} must be text`,
-                    });
-                }
-
-                if (attr.type === "boolean" && typeof value !== "boolean") {
-                    return res.status(400).json({
-                        success: false,
-                        message: `${attr.label} must be boolean`,
-                    });
-                }
-
-                if (
-                    attr.type === "select" &&
-                    !attr.options.includes(value)
-                ) {
-                    return res.status(400).json({
-                        success: false,
-                        message: `${attr.label} must be one of ${attr.options.join(", ")}`,
+                        message: "One or more components not found",
                     });
                 }
             }
         }
 
         const product = await Product.create({
-            categoryId,
-            subCategoryId,
+            category,
+            subCategory,
             name,
-            price,
             description,
-            attributes,
+            capacity,
+            stops,
+            speed,
+            components,
         });
 
         res.status(201).json({
             success: true,
+            message: "Product created successfully",
             data: product,
         });
     } catch (error) {
@@ -110,12 +95,14 @@ exports.createProduct = async (req, res) => {
     }
 };
 
-// GET ALL PRODUCTS
-exports.getProducts = async (req, res) => {
+/* ---------------------------------------------------
+   Get All Products
+--------------------------------------------------- */
+export const getAllProducts = async (req, res) => {
     try {
-        const products = await Product.find()
-            .populate("categoryId", "name")
-            .populate("subCategoryId", "name")
+        const products = await Product.find({ isActive: true })
+            .populate("category", "name")
+            .populate("subCategory", "name")
             .sort({ createdAt: -1 });
 
         res.status(200).json({
@@ -130,14 +117,24 @@ exports.getProducts = async (req, res) => {
     }
 };
 
-// GET SINGLE PRODUCT
-exports.getProductById = async (req, res) => {
+/* ---------------------------------------------------
+   Get Single Product (Full Configuration)
+--------------------------------------------------- */
+export const getProductById = async (req, res) => {
     try {
         const product = await Product.findById(req.params.id)
-            .populate("categoryId", "name")
-            .populate("subCategoryId", "name");
+            .populate("category", "name")
+            .populate("subCategory", "name")
+            .populate({
+                path: "components.componentType",
+                select: "name",
+            })
+            .populate({
+                path: "components.component",
+                select: "name specs image price",
+            });
 
-        if (!product) {
+        if (!product || !product.isActive) {
             return res.status(404).json({
                 success: false,
                 message: "Product not found",
@@ -156,12 +153,45 @@ exports.getProductById = async (req, res) => {
     }
 };
 
-// UPDATE PRODUCT
-exports.updateProduct = async (req, res) => {
+/* ---------------------------------------------------
+   Update Product
+--------------------------------------------------- */
+export const updateProduct = async (req, res) => {
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+
+        if (!updatedProduct) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Product updated successfully",
+            data: updatedProduct,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
+/* ---------------------------------------------------
+   Soft Delete Product
+--------------------------------------------------- */
+export const deleteProduct = async (req, res) => {
     try {
         const product = await Product.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            { isActive: false },
             { new: true }
         );
 
@@ -174,31 +204,7 @@ exports.updateProduct = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            data: product,
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message,
-        });
-    }
-};
-
-// DELETE PRODUCT
-exports.deleteProduct = async (req, res) => {
-    try {
-        const product = await Product.findByIdAndDelete(req.params.id);
-
-        if (!product) {
-            return res.status(404).json({
-                success: false,
-                message: "Product not found",
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            message: "Product deleted successfully",
+            message: "Product disabled successfully",
         });
     } catch (error) {
         res.status(500).json({
