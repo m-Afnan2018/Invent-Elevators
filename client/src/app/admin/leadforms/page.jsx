@@ -1,7 +1,5 @@
-
+import LeadFormsSection from '@/components/core/admin/leadforms/LeadFormsSection';
 
 export default function Leadform() {
-    return <section>
-        Lead Form Section
-    </section>
+    return <LeadFormsSection />;
 }
