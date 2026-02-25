@@ -28,6 +28,22 @@ export const getAllComponents = async (_req, res) => {
   }
 };
 
+export const getComponentById = async (req, res) => {
+  try {
+    const component = await Component.findById(req.params.id)
+      .populate("componentType", "name")
+      .populate("attributeId", "name fields");
+
+    if (!component) {
+      return res.status(404).json({ success: false, message: "Component not found" });
+    }
+
+    res.status(200).json({ success: true, data: component });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 export const getComponentsByType = async (req, res) => {
   try {
     const components = await Component.find({ componentType: req.params.typeId, isActive: true })

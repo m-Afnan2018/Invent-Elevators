@@ -9,23 +9,23 @@
 
 import express from "express";
 import {
-    createComponentType,
-    getAllComponentTypes,
-    updateComponentType,
-    deleteComponentType,
+  createComponentType,
+  getAllComponentTypes,
+  getComponentTypeById,
+  updateComponentType,
+  deleteComponentType,
 } from "../controllers/componentType.controller.js";
 
 const router = express.Router();
-
-/* ---------------------------------------------------
-   Component Type Routes
---------------------------------------------------- */
 
 // Create component type
 router.post("/", createComponentType);
 
 // Get all component types
 router.get("/", getAllComponentTypes);
+
+// Get single component type
+router.get("/:id", getComponentTypeById);
 
 // Update component type
 router.put("/:id", updateComponentType);

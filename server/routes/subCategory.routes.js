@@ -9,18 +9,15 @@
 
 import express from "express";
 import {
-    createSubCategory,
-    getAllSubCategories,
-    getSubCategoriesByCategory,
-    updateSubCategory,
-    deleteSubCategory,
+  createSubCategory,
+  getAllSubCategories,
+  getSubCategoryById,
+  getSubCategoriesByCategory,
+  updateSubCategory,
+  deleteSubCategory,
 } from "../controllers/subCategory.controller.js";
 
 const router = express.Router();
-
-/* ---------------------------------------------------
-   Sub Category Routes
---------------------------------------------------- */
 
 // Create sub-category
 router.post("/", createSubCategory);
@@ -29,10 +26,10 @@ router.post("/", createSubCategory);
 router.get("/", getAllSubCategories);
 
 // Get sub-categories by category
-router.get(
-    "/by-category/:categoryId",
-    getSubCategoriesByCategory
-);
+router.get("/by-category/:categoryId", getSubCategoriesByCategory);
+
+// Get single sub-category
+router.get("/:id", getSubCategoryById);
 
 // Update sub-category
 router.put("/:id", updateSubCategory);

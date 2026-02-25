@@ -9,18 +9,15 @@
 
 import express from "express";
 import {
-    createComponent,
-    getAllComponents,
-    getComponentsByType,
-    updateComponent,
-    deleteComponent,
+  createComponent,
+  getAllComponents,
+  getComponentById,
+  getComponentsByType,
+  updateComponent,
+  deleteComponent,
 } from "../controllers/component.controller.js";
 
 const router = express.Router();
-
-/* ---------------------------------------------------
-   Component Routes
---------------------------------------------------- */
 
 // Create component
 router.post("/", createComponent);
@@ -30,6 +27,9 @@ router.get("/", getAllComponents);
 
 // Get components by component type
 router.get("/by-type/:typeId", getComponentsByType);
+
+// Get single component
+router.get("/:id", getComponentById);
 
 // Update component
 router.put("/:id", updateComponent);

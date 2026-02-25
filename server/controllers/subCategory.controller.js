@@ -30,6 +30,20 @@ export const getAllSubCategories = async (_req, res) => {
   }
 };
 
+export const getSubCategoryById = async (req, res) => {
+  try {
+    const subCategory = await SubCategory.findById(req.params.id).populate("category", "name slug");
+
+    if (!subCategory) {
+      return res.status(404).json({ success: false, message: "Sub-category not found" });
+    }
+
+    res.status(200).json({ success: true, data: subCategory });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 export const getSubCategoriesByCategory = async (req, res) => {
   try {
     const subCategories = await SubCategory.find({ category: req.params.categoryId, isActive: true }).sort({ order: 1, createdAt: -1 });
