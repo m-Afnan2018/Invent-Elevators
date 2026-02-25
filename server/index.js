@@ -27,6 +27,7 @@ import blogRoutes from "./routes/blog.routes.js";
 import leadRoutes from "./routes/lead.routes.js";
 import adminUserRoutes from "./routes/adminUser.routes.js";
 import connectDB from "./configs/db.js";
+import API_ROUTES from "./apis.js";
 
 
 
@@ -53,17 +54,28 @@ app.get("/", (req, res) => {
 });
 
 // Feature routes
-app.use("/api/categories", categoryRoutes);
-app.use("/api/sub-categories", subCategoryRoutes);
-app.use("/api/component-types", componentTypeRoutes);
-app.use("/api/components", componentRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/upload", uploadRoutes);
-app.use("/api/attributes", attributeRoutes);
-app.use("/api/projects", projectRoutes);
-app.use("/api/blogs", blogRoutes);
-app.use("/api/leads", leadRoutes);
-app.use("/api/users", adminUserRoutes);
+app.use(API_ROUTES.CATEGORIES, categoryRoutes);
+app.use(API_ROUTES.SUB_CATEGORIES, subCategoryRoutes);
+app.use(API_ROUTES.COMPONENT_TYPES, componentTypeRoutes);
+app.use(API_ROUTES.COMPONENTS, componentRoutes);
+app.use(API_ROUTES.PRODUCTS, productRoutes);
+app.use(API_ROUTES.UPLOAD, uploadRoutes);
+app.use(API_ROUTES.ATTRIBUTES, attributeRoutes);
+app.use(API_ROUTES.PROJECTS, projectRoutes);
+app.use(API_ROUTES.BLOGS, blogRoutes);
+app.use(API_ROUTES.LEADS, leadRoutes);
+app.use(API_ROUTES.USERS, adminUserRoutes);
+// app.use("/api/categories", categoryRoutes);
+// app.use("/api/sub-categories", subCategoryRoutes);
+// app.use("/api/component-types", componentTypeRoutes);
+// app.use("/api/components", componentRoutes);
+// app.use("/api/products", productRoutes);
+// app.use("/api/upload", uploadRoutes);
+// app.use("/api/attributes", attributeRoutes);
+// app.use("/api/projects", projectRoutes);
+// app.use("/api/blogs", blogRoutes);
+// app.use("/api/leads", leadRoutes);
+// app.use("/api/users", adminUserRoutes);
 
 /* -------------------- 404 Handler -------------------- */
 app.use((req, res) => {
