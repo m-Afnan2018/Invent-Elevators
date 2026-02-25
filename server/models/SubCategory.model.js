@@ -1,58 +1,24 @@
-/**
- * SubCategory Model
- * -----------------
- * Represents lift sub-categories under a main category.
- *
- * Example:
- * Category: Passenger Lift
- * SubCategory: MRL Lift
- *
- * Why needed:
- * - Keeps lift types structured
- * - Allows products to be grouped correctly
- */
-
 import mongoose from "mongoose";
 
 const subCategorySchema = new mongoose.Schema(
-    {
-        // Reference to parent Category
-        category: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Category",
-            required: true,
-        },
-
-        // Sub-category name
-        name: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-
-        // Optional description
-        description: {
-            type: String,
-            trim: true,
-        },
-
-        // Enable / Disable without deleting
-        isActive: {
-            type: Boolean,
-            default: true,
-        },
-    },
-    {
-        timestamps: true,
-    }
+  {
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
+    name: { type: String, required: true, trim: true },
+    description: { type: String, trim: true },
+    slug: { type: String, trim: true, lowercase: true },
+    icon: { type: String },
+    image: { type: String },
+    status: { type: String, enum: ["active", "inactive"], default: "active" },
+    order: { type: Number, default: 0 },
+    metaTitle: { type: String, trim: true },
+    metaDescription: { type: String, trim: true },
+    metaKeywords: [{ type: String, trim: true }],
+    isActive: { type: Boolean, default: true },
+  },
+  { timestamps: true }
 );
 
-// Prevent duplicate sub-categories under same category
-subCategorySchema.index(
-    { category: 1, name: 1 },
-    { unique: true }
-);
+subCategorySchema.index({ category: 1, name: 1 }, { unique: true });
+subCategorySchema.index({ category: 1, slug: 1 }, { unique: true, sparse: true });
 
-const SubCategory = mongoose.model("SubCategory", subCategorySchema);
-
-export default SubCategory;
+export default mongoose.model("SubCategory", subCategorySchema);

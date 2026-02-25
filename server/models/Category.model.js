@@ -1,52 +1,23 @@
-/**
- * Category Model
- * --------------
- * This schema represents main lift categories.
- *
- * Examples:
- * - Passenger Lift
- * - Goods Lift
- * - Hospital Lift
- *
- * Why this model is important:
- * - Acts as the root for sub-categories and products
- * - Keeps lift types well organized
- */
-
 import mongoose from "mongoose";
 
 const categorySchema = new mongoose.Schema(
-    {
-        // Category name (must be unique)
-        name: {
-            type: String,
-            required: true,
-            trim: true,
-            unique: true,
-        },
-
-        // Short description for admin / frontend
-        description: {
-            type: String,
-            trim: true,
-        },
-
-        // Optional image (banner / icon)
-        image: {
-            type: String,
-        },
-
-        // Enable / Disable category without deleting
-        isActive: {
-            type: Boolean,
-            default: true,
-        },
-    },
-    {
-        timestamps: true, // adds createdAt & updatedAt
-    }
+  {
+    name: { type: String, required: true, trim: true },
+    description: { type: String, trim: true },
+    slug: { type: String, trim: true, lowercase: true, unique: true, sparse: true },
+    icon: { type: String },
+    image: { type: String },
+    status: { type: String, enum: ["active", "inactive"], default: "active" },
+    order: { type: Number, default: 0 },
+    metaTitle: { type: String, trim: true },
+    metaDescription: { type: String, trim: true },
+    metaKeywords: [{ type: String, trim: true }],
+    parentId: { type: mongoose.Schema.Types.ObjectId, ref: "Category", default: null },
+    isActive: { type: Boolean, default: true },
+  },
+  { timestamps: true }
 );
 
-const Category = mongoose.model("Category", categorySchema);
+categorySchema.index({ name: 1, parentId: 1 }, { unique: true });
 
-export default Category;
+export default mongoose.model("Category", categorySchema);

@@ -13,7 +13,6 @@
 
 import express from "express";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 
 /* -------------------- Route Imports -------------------- */
 import categoryRoutes from "./routes/category.routes.js";
@@ -22,6 +21,11 @@ import componentTypeRoutes from "./routes/componentType.routes.js";
 import componentRoutes from "./routes/component.routes.js";
 import productRoutes from "./routes/product.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
+import attributeRoutes from "./routes/attribute.routes.js";
+import projectRoutes from "./routes/project.routes.js";
+import blogRoutes from "./routes/blog.routes.js";
+import leadRoutes from "./routes/lead.routes.js";
+import adminUserRoutes from "./routes/adminUser.routes.js";
 import connectDB from "./configs/db.js";
 
 
@@ -55,6 +59,11 @@ app.use("/api/component-types", componentTypeRoutes);
 app.use("/api/components", componentRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/attributes", attributeRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/blogs", blogRoutes);
+app.use("/api/leads", leadRoutes);
+app.use("/api/users", adminUserRoutes);
 
 /* -------------------- 404 Handler -------------------- */
 app.use((req, res) => {
