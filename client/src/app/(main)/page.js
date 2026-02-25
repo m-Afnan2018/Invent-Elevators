@@ -6,8 +6,8 @@ import WhyChooseUs from "@/components/core/home/WhyChooseUs";
 import OurProducts from "@/components/core/home/OurProducts";
 import OurProjects from "@/components/core/home/OurProjects";
 import InsightsSection from "@/components/core/home/InsightsSection";
-import Footer from "@/components/common/Footer/Footer";
-import ContactSection from "@/components/common/ContactSection/ContactSection";
+// import Footer from "@/components/common/Footer/Footer";
+// import ContactSection from "@/components/common/ContactSection/ContactSection";
 
 export default function Home() {
     return (
@@ -19,8 +19,8 @@ export default function Home() {
             <OurProducts />
             <OurProjects />
             <InsightsSection />
-            <ContactSection />
-            <Footer />
+            {/* <ContactSection />
+            <Footer /> */}
         </div>
     );
 }

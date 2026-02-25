@@ -65,6 +65,17 @@ app.use(API_ROUTES.PROJECTS, projectRoutes);
 app.use(API_ROUTES.BLOGS, blogRoutes);
 app.use(API_ROUTES.LEADS, leadRoutes);
 app.use(API_ROUTES.USERS, adminUserRoutes);
+// app.use("/api/categories", categoryRoutes);
+// app.use("/api/sub-categories", subCategoryRoutes);
+// app.use("/api/component-types", componentTypeRoutes);
+// app.use("/api/components", componentRoutes);
+// app.use("/api/products", productRoutes);
+// app.use("/api/upload", uploadRoutes);
+// app.use("/api/attributes", attributeRoutes);
+// app.use("/api/projects", projectRoutes);
+// app.use("/api/blogs", blogRoutes);
+// app.use("/api/leads", leadRoutes);
+// app.use("/api/users", adminUserRoutes);
 
 /* -------------------- 404 Handler -------------------- */
 app.use((req, res) => {
