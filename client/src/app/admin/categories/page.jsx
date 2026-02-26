@@ -44,11 +44,11 @@ const CategoriesPage = () => {
         metaKeywords: '',
     });
 
-    // useEffect(() => {
-    //   fetchCategories();
-    // }, []);
+    useEffect(() => {
+        fetchCategories();
+    }, []);
 
-    const fetchCategories = async () => {
+    async function fetchCategories() {
         // Temp data with nested structure
         const tempCategories = [
             {

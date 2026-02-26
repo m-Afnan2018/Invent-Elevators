@@ -74,14 +74,13 @@ const ProjectsPage = () => {
         message: '',
         rating: 5,
     });
+    useEffect(() => {
+        fetchProjects();
+        fetchProducts();
+        fetchCategories();
+    }, []);
 
-    // useEffect(() => {
-    //     fetchProjects();
-    //     fetchProducts();
-    //     fetchCategories();
-    // }, []);
-
-    const fetchProjects = async () => {
+    async function fetchProjects() {
         // Temp data
         const tempProjects = [
             {
@@ -157,7 +156,7 @@ const ProjectsPage = () => {
         // }
     };
 
-    const fetchProducts = async () => {
+    async function fetchProducts() {
         // Temp data
         const tempProducts = [
             { _id: '1', name: 'Elevator Model A' },
@@ -167,7 +166,7 @@ const ProjectsPage = () => {
         setProducts(tempProducts);
     };
 
-    const fetchCategories = async () => {
+    async function fetchCategories() {
         // Temp data
         const tempCategories = ['Residential', 'Commercial', 'Industrial', 'Healthcare'];
         setCategories(tempCategories);

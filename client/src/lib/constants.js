@@ -23,7 +23,7 @@ export const ENDPOINTS = {
   SUB_CATEGORIES: '/api/sub-categories',
   
   // Attributes & Components
-  ATTRIBUTES: '/api/component-types',
+  ATTRIBUTES: '/api/attributes',
   COMPONENTS: '/api/components',
   
   // Blogs

@@ -91,14 +91,13 @@ const LeadFormsPage = () => {
     name: '',
     type: 'text',
   });
+  useEffect(() => {
+    fetchLeads();
+    fetchUsers();
+    fetchProducts();
+  }, []);
 
-  // useEffect(() => {
-  //   fetchLeads();
-  //   fetchUsers();
-  //   fetchProducts();
-  // }, []);
-
-  const fetchLeads = async () => {
+  async function fetchLeads() {
     // Temp data
     const tempLeads = [
       {
@@ -177,7 +176,7 @@ const LeadFormsPage = () => {
     setLeads(tempLeads);
   };
 
-  const fetchUsers = async () => {
+  async function fetchUsers() {
     // Temp data
     const tempUsers = [
       { _id: '1', firstName: 'John', lastName: 'Doe' },
@@ -187,7 +186,7 @@ const LeadFormsPage = () => {
     setUsers(tempUsers);
   };
 
-  const fetchProducts = async () => {
+  async function fetchProducts() {
     // Temp data
     const tempProducts = [
       { _id: '1', name: 'Residential Elevator' },

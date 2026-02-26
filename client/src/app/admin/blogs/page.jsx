@@ -58,11 +58,11 @@ const BlogsPage = () => {
     });
     const [tagInput, setTagInput] = useState('');
 
-    // useEffect(() => {
-    //   fetchBlogs();
-    // }, []);
+    useEffect(() => {
+        fetchBlogs();
+    }, []);
 
-    const fetchBlogs = async () => {
+    async function fetchBlogs() {
         // Temp data
         const tempBlogs = [
             {

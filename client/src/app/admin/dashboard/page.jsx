@@ -182,7 +182,7 @@ const DashboardPage = () => {
                 router.push('/admin/products');
                 break;
             case 'add-lead':
-                router.push('/admin/lead-forms');
+                router.push('/admin/leadforms');
                 break;
             case 'add-project':
                 router.push('/admin/projects');

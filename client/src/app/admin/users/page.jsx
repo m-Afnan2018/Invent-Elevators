@@ -92,11 +92,11 @@ const UsersPage = () => {
         confirmPassword: '',
     });
 
-    // useEffect(() => {
-    //   fetchUsers();
-    // }, []);
+    useEffect(() => {
+        fetchUsers();
+    }, []);
 
-    const fetchUsers = async () => {
+    async function fetchUsers() {
         // Temp data
         const tempUsers = [
             {
