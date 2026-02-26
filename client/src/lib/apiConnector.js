@@ -39,7 +39,9 @@ apiConnector.interceptors.response.use(
     return response.data; // Return only data, not full response
   },
   (error) => {
-    console.error('❌ API Error:', error.response?.status, error.config?.url);
+    console.log("Error Response: ", error.response)
+    console.log("Error Configs: ", error.config)
+    console.error('❌ API Error:', error?.response?.status, error?.config?.url);
     
     // Handle specific error cases
     if (error.response) {
@@ -50,9 +52,9 @@ apiConnector.interceptors.response.use(
           // Unauthorized - redirect to login
           console.error('Unauthorized. Redirecting to login...');
           // Only redirect if not already on login page
-          if (typeof window !== 'undefined' && !window.location.pathname.includes('/auth/login')) {
-            window.location.href = '/auth/login';
-          }
+          // if (typeof window !== 'undefined' && !window.location.pathname.includes('/auth/login')) {
+          //   window.location.href = '/auth/login';
+          // }
           break;
           
         case 403:

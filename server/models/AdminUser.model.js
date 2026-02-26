@@ -27,11 +27,16 @@ const adminUserSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-adminUserSchema.pre("save", async function preSave() {
-    if (!this.isModified("password")) return next();
+adminUserSchema.pre("save", async function () {
+    if (!this.isModified("password")) return;
     this.password = await bcrypt.hash(this.password, 10);
-    // next();
 });
+
+// adminUserSchema.pre("save", async function preSave() {
+//     if (!this.isModified("password")) return next();
+//     this.password = await bcrypt.hash(this.password, 10);
+//     // next();
+// });
 
 adminUserSchema.methods.comparePassword = function comparePassword(input) {
     return bcrypt.compare(input, this.password);

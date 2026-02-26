@@ -440,8 +440,8 @@ const CategoriesPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredCategories.map((category) => (
-                                    <>
+                                {filteredCategories.map((category, index) => (
+                                    <div key={index}>
                                         {/* Main Category Row */}
                                         <tr key={category._id} className={styles.mainCategory}>
                                             <td>
@@ -614,7 +614,7 @@ const CategoriesPage = () => {
                                                     </td>
                                                 </tr>
                                             ))}
-                                    </>
+                                    </div>
                                 ))}
                             </tbody>
                         </table>

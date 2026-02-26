@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 
 import useAuthStore from "@/store/authStore";
 import styles from "./login.module.css";
+import toast from "react-hot-toast";
 
 export default function Login() {
     const router = useRouter();
@@ -20,9 +21,11 @@ export default function Login() {
 
         try {
             await login({ email, password });
-            toast.success("Login successful!");
             router.push("/admin/dashboard");
+            toast.success("Login successful!");
         } catch (error) {
+            setEmail('');
+            setPassword('');
             console.error("Login error:", error);
             toast.error(error.message || "Invalid email or password");
         }
@@ -46,6 +49,7 @@ export default function Login() {
                             required
                             placeholder="you@example.com"
                             onChange={(e) => setEmail(e.target.value)}
+                            value={email}
                         />
                     </div>
 
@@ -56,6 +60,7 @@ export default function Login() {
                             required
                             placeholder="••••••••"
                             onChange={(e) => setPassword(e.target.value)}
+                            value={password}
                         />
                     </div>
 

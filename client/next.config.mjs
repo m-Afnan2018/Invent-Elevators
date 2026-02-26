@@ -3,7 +3,7 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
-    domains: ['placehold.co', 'images.unsplash.com'],
+    domains: ['placehold.co', 'images.unsplash.com', 'via.placeholder.com'],
   },
 };
 
