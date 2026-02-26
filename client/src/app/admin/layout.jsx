@@ -26,11 +26,19 @@ const AdminLayout = ({ children }) => {
     const [isDarkMode, setIsDarkMode] = useState(true);
     const pathname = usePathname();
     const router = useRouter();
-    const user = useAuthStore((state) => state.user);
-    const isLoading = useAuthStore((state) => state.isLoading);
-    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-    const getCurrentUser = useAuthStore((state) => state.getCurrentUser);
-    const logout = useAuthStore((state) => state.logout);
+    const {
+        user,
+        isLoading,
+        isAuthenticated,
+        getCurrentUser,
+        logout,
+    } = useAuthStore((state) => ({
+        user: state.user,
+        isLoading: state.isLoading,
+        isAuthenticated: state.isAuthenticated,
+        getCurrentUser: state.getCurrentUser,
+        logout: state.logout,
+    }));
 
     useEffect(() => {
         const bootstrapAuth = async () => {
