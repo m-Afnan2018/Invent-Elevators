@@ -28,7 +28,8 @@ const setAuthCookie = (res, token) => {
 
 export const signup = async (req, res) => {
   try {
-    const { name, firstName, lastName, email, password } = req.body;
+    const { fullName, email, password } = req.body;
+
     if (!email || !password) {
       return res.status(400).json({ success: false, message: "Email and password are required" });
     }
@@ -38,7 +39,7 @@ export const signup = async (req, res) => {
       return res.status(409).json({ success: false, message: "User already exists" });
     }
 
-    const nameParts = name ? parseName(name) : { firstName, lastName };
+    const nameParts = fullName ? parseName(fullName) : { firstName, lastName };
 
     const user = await AdminUser.create({
       firstName: nameParts.firstName,
@@ -54,6 +55,7 @@ export const signup = async (req, res) => {
 
     res.status(201).json({ success: true, user: user.safeObject() });
   } catch (error) {
+    console.log(error)
     res.status(400).json({ success: false, message: error.message });
   }
 };

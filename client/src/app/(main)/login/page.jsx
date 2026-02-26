@@ -1,23 +1,33 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
+import useAuthStore from "@/store/authStore";
 import styles from "./login.module.css";
 
 export default function Login() {
     const router = useRouter();
+
+    const { login } = useAuthStore();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
         setLoading(true);
 
-        // Replace with your real API call
-        setTimeout(() => {
-            setLoading(false);
-            router.push("/dashboard");
-        }, 1200);
+        try {
+            await login({ email, password });
+            toast.success("Login successful!");
+            router.push("/admin/dashboard");
+        } catch (error) {
+            console.error("Login error:", error);
+            toast.error(error.message || "Invalid email or password");
+        }
+
+        setLoading(false);
     };
 
     return (

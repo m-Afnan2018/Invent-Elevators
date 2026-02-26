@@ -2,9 +2,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./register.module.css";
+import { signup } from "@/services/auth.service";
+import toast from "react-hot-toast";
+import useAuthStore from "@/store/authStore";
 
 export default function Register() {
     const router = useRouter();
+
+
+    const { setUser } = useAuthStore();
 
     const [form, setForm] = useState({
         name: "",
@@ -31,11 +37,63 @@ export default function Register() {
 
         setLoading(true);
 
-        setTimeout(() => {
+        try {
+            const payload = {
+                fullName: form.name,
+                email: form.email,
+                password: form.confirmPassword
+            }
+
+            console.log(payload)
+
+            const response = await signup(payload);
+
+            // Set user in store
+            setUser(response.user || response.data);
+
+            toast.success('Account created successfully!');
+            router.push('/admin/dashboard');
+        } catch (error) {
+            console.error('Signup error:', error);
+            toast.error(error.message || 'Failed to create account');
+        } finally {
             setLoading(false);
-            router.push("/dashboard");
-        }, 1200);
+        }
     };
+
+    // const handleRegister = async (e) => {
+    //     e.preventDefault();
+
+
+    //     if (form.password !== form.confirmPassword) {
+    //         alert("Passwords do not match");
+    //         return;
+    //     }
+
+    //     setLoading(true);
+
+    //     const payload = {
+    //         fullName: form.name,
+    //         email: form.email, 
+    //         password: form.confirmPassword
+    //     }
+
+    //     console.log(payload);
+
+    //     const response = await signup(payload);
+
+    //     if(response.success){
+    //         router.push('/admin');
+    //     }
+
+    //     // setTimeout(() => {
+    //     //     setLoading(false);
+    //     //     router.push("/dashboard");
+    //     // }, 1200);
+    //     // const response = await signup({ fullName: form.name, email: form.email, password: form.confirmPassword })
+
+    //     console.log(response);
+    // };
 
     return (
         <div className={styles.wrapper}>
