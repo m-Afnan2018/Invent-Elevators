@@ -5,6 +5,7 @@
  */
 
 import express from "express";
+import { requireAuth } from "../middlewares/auth.middleware.js";
 import multer from "multer";
 import cloudinary from "../configs/cloudinary.js";
 
@@ -21,7 +22,7 @@ const upload = multer({
 
 /* -------------------- Upload API -------------------- */
 
-router.post("/", upload.single("image"), async (req, res) => {
+router.post("/", requireAuth, upload.single("image"), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({
@@ -68,7 +69,7 @@ export default router;
  * - Cleanup unused uploads
  */
 
-router.delete("/", async (req, res) => {
+router.delete("/", requireAuth, async (req, res) => {
     try {
         const { public_id } = req.body;
 

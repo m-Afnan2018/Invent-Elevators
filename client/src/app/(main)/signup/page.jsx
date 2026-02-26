@@ -232,7 +232,7 @@ const SignupPage = () => {
         <div className={styles.authFooter}>
           <p>
             Already have an account?{' '}
-            <Link href="/auth/login" className={styles.authLink}>
+            <Link href="/login" className={styles.authLink}>
               Sign In
             </Link>
           </p>

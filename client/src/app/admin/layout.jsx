@@ -1,19 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
     RiDashboardLine,
     RiProductHuntLine,
     RiStackLine,
-    RiListCheck2,
     RiPuzzleLine,
     RiPagesLine,
     RiFileListLine,
     RiProjectorLine,
     RiUserLine,
-    RiSettings3Line,
     RiMenuFoldLine,
     RiMenuUnfoldLine,
     RiMoonLine,
@@ -21,30 +19,64 @@ import {
 } from 'react-icons/ri';
 import styles from './AdminLayout.module.css';
 import useAuthStore from '@/store/authStore';
+import toast from 'react-hot-toast';
 
 const AdminLayout = ({ children }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(true);
     const pathname = usePathname();
-    const user = useAuthStore((state) => state.user);
+    const router = useRouter();
+    const {
+        user,
+        isLoading,
+        isAuthenticated,
+        getCurrentUser,
+        logout,
+    } = useAuthStore((state) => ({
+        user: state.user,
+        isLoading: state.isLoading,
+        isAuthenticated: state.isAuthenticated,
+        getCurrentUser: state.getCurrentUser,
+        logout: state.logout,
+    }));
+
+    useEffect(() => {
+        const bootstrapAuth = async () => {
+            try {
+                await getCurrentUser();
+            } catch (_error) {
+                router.replace('/login');
+            }
+        };
+
+        bootstrapAuth();
+    }, [getCurrentUser, router]);
 
     const canAccessDashboard =
         user?.role === 'admin' ||
         (Array.isArray(user?.permissions) && user.permissions.includes('dashboard_view'));
 
-    const menuItems = [
+    const menuItems = useMemo(() => [
         ...(canAccessDashboard ? [{ name: 'Dashboard', icon: RiDashboardLine, path: '/admin/dashboard' }] : []),
         { name: 'Products', icon: RiProductHuntLine, path: '/admin/products' },
         { name: 'Categories', icon: RiStackLine, path: '/admin/categories' },
-        // { name: 'Sub Categories', icon: RiListCheck2, path: '/admin/sub-categories' },
         { name: 'Attributes', icon: RiPuzzleLine, path: '/admin/attributes' },
         { name: 'Components', icon: RiPagesLine, path: '/admin/components' },
         { name: 'Lead Forms', icon: RiFileListLine, path: '/admin/leadforms' },
         { name: 'Blogs', icon: RiProjectorLine, path: '/admin/blogs' },
         { name: 'Projects', icon: RiProjectorLine, path: '/admin/projects' },
         { name: 'Users', icon: RiUserLine, path: '/admin/users' },
-        // { name: 'Settings', icon: RiSettings3Line, path: '/admin/settings' },
-    ];
+    ], [canAccessDashboard]);
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            toast.success('Logged out successfully');
+            router.replace('/login');
+        } catch (error) {
+            toast.error(error.message || 'Failed to logout');
+        }
+    };
 
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
@@ -54,9 +86,12 @@ const AdminLayout = ({ children }) => {
         setIsDarkMode(!isDarkMode);
     };
 
+    if (isLoading || (!isAuthenticated && !user)) {
+        return null;
+    }
+
     return (
         <div className={`${styles.adminContainer} ${isDarkMode ? styles.dark : styles.light}`}>
-            {/* Sidebar */}
             <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}>
                 <div className={styles.sidebarHeader}>
                     {!isCollapsed && <h2 className={styles.logo}>Lift Admin</h2>}
@@ -84,26 +119,30 @@ const AdminLayout = ({ children }) => {
 
                 <div className={styles.sidebarFooter}>
                     <div className={styles.userProfile}>
-                        <div className={styles.avatar}>N</div>
+                        <div className={styles.avatar}>{(user?.firstName || 'A').charAt(0).toUpperCase()}</div>
                         {!isCollapsed && (
                             <div className={styles.userInfo}>
-                                <p className={styles.userName}>Admin</p>
-                                <p className={styles.userRole}>Administrator</p>
+                                <p className={styles.userName}>{`${user?.firstName || ''} ${user?.lastName || ''}`.trim() || 'Admin'}</p>
+                                <p className={styles.userRole}>{user?.role || 'Administrator'}</p>
                             </div>
                         )}
                     </div>
                 </div>
             </aside>
 
-            {/* Main Content */}
             <main className={styles.mainContent}>
                 <header className={styles.topBar}>
                     <div className={styles.breadcrumb}>
                         <span>Admin Panel</span>
                     </div>
-                    <button onClick={toggleTheme} className={styles.themeToggle}>
-                        {isDarkMode ? <RiSunLine /> : <RiMoonLine />}
-                    </button>
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button onClick={toggleTheme} className={styles.themeToggle}>
+                            {isDarkMode ? <RiSunLine /> : <RiMoonLine />}
+                        </button>
+                        <button onClick={handleLogout} className={styles.themeToggle}>
+                            Logout
+                        </button>
+                    </div>
                 </header>
                 <div className={styles.contentWrapper}>{children}</div>
             </main>

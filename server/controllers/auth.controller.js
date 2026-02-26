@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
 import AdminUser from "../models/AdminUser.model.js";
 import { hasDashboardPermission } from "../middlewares/auth.middleware.js";
 
@@ -29,7 +30,7 @@ const setAuthCookie = (res, token) => {
 
 export const signup = async (req, res) => {
     try {
-        const { fullName, email, password } = req.body;
+        const { fullName, firstName, lastName, email, password } = req.body;
 
         if (!email || !password) {
             return res.status(400).json({ success: false, message: "Email and password are required" });
@@ -40,7 +41,10 @@ export const signup = async (req, res) => {
             return res.status(409).json({ success: false, message: "User already exists" });
         }
 
-        const nameParts = fullName ? parseName(fullName) : { firstName, lastName };
+        const nameParts = fullName ? parseName(fullName) : {
+            firstName: firstName?.trim() || "Admin",
+            lastName: lastName?.trim() || "User",
+        };
 
         const user = await AdminUser.create({
             firstName: nameParts.firstName,
@@ -140,13 +144,47 @@ export const forgotPassword = async (req, res) => {
         await user.save({ validateBeforeSave: false });
 
         const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
-        const resetUrl = `${frontendUrl}/admin/auth/reset-password?token=${resetToken}`;
+        const resetUrl = `${frontendUrl}/reset-password?token=${resetToken}`;
+
+        const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST,
+            port: Number(process.env.SMTP_PORT || 587),
+            secure: String(process.env.SMTP_SECURE || "false") === "true",
+            auth: process.env.SMTP_USER
+                ? {
+                    user: process.env.SMTP_USER,
+                    pass: process.env.SMTP_PASS,
+                }
+                : undefined,
+        });
+
+        const sender = process.env.SMTP_FROM || process.env.SMTP_USER;
+        if (!sender) {
+            return res.status(500).json({
+                success: false,
+                message: "Email sender is not configured",
+            });
+        }
+
+        await transporter.sendMail({
+            from: sender,
+            to: user.email,
+            subject: "Reset your Invent Elevator admin password",
+            html: `
+                <p>Hello ${user.firstName},</p>
+                <p>We received a request to reset your password.</p>
+                <p>
+                  <a href="${resetUrl}" target="_blank" rel="noopener noreferrer">
+                    Click here to reset your password
+                  </a>
+                </p>
+                <p>This link is valid for 15 minutes.</p>
+            `,
+        });
 
         res.status(200).json({
             success: true,
-            message: "Reset token generated",
-            resetToken,
-            resetUrl,
+            message: "Password reset link sent to your email",
         });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });

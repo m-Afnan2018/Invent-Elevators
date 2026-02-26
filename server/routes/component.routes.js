@@ -8,6 +8,7 @@
  */
 
 import express from "express";
+import { requireAuth } from "../middlewares/auth.middleware.js";
 import {
   createComponent,
   getAllComponents,
@@ -20,7 +21,7 @@ import {
 const router = express.Router();
 
 // Create component
-router.post("/", createComponent);
+router.post("/", requireAuth, createComponent);
 
 // Get all components
 router.get("/", getAllComponents);
@@ -32,9 +33,9 @@ router.get("/by-type/:typeId", getComponentsByType);
 router.get("/:id", getComponentById);
 
 // Update component
-router.put("/:id", updateComponent);
+router.put("/:id", requireAuth, updateComponent);
 
 // Disable component (soft delete)
-router.delete("/:id", deleteComponent);
+router.delete("/:id", requireAuth, deleteComponent);
 
 export default router;
