@@ -26,12 +26,13 @@ import {
     RiFolderLine,
     RiArrowUpLine,
     RiArrowDownLine,
-    RiAddLine,
     RiFileTextLine,
     RiDownloadLine,
     RiTimeLine,
 } from 'react-icons/ri';
 import styles from './page.module.css';
+import { apiGet } from '@/lib/apiConnector';
+import { ENDPOINTS } from '@/lib/constants';
 
 const LEAD_STATUS_COLORS = {
     new: '#3b82f6',
@@ -54,121 +55,140 @@ const DashboardPage = () => {
     const [leadStatusData, setLeadStatusData] = useState([]);
     const [topProducts, setTopProducts] = useState([]);
     const [recentActivity, setRecentActivity] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         fetchDashboardData();
     }, []);
 
     const fetchDashboardData = async () => {
-        // Temp data for demonstration
-        const tempStats = {
-            products: { current: 45, previous: 38 },
-            categories: { current: 12, previous: 10 },
-            projects: { current: 28, previous: 24 },
-            leads: { current: 156, previous: 142 },
-            users: { current: 8, previous: 7 },
-        };
+        setIsLoading(true);
+        try {
+            const [productsRes, categoriesRes, projectsRes, leadsRes, usersRes] = await Promise.all([
+                apiGet(ENDPOINTS.PRODUCTS),
+                apiGet(ENDPOINTS.CATEGORIES),
+                apiGet(ENDPOINTS.PROJECTS),
+                apiGet(ENDPOINTS.LEADS),
+                apiGet(ENDPOINTS.USERS),
+            ]);
 
-        const tempLeadsData = [
-            { month: 'Jan', leads: 45, converted: 12 },
-            { month: 'Feb', leads: 52, converted: 15 },
-            { month: 'Mar', leads: 48, converted: 14 },
-            { month: 'Apr', leads: 61, converted: 18 },
-            { month: 'May', leads: 55, converted: 16 },
-            { month: 'Jun', leads: 67, converted: 22 },
-        ];
+            const products = productsRes?.data || [];
+            const categories = categoriesRes?.data || [];
+            const projects = projectsRes?.data || [];
+            const leads = leadsRes?.data || [];
+            const users = usersRes?.data || [];
 
-        const tempLeadStatusData = [
-            { name: 'New', value: 45, color: LEAD_STATUS_COLORS.new },
-            { name: 'Contacted', value: 38, color: LEAD_STATUS_COLORS.contacted },
-            { name: 'Qualified', value: 28, color: LEAD_STATUS_COLORS.qualified },
-            { name: 'Converted', value: 32, color: LEAD_STATUS_COLORS.converted },
-            { name: 'Lost', value: 13, color: LEAD_STATUS_COLORS.lost },
-        ];
+            const getCountByMonth = (list) => {
+                const now = new Date();
+                const currentMonth = now.getMonth();
+                const currentYear = now.getFullYear();
+                const prevDate = new Date(currentYear, currentMonth - 1, 1);
+                const previousMonth = prevDate.getMonth();
+                const previousYear = prevDate.getFullYear();
 
-        const tempTopProducts = [
-            { name: 'Residential Elevator', sales: 145, revenue: '₹45L' },
-            { name: 'Commercial Escalator', sales: 98, revenue: '₹38L' },
-            { name: 'Hospital Lift', sales: 76, revenue: '₹29L' },
-            { name: 'Villa Elevator', sales: 54, revenue: '₹22L' },
-            { name: 'Home Lift Compact', sales: 42, revenue: '₹18L' },
-        ];
+                const previous = list.filter((item) => {
+                    const itemDate = new Date(item.createdAt);
+                    return itemDate.getMonth() === previousMonth && itemDate.getFullYear() === previousYear;
+                }).length;
 
-        const tempActivity = [
-            {
-                id: 1,
-                type: 'lead',
-                title: 'New lead from Rajesh Kumar',
-                description: 'Interested in residential elevator',
-                time: '5 minutes ago',
-                icon: RiMailLine,
-                color: '#3b82f6',
-            },
-            {
-                id: 2,
-                type: 'product',
-                title: 'Product "Villa Elevator Pro" added',
-                description: 'Added by John Doe',
-                time: '1 hour ago',
-                icon: RiProductHuntLine,
-                color: '#10b981',
-            },
-            {
-                id: 3,
-                type: 'project',
-                title: 'Project "Sky Tower" updated',
-                description: 'Status changed to Completed',
-                time: '2 hours ago',
-                icon: RiProjectorLine,
-                color: '#f59e0b',
-            },
-            {
-                id: 4,
-                type: 'lead',
-                title: 'Lead converted to customer',
-                description: 'Priya Sharma - Metro Shopping Complex',
-                time: '3 hours ago',
-                icon: RiMailLine,
-                color: '#10b981',
-            },
-            {
-                id: 5,
-                type: 'user',
-                title: 'New user registered',
-                description: 'Mike Johnson joined as Editor',
-                time: '5 hours ago',
-                icon: RiUserLine,
-                color: '#8b5cf6',
-            },
-            {
-                id: 6,
-                type: 'category',
-                title: 'Category "Industrial" updated',
-                description: 'Description and SEO fields modified',
-                time: '6 hours ago',
-                icon: RiFolderLine,
-                color: '#f59e0b',
-            },
-        ];
+                return { current: list.length, previous };
+            };
 
-        setStats(tempStats);
-        setLeadsData(tempLeadsData);
-        setLeadStatusData(tempLeadStatusData);
-        setTopProducts(tempTopProducts);
-        setRecentActivity(tempActivity);
+            setStats({
+                products: getCountByMonth(products),
+                categories: getCountByMonth(categories),
+                projects: getCountByMonth(projects),
+                leads: getCountByMonth(leads),
+                users: getCountByMonth(users),
+            });
 
-        // Real API calls (commented out)
-        // try {
-        //   const response = await fetch('http://localhost:5000/api/dashboard');
-        //   const data = await response.json();
-        //   setStats(data.stats);
-        //   setLeadsData(data.leadsData);
-        //   setLeadStatusData(data.leadStatusData);
-        //   setTopProducts(data.topProducts);
-        //   setRecentActivity(data.recentActivity);
-        // } catch (error) {
-        //   console.error('Error fetching dashboard data:', error);
-        // }
+            const monthLabels = Array.from({ length: 6 }, (_, index) => {
+                const date = new Date();
+                date.setMonth(date.getMonth() - (5 - index));
+                return {
+                    key: `${date.getFullYear()}-${date.getMonth()}`,
+                    month: date.toLocaleDateString('en-US', { month: 'short' }),
+                };
+            });
+
+            const monthlyLeadMap = monthLabels.reduce((acc, item) => {
+                acc[item.key] = { month: item.month, leads: 0, converted: 0 };
+                return acc;
+            }, {});
+
+            leads.forEach((lead) => {
+                const date = new Date(lead.createdAt);
+                const key = `${date.getFullYear()}-${date.getMonth()}`;
+                if (monthlyLeadMap[key]) {
+                    monthlyLeadMap[key].leads += 1;
+                    if (lead.status === 'converted' || lead.status === 'won') {
+                        monthlyLeadMap[key].converted += 1;
+                    }
+                }
+            });
+            setLeadsData(monthLabels.map((item) => monthlyLeadMap[item.key]));
+
+            const statusMap = leads.reduce((acc, lead) => {
+                const key = lead.status || 'new';
+                acc[key] = (acc[key] || 0) + 1;
+                return acc;
+            }, {});
+
+            setLeadStatusData([
+                { name: 'New', value: statusMap.new || 0, color: LEAD_STATUS_COLORS.new },
+                { name: 'Contacted', value: statusMap.contacted || 0, color: LEAD_STATUS_COLORS.contacted },
+                { name: 'Qualified', value: statusMap.qualified || 0, color: LEAD_STATUS_COLORS.qualified },
+                { name: 'Converted', value: (statusMap.converted || 0) + (statusMap.won || 0), color: LEAD_STATUS_COLORS.converted },
+                { name: 'Lost', value: statusMap.lost || 0, color: LEAD_STATUS_COLORS.lost },
+            ]);
+
+            const productLeadCount = leads.reduce((acc, lead) => {
+                (lead.productInterest || []).forEach((productId) => {
+                    const key = String(productId);
+                    acc[key] = (acc[key] || 0) + 1;
+                });
+                return acc;
+            }, {});
+
+            const topProductRows = products
+                .map((product) => ({
+                    name: product.name,
+                    sales: productLeadCount[String(product._id)] || 0,
+                    revenue: '—',
+                }))
+                .sort((a, b) => b.sales - a.sales)
+                .slice(0, 5);
+
+            setTopProducts(topProductRows);
+
+            const buildActivity = (items, type, icon, color, titleBuilder, descriptionBuilder) =>
+                items.slice(0, 3).map((item) => ({
+                    id: `${type}-${item._id}`,
+                    type,
+                    title: titleBuilder(item),
+                    description: descriptionBuilder(item),
+                    time: new Date(item.createdAt).toLocaleString(),
+                    icon,
+                    color,
+                    createdAt: item.createdAt,
+                }));
+
+            const mergedActivity = [
+                ...buildActivity(leads, 'lead', RiMailLine, '#3b82f6', (item) => `New lead from ${item.name}`, (item) => item.message || item.source || 'Lead received'),
+                ...buildActivity(products, 'product', RiProductHuntLine, '#10b981', (item) => `Product "${item.name}" added`, () => 'Product created in admin panel'),
+                ...buildActivity(projects, 'project', RiProjectorLine, '#f59e0b', (item) => `Project "${item.title}" updated`, (item) => item.status || 'Project status updated'),
+                ...buildActivity(users, 'user', RiUserLine, '#8b5cf6', (item) => `New user ${item.name || item.email}`, (item) => item.email || 'User added'),
+                ...buildActivity(categories, 'category', RiFolderLine, '#f59e0b', (item) => `Category "${item.name}" updated`, () => 'Category saved'),
+            ]
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .slice(0, 6);
+
+            setRecentActivity(mergedActivity);
+        } catch (error) {
+            console.error('Error fetching dashboard data:', error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const calculatePercentageChange = (current, previous) => {
@@ -191,10 +211,22 @@ const DashboardPage = () => {
                 router.push('/admin/users');
                 break;
             case 'view-reports':
-                alert('Reports feature coming soon!');
+                router.push('/admin/leadforms');
                 break;
             case 'export-data':
-                alert('Exporting data...');
+                const exportPayload = {
+                    exportedAt: new Date().toISOString(),
+                    stats,
+                    leadsData,
+                    leadStatusData,
+                    topProducts,
+                };
+                const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: 'application/json' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `dashboard-export-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                URL.revokeObjectURL(link.href);
                 break;
             default:
                 break;
@@ -227,7 +259,7 @@ const DashboardPage = () => {
                 <div className={styles.pageHeader}>
                     <div>
                         <h1 className={styles.pageTitle}>Dashboard</h1>
-                        <p className={styles.pageSubtitle}>Welcome back! Here's your overview</p>
+                        <p className={styles.pageSubtitle}>Welcome back! Here&apos;s your overview</p>
                     </div>
                     <div className={styles.headerDate}>
                         <RiTimeLine />
@@ -239,6 +271,7 @@ const DashboardPage = () => {
                         })}</span>
                     </div>
                 </div>
+                {isLoading && <p className={styles.pageSubtitle}>Loading latest dashboard data...</p>}
 
                 {/* Stats Grid */}
                 <div className={styles.statsGrid}>
