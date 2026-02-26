@@ -20,7 +20,7 @@ export default function People() {
 
         {/* ── Right Column: Content ── */}
         <div className={styles.contentCol}>
-          <h2 className={styles.heading}>It's All About the People</h2>
+          <h2 className={styles.heading}>It&apos;s All About the People</h2>
           <div className={styles.bodyGroup}>
             <p className={styles.body}>
               Behind every successful lift installation is a dedicated team of engineers,

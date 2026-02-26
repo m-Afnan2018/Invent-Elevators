@@ -77,12 +77,6 @@ const ProjectsPage = () => {
         message: '',
         rating: 5,
     });
-    useEffect(() => {
-        fetchProjects();
-        fetchProducts();
-        fetchCategories();
-    }, []);
-
     async function fetchProjects() {
         try {
             const data = await getProjects();
@@ -109,6 +103,17 @@ const ProjectsPage = () => {
             console.error('Error fetching categories:', error);
         }
     }
+
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            fetchProjects();
+            fetchProducts();
+            fetchCategories();
+        }, 0);
+
+        return () => clearTimeout(timeoutId);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;

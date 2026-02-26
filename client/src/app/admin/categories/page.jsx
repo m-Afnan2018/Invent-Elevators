@@ -54,10 +54,6 @@ const CategoriesPage = () => {
         metaKeywords: '',
     });
 
-    useEffect(() => {
-        fetchCategories();
-    }, []);
-
     async function fetchCategories() {
         try {
             const [categoryRows, subCategoryRows] = await Promise.all([
@@ -77,6 +73,15 @@ const CategoriesPage = () => {
             console.error('Error fetching categories:', error);
         }
     }
+
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            fetchCategories();
+        }, 0);
+
+        return () => clearTimeout(timeoutId);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

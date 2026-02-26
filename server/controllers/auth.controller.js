@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import AdminUser from "../models/AdminUser.model.js";
+import { hasDashboardPermission } from "../middlewares/auth.middleware.js";
 
 const parseName = (name = "") => {
     const cleaned = name.trim().replace(/\s+/g, " ");
@@ -108,6 +109,19 @@ export const me = async (req, res) => {
     } catch (error) {
         res.status(401).json({ success: false, message: "Invalid or expired token" });
     }
+};
+
+export const dashboardAccess = async (req, res) => {
+    const user = req.user.safeObject();
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            allowed: hasDashboardPermission(req.user),
+            role: user.role,
+            permissions: user.permissions || [],
+        },
+    });
 };
 
 export const forgotPassword = async (req, res) => {

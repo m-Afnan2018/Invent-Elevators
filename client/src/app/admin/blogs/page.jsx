@@ -59,10 +59,6 @@ const BlogsPage = () => {
     });
     const [tagInput, setTagInput] = useState('');
 
-    useEffect(() => {
-        fetchBlogs();
-    }, []);
-
     async function fetchBlogs() {
         try {
             const data = await getBlogs();
@@ -71,6 +67,14 @@ const BlogsPage = () => {
             console.error('Error fetching blogs:', error);
         }
     }
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            fetchBlogs();
+        }, 0);
+
+        return () => clearTimeout(timeoutId);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;

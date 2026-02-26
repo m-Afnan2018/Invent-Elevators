@@ -33,11 +33,6 @@ const ComponentsPage = () => {
         filledData: {},
     });
 
-    useEffect(() => {
-        fetchComponents();
-        fetchAttributes();
-    }, []);
-
     async function fetchComponents() {
         try {
             const data = await getComponents();
@@ -55,6 +50,16 @@ const ComponentsPage = () => {
             console.error('Error fetching attributes:', error);
         }
     }
+
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            fetchComponents();
+            fetchAttributes();
+        }, 0);
+
+        return () => clearTimeout(timeoutId);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

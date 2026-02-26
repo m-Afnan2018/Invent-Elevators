@@ -40,12 +40,6 @@ const ProductsPage = () => {
     const [imagePreview, setImagePreview] = useState('');
 
     // Fetch data
-    useEffect(() => {
-        fetchProducts();
-        fetchCategories();
-        fetchSubCategories();
-        fetchComponents();
-    }, []);
 
     async function fetchProducts() {
         try {
@@ -82,6 +76,18 @@ const ProductsPage = () => {
             console.error('Error fetching components:', error);
         }
     }
+
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            fetchProducts();
+            fetchCategories();
+            fetchSubCategories();
+            fetchComponents();
+        }, 0);
+
+        return () => clearTimeout(timeoutId);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

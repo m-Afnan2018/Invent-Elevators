@@ -39,6 +39,7 @@ const USER_STATUS = [
 ];
 
 const PERMISSIONS = [
+    { id: 'dashboard_view', label: 'View Dashboard', module: 'Dashboard' },
     { id: 'products_view', label: 'View Products', module: 'Products' },
     { id: 'products_create', label: 'Create Products', module: 'Products' },
     { id: 'products_edit', label: 'Edit Products', module: 'Products' },
@@ -93,10 +94,6 @@ const UsersPage = () => {
         confirmPassword: '',
     });
 
-    useEffect(() => {
-        fetchUsers();
-    }, []);
-
     async function fetchUsers() {
         try {
             const data = await getUsers();
@@ -105,6 +102,15 @@ const UsersPage = () => {
             console.error('Error fetching users:', error);
         }
     }
+
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            fetchUsers();
+        }, 0);
+
+        return () => clearTimeout(timeoutId);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;

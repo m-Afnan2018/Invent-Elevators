@@ -94,12 +94,6 @@ const LeadFormsPage = () => {
     name: '',
     type: 'text',
   });
-  useEffect(() => {
-    fetchLeads();
-    fetchUsers();
-    fetchProducts();
-  }, []);
-
   async function fetchLeads() {
     try {
       const data = await getLeads();
@@ -126,6 +120,17 @@ const LeadFormsPage = () => {
       console.error('Error fetching products:', error);
     }
   }
+
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      fetchLeads();
+      fetchUsers();
+      fetchProducts();
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

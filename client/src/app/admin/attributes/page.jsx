@@ -45,11 +45,6 @@ const AttributesPage = () => {
         fields: [],
     });
 
-    useEffect(() => {
-        fetchAttributes();
-        fetchCategories();
-    }, []);
-
     async function fetchAttributes() {
         try {
             const data = await getAttributes();
@@ -67,6 +62,15 @@ const AttributesPage = () => {
             console.error('Error fetching categories:', error);
         }
     }
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            fetchAttributes();
+            fetchCategories();
+        }, 0);
+
+        return () => clearTimeout(timeoutId);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -452,7 +456,7 @@ const AttributesPage = () => {
                                 <div className={styles.fieldsBuilder}>
                                     {formData.fields.length === 0 ? (
                                         <div className={styles.emptyState}>
-                                            <p>No fields added yet. Click "Add Field" to get started.</p>
+                                            <p>No fields added yet. Click &quot;Add Field&quot; to get started.</p>
                                         </div>
                                     ) : (
                                         formData.fields.map((field, index) => (

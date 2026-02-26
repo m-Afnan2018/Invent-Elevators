@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
 import {
@@ -33,6 +33,7 @@ import {
 import styles from './page.module.css';
 import { apiGet } from '@/lib/apiConnector';
 import { ENDPOINTS } from '@/lib/constants';
+import { getDashboardAccess } from '@/services/auth.service';
 
 const LEAD_STATUS_COLORS = {
     new: '#3b82f6',
@@ -57,11 +58,7 @@ const DashboardPage = () => {
     const [recentActivity, setRecentActivity] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        fetchDashboardData();
-    }, []);
-
-    const fetchDashboardData = async () => {
+    const fetchDashboardData = useCallback(async () => {
         setIsLoading(true);
         try {
             const [productsRes, categoriesRes, projectsRes, leadsRes, usersRes] = await Promise.all([
@@ -189,7 +186,24 @@ const DashboardPage = () => {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, []);
+
+    const checkDashboardAccessAndLoad = useCallback(async () => {
+        try {
+            const response = await getDashboardAccess();
+            if (!response?.data?.allowed) {
+                router.replace('/admin/products');
+                return;
+            }
+            await fetchDashboardData();
+        } catch (_error) {
+            router.replace('/admin/products');
+        }
+    }, [fetchDashboardData, router]);
+
+    useEffect(() => {
+        checkDashboardAccessAndLoad();
+    }, [checkDashboardAccessAndLoad]);
 
     const calculatePercentageChange = (current, previous) => {
         if (previous === 0) return 0;

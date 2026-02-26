@@ -20,14 +20,20 @@ import {
     RiSunLine,
 } from 'react-icons/ri';
 import styles from './AdminLayout.module.css';
+import useAuthStore from '@/store/authStore';
 
 const AdminLayout = ({ children }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(true);
     const pathname = usePathname();
+    const user = useAuthStore((state) => state.user);
+
+    const canAccessDashboard =
+        user?.role === 'admin' ||
+        (Array.isArray(user?.permissions) && user.permissions.includes('dashboard_view'));
 
     const menuItems = [
-        { name: 'Dashboard', icon: RiDashboardLine, path: '/admin' },
+        ...(canAccessDashboard ? [{ name: 'Dashboard', icon: RiDashboardLine, path: '/admin/dashboard' }] : []),
         { name: 'Products', icon: RiProductHuntLine, path: '/admin/products' },
         { name: 'Categories', icon: RiStackLine, path: '/admin/categories' },
         { name: 'Sub Categories', icon: RiListCheck2, path: '/admin/sub-categories' },

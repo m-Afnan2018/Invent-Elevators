@@ -11,6 +11,7 @@ export const ENDPOINTS = {
     LOGIN: '/auth/login',
     LOGOUT: '/auth/logout',
     ME: '/auth/me',
+    DASHBOARD_ACCESS: '/auth/dashboard-access',
     FORGOT_PASSWORD: '/auth/forgot-password',
     RESET_PASSWORD: '/auth/reset-password',
   },

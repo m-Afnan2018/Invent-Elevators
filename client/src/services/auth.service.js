@@ -59,6 +59,19 @@ export const getCurrentUser = async () => {
 };
 
 /**
+ * Get dashboard access for current user
+ * @returns {Promise} { allowed, role, permissions }
+ */
+export const getDashboardAccess = async () => {
+  try {
+    const response = await apiGet(ENDPOINTS.AUTH.DASHBOARD_ACCESS);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
  * Forgot Password
  * @param {Object} data - { email }
  * @returns {Promise} Success message
