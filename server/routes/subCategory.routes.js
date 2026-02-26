@@ -8,6 +8,7 @@
  */
 
 import express from "express";
+import { requireAuth } from "../middlewares/auth.middleware.js";
 import {
   createSubCategory,
   getAllSubCategories,
@@ -20,7 +21,7 @@ import {
 const router = express.Router();
 
 // Create sub-category
-router.post("/", createSubCategory);
+router.post("/", requireAuth, createSubCategory);
 
 // Get all sub-categories
 router.get("/", getAllSubCategories);
@@ -32,9 +33,9 @@ router.get("/by-category/:categoryId", getSubCategoriesByCategory);
 router.get("/:id", getSubCategoryById);
 
 // Update sub-category
-router.put("/:id", updateSubCategory);
+router.put("/:id", requireAuth, updateSubCategory);
 
 // Disable sub-category (soft delete)
-router.delete("/:id", deleteSubCategory);
+router.delete("/:id", requireAuth, deleteSubCategory);
 
 export default router;

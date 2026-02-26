@@ -8,6 +8,7 @@
  */
 
 import express from "express";
+import { requireAuth } from "../middlewares/auth.middleware.js";
 import {
     createCategory,
     getAllCategories,
@@ -23,7 +24,7 @@ const router = express.Router();
 --------------------------------------------------- */
 
 // Create category
-router.post("/", createCategory);
+router.post("/", requireAuth, createCategory);
 
 // Get all categories
 router.get("/", getAllCategories);
@@ -32,9 +33,9 @@ router.get("/", getAllCategories);
 router.get("/:id", getCategoryById);
 
 // Update category
-router.put("/:id", updateCategory);
+router.put("/:id", requireAuth, updateCategory);
 
 // Disable category (soft delete)
-router.delete("/:id", deleteCategory);
+router.delete("/:id", requireAuth, deleteCategory);
 
 export default router;

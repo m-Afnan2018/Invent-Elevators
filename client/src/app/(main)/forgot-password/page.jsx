@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./forgot-password.module.css";
+import { forgotPassword } from "@/services/auth.service";
+import toast from "react-hot-toast";
 
 export default function ForgotPassword() {
     const router = useRouter();
@@ -13,11 +15,15 @@ export default function ForgotPassword() {
         e.preventDefault();
         setLoading(true);
 
-        // Replace with real API call
-        setTimeout(() => {
-            setLoading(false);
+        try {
+            await forgotPassword({ email });
             setSuccess(true);
-        }, 1200);
+            toast.success("Reset link sent to your email");
+        } catch (error) {
+            toast.error(error.message || "Failed to send reset link");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -36,6 +42,7 @@ export default function ForgotPassword() {
                                 type="email"
                                 required
                                 placeholder="you@example.com"
+                                value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>

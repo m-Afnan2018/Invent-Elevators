@@ -8,6 +8,7 @@
  */
 
 import express from "express";
+import { requireAuth } from "../middlewares/auth.middleware.js";
 import {
     createProduct,
     getAllProducts,
@@ -23,7 +24,7 @@ const router = express.Router();
 --------------------------------------------------- */
 
 // Create product (lift configuration)
-router.post("/", createProduct);
+router.post("/", requireAuth, createProduct);
 
 // Get all products
 router.get("/", getAllProducts);
@@ -32,9 +33,9 @@ router.get("/", getAllProducts);
 router.get("/:id", getProductById);
 
 // Update product
-router.put("/:id", updateProduct);
+router.put("/:id", requireAuth, updateProduct);
 
 // Disable product (soft delete)
-router.delete("/:id", deleteProduct);
+router.delete("/:id", requireAuth, deleteProduct);
 
 export default router;

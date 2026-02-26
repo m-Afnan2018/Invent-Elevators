@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./reset-password.module.css";
+import { resetPassword } from "@/services/auth.service";
+import toast from "react-hot-toast";
 
 export default function ResetPassword() {
     const router = useRouter();
@@ -25,17 +27,21 @@ export default function ResetPassword() {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            alert("Passwords do not match");
+            toast.error("Passwords do not match");
             return;
         }
 
         setLoading(true);
 
-        // Replace with real API call
-        setTimeout(() => {
-            setLoading(false);
+        try {
+            await resetPassword({ token, password });
             setSuccess(true);
-        }, 1200);
+            toast.success("Password reset successful");
+        } catch (error) {
+            toast.error(error.message || "Failed to reset password");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -49,7 +55,6 @@ export default function ResetPassword() {
                 {!success ? (
                     <form onSubmit={handleSubmit} className={styles.form}>
 
-                        {/* New Password */}
                         <div className={styles.inputGroup}>
                             <label>New Password</label>
                             <div className={styles.passwordWrapper}>
@@ -73,7 +78,6 @@ export default function ResetPassword() {
                             </div>
                         </div>
 
-                        {/* Confirm Password */}
                         <div className={styles.inputGroup}>
                             <label>Confirm Password</label>
                             <div className={styles.passwordWrapper}>
