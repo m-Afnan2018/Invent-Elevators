@@ -30,14 +30,14 @@ const AdminLayout = ({ children }) => {
         { name: 'Dashboard', icon: RiDashboardLine, path: '/admin' },
         { name: 'Products', icon: RiProductHuntLine, path: '/admin/products' },
         { name: 'Categories', icon: RiStackLine, path: '/admin/categories' },
-        { name: 'Sub Categories', icon: RiListCheck2, path: '/admin/sub-categories' },
+        // { name: 'Sub Categories', icon: RiListCheck2, path: '/admin/sub-categories' },
         { name: 'Attributes', icon: RiPuzzleLine, path: '/admin/attributes' },
         { name: 'Components', icon: RiPagesLine, path: '/admin/components' },
         { name: 'Lead Forms', icon: RiFileListLine, path: '/admin/leadforms' },
         { name: 'Blogs', icon: RiProjectorLine, path: '/admin/blogs' },
         { name: 'Projects', icon: RiProjectorLine, path: '/admin/projects' },
         { name: 'Users', icon: RiUserLine, path: '/admin/users' },
-        { name: 'Settings', icon: RiSettings3Line, path: '/admin/settings' },
+        // { name: 'Settings', icon: RiSettings3Line, path: '/admin/settings' },
     ];
 
     const toggleSidebar = () => {
