@@ -31,7 +31,7 @@ export default function ProjectsPage() {
       <div className={styles.grid}>
         {projects.length ? (
           projects.map((project) => (
-            <article key={project._id} className={styles.card}>
+            <article key={project._id} style={{ border: "1px solid #ddd", borderRadius: 10, padding: 16 }}>
               <h3>{project.title || "Untitled Project"}</h3>
               <p>{project.description || "Project details will be shared on request."}</p>
             </article>

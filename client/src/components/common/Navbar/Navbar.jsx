@@ -14,7 +14,6 @@ export default function Navbar() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const closeTimeoutRef = useRef(null);
   const productsMenuRef = useRef(null);
 
@@ -92,7 +91,8 @@ export default function Navbar() {
     () =>
       categories
         .filter((item) => item?._id && item?.name)
-        .filter((item) => item?.isActive !== false && item?.status !== "inactive"),
+        .filter((item) => item?.isActive !== false && item?.status !== "inactive")
+        .slice(0, 6),
     [categories]
   );
 
@@ -103,52 +103,6 @@ export default function Navbar() {
         .slice(0, 3),
     [projects]
   );
-
-  const productsByCategory = useMemo(() => {
-    const grouped = new Map();
-
-    activeCategories.forEach((category) => {
-      grouped.set(category._id, []);
-    });
-
-    products
-      .filter((product) => product?._id && product?.name)
-      .forEach((product) => {
-        const categoryIds = [
-          product?.category?._id || product?.category,
-          ...(Array.isArray(product?.categories)
-            ? product.categories.map((entry) => entry?._id || entry)
-            : []),
-        ].filter(Boolean);
-
-        categoryIds.forEach((categoryId) => {
-          if (!grouped.has(categoryId)) {
-            return;
-          }
-
-          const currentList = grouped.get(categoryId) || [];
-          if (!currentList.some((item) => item._id === product._id)) {
-            grouped.set(categoryId, [...currentList, product]);
-          }
-        });
-      });
-
-    return grouped;
-  }, [activeCategories, products]);
-
-  const resolvedActiveCategoryId = useMemo(() => {
-    if (activeCategories.some((category) => category._id === hoveredCategoryId)) {
-      return hoveredCategoryId;
-    }
-    return activeCategories[0]?._id || null;
-  }, [activeCategories, hoveredCategoryId]);
-
-  const activeCategoryProducts = useMemo(() => {
-    if (!resolvedActiveCategoryId) return [];
-    return (productsByCategory.get(resolvedActiveCategoryId) || []).slice(0, 6);
-  }, [productsByCategory, resolvedActiveCategoryId]);
-
-  const categoryProductsToShow = activeCategoryProducts || [];
 
   const openProductsMenu = () => {
     if (closeTimeoutRef.current) {
@@ -226,7 +180,7 @@ export default function Navbar() {
                   <div className={styles.productsLeft}>
                     <ul>
                       <li><Link href="/products" onClick={() => setProductsOpen(false)}>All Products</Link></li>
-                      <li><Link href="/categories" onClick={() => setProductsOpen(false)}>All Categories</Link></li>
+                      <li><Link href="/categories" onClick={() => setProductsOpen(false)}>Product Categories</Link></li>
                       <li><Link href="/projects" onClick={() => setProductsOpen(false)}>Projects</Link></li>
                       <li><Link href="/contact" onClick={() => setProductsOpen(false)}>Request Consultation</Link></li>
                     </ul>
@@ -250,8 +204,8 @@ export default function Navbar() {
                   </div>
 
                   <div className={styles.productsRight}>
-                    {categoryProductsToShow.length ? (
-                      categoryProductsToShow.map((product) => (
+                    {activeCategoryProducts.length ? (
+                      activeCategoryProducts.map((product) => (
                         <Link
                           key={product._id}
                           href={`/products/${product._id}`}
@@ -276,6 +230,18 @@ export default function Navbar() {
                       ))
                     ) : null}
 
+                    {activeCategories.map((category) => (
+                      <Link
+                        key={category._id}
+                        href={`/categories/${category._id}`}
+                        className={styles.productCard}
+                        onClick={() => setProductsOpen(false)}
+                      >
+                        <h4>{category.name}</h4>
+                        <p>{category.description || "Explore products in this category."}</p>
+                      </Link>
+                    ))}
+
                     {featuredProjects.map((project) => (
                       <Link
                         key={project._id}
@@ -288,7 +254,7 @@ export default function Navbar() {
                       </Link>
                     ))}
 
-                    {!featuredProducts.length && !featuredProjects.length ? (
+                    {!featuredProducts.length && !activeCategories.length && !featuredProjects.length ? (
                       <Link href="/products" className={styles.productCard} onClick={() => setProductsOpen(false)}>
                         <h4>Explore Catalog</h4>
                         <p>Browse our complete list of elevators and lift solutions.</p>
