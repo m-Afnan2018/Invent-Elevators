@@ -443,6 +443,38 @@
   margin: 0;
 }
 
+.categoryTitle {
+  margin: 1rem 0 0.55rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.categoryList {
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 0.2rem;
+}
+
+.categoryLink {
+  display: block;
+  text-decoration: none;
+  color: #1f2937;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  padding: 0.5rem 0.65rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.categoryLink:hover,
+.categoryLinkActive {
+  color: #1565c0;
+  background: #f5f9ff;
+}
+
 .productsLeft li {
   margin: 0 0 0.4rem;
 }

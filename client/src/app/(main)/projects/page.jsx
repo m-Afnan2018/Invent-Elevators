@@ -28,7 +28,7 @@ export default function ProjectsPage() {
         {projects.length ? (
           projects.map((project) => (
             <article key={project._id} style={{ border: "1px solid #ddd", borderRadius: 10, padding: 16 }}>
-              <h3>{project.name || "Untitled Project"}</h3>
+              <h3>{project.title || "Untitled Project"}</h3>
               <p>{project.description || "Project details will be shared on request."}</p>
             </article>
           ))
