@@ -1,40 +1,32 @@
 "use client";
 import styles from "./OurProjects.module.css";
 import Link from "next/link";
-import { useState } from "react";
-
-const projects = [
-  {
-    id: 1,
-    tag: "Passengers Elevators",
-    title: "Modern Office Tower — Dubai",
-    image:
-      "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80",
-    href: "/projects/office-tower-dubai",
-    size: "large", // spans 2 rows
-  },
-  {
-    id: 2,
-    tag: "Passengers Elevators",
-    title: "Luxury Residential Complex",
-    image:
-      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?auto=format&fit=crop&w=800&q=80",
-    href: "/projects/residential-complex",
-    size: "small",
-  },
-  {
-    id: 3,
-    tag: "Passengers Elevators",
-    title: "Industrial Warehouse — Logistics Hub",
-    image:
-      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
-    href: "/projects/warehouse-logistics",
-    size: "small",
-  },
-];
+import { useEffect, useMemo, useState } from "react";
+import { getProjects } from "@/services/projects.service";
 
 export default function OurProjects() {
   const [hovered, setHovered] = useState(null);
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        const response = await getProjects();
+        setProjects(Array.isArray(response) ? response : []);
+      } catch (_error) {
+        setProjects([]);
+      }
+    };
+
+    loadProjects();
+  }, []);
+
+  const visibleProjects = useMemo(
+    () => projects.filter((project) => project?._id && project?.title).slice(0, 3),
+    [projects]
+  );
+
+  const fallbackImage = "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80";
 
   return (
     <section className={styles.section}>
@@ -66,43 +58,45 @@ export default function OurProjects() {
         {/* ── Masonry-style grid ── */}
         <div className={styles.grid}>
           {/* Large card — left */}
-          <Link
-            href={projects[0].href}
-            className={`${styles.card} ${styles.cardLarge}`}
-            onMouseEnter={() => setHovered(0)}
-            onMouseLeave={() => setHovered(null)}
-          >
-            <div
-              className={styles.cardBg}
-              style={{ backgroundImage: `url(${projects[0].image})` }}
-            />
-            <div className={styles.cardOverlay} />
-            <div className={styles.cardContent}>
-              <span className={styles.cardTag}>{projects[0].tag}</span>
-              <h3 className={styles.cardTitle}>{projects[0].title}</h3>
-              <span className={`${styles.discoverBtn} ${hovered === 0 ? styles.discoverVisible : ""}`}>
-                Discover this project ↗
-              </span>
-            </div>
-          </Link>
+          {visibleProjects[0] ? (
+            <Link
+              href="/projects"
+              className={`${styles.card} ${styles.cardLarge}`}
+              onMouseEnter={() => setHovered(0)}
+              onMouseLeave={() => setHovered(null)}
+            >
+              <div
+                className={styles.cardBg}
+                style={{ backgroundImage: `url(${visibleProjects[0].featuredImage || fallbackImage})` }}
+              />
+              <div className={styles.cardOverlay} />
+              <div className={styles.cardContent}>
+                <span className={styles.cardTag}>{visibleProjects[0].category || "Project"}</span>
+                <h3 className={styles.cardTitle}>{visibleProjects[0].title}</h3>
+                <span className={`${styles.discoverBtn} ${hovered === 0 ? styles.discoverVisible : ""}`}>
+                  Discover this project ↗
+                </span>
+              </div>
+            </Link>
+          ) : null}
 
           {/* Right column — two small cards stacked */}
           <div className={styles.rightCol}>
-            {projects.slice(1).map((project, i) => (
+            {visibleProjects.slice(1).map((project, i) => (
               <Link
-                key={project.id}
-                href={project.href}
+                key={project._id}
+                href="/projects"
                 className={`${styles.card} ${styles.cardSmall}`}
                 onMouseEnter={() => setHovered(i + 1)}
                 onMouseLeave={() => setHovered(null)}
               >
                 <div
                   className={styles.cardBg}
-                  style={{ backgroundImage: `url(${project.image})` }}
+                  style={{ backgroundImage: `url(${project.featuredImage || fallbackImage})` }}
                 />
                 <div className={styles.cardOverlay} />
                 <div className={styles.cardContent}>
-                  <span className={styles.cardTag}>{project.tag}</span>
+                  <span className={styles.cardTag}>{project.category || "Project"}</span>
                   <h3 className={styles.cardTitle}>{project.title}</h3>
                   <span className={`${styles.discoverBtn} ${hovered === i + 1 ? styles.discoverVisible : ""}`}>
                     Discover this project ↗
@@ -110,6 +104,20 @@ export default function OurProjects() {
                 </div>
               </Link>
             ))}
+
+            {!visibleProjects.length ? (
+              <Link href="/projects" className={`${styles.card} ${styles.cardSmall}`}>
+                <div
+                  className={styles.cardBg}
+                  style={{ backgroundImage: `url(${fallbackImage})` }}
+                />
+                <div className={styles.cardOverlay} />
+                <div className={styles.cardContent}>
+                  <span className={styles.cardTag}>Our Projects</span>
+                  <h3 className={styles.cardTitle}>Fresh installations will appear here soon.</h3>
+                </div>
+              </Link>
+            ) : null}
           </div>
         </div>
 

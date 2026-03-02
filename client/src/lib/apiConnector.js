@@ -4,6 +4,8 @@
 import axios from 'axios';
 import { API_BASE_URL } from './constants';
 
+const isDev = process.env.NODE_ENV === 'development';
+
 // Create Axios instance
 const apiConnector = axios.create({
   baseURL: API_BASE_URL,
@@ -23,7 +25,9 @@ apiConnector.interceptors.request.use(
     //   config.headers.Authorization = `Bearer ${token}`;
     // }
     
-    console.log(`🚀 API Request: ${config.method?.toUpperCase()} ${config.url}`);
+    if (isDev) {
+      console.log(`🚀 API Request: ${config.method?.toUpperCase()} ${config.url}`);
+    }
     return config;
   },
   (error) => {
@@ -35,13 +39,17 @@ apiConnector.interceptors.request.use(
 // Response Interceptor
 apiConnector.interceptors.response.use(
   (response) => {
-    console.log('✅ API Response:', response.status, response.config.url);
+    if (isDev) {
+      console.log('✅ API Response:', response.status, response.config.url);
+    }
     return response.data; // Return only data, not full response
   },
   (error) => {
-    console.log("Error Response: ", error.response)
-    console.log("Error Configs: ", error.config)
-    console.error('❌ API Error:', error?.response?.status, error?.config?.url);
+    if (isDev) {
+      console.log("Error Response: ", error.response)
+      console.log("Error Configs: ", error.config)
+      console.error('❌ API Error:', error?.response?.status, error?.config?.url);
+    }
     
     // Handle specific error cases
     if (error.response) {
@@ -50,7 +58,9 @@ apiConnector.interceptors.response.use(
       switch (status) {
         case 401:
           // Unauthorized - redirect to login
-          console.error('Unauthorized. Redirecting to login...');
+          if (isDev) {
+            console.error('Unauthorized. Redirecting to login...');
+          }
           // Only redirect if not already on login page
           // if (typeof window !== 'undefined' && !window.location.pathname.includes('/auth/login')) {
           //   window.location.href = '/auth/login';
@@ -58,29 +68,41 @@ apiConnector.interceptors.response.use(
           break;
           
         case 403:
-          console.error('Forbidden:', data.message);
+          if (isDev) {
+            console.error('Forbidden:', data.message);
+          }
           break;
           
         case 404:
-          console.error('Not Found:', data.message);
+          if (isDev) {
+            console.error('Not Found:', data.message);
+          }
           break;
           
         case 500:
-          console.error('Server Error:', data.message);
+          if (isDev) {
+            console.error('Server Error:', data.message);
+          }
           break;
           
         default:
-          console.error('Error:', data.message || 'Unknown error');
+          if (isDev) {
+            console.error('Error:', data.message || 'Unknown error');
+          }
       }
       
       return Promise.reject(data || error);
     } else if (error.request) {
       // Request made but no response
-      console.error('No response from server. Check if backend is running.');
+      if (isDev) {
+        console.error('No response from server. Check if backend is running.');
+      }
       return Promise.reject({ message: 'No response from server' });
     } else {
       // Something else happened
-      console.error('Request setup error:', error.message);
+      if (isDev) {
+        console.error('Request setup error:', error.message);
+      }
       return Promise.reject({ message: error.message });
     }
   }

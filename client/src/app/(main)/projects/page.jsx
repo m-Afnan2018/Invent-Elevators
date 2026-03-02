@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getProjects } from "@/services/projects.service";
+import styles from "./page.module.css";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState([]);
@@ -21,22 +22,26 @@ export default function ProjectsPage() {
   }, []);
 
   return (
-    <main style={{ padding: "120px 24px 60px", maxWidth: 1100, margin: "0 auto" }}>
-      <h1>Our Projects</h1>
-      <p>Explore completed lift installations and delivered projects.</p>
-      <div style={{ display: "grid", gap: 16, marginTop: 24 }}>
+    <main className={styles.main}>
+      <section className={styles.header}>
+        <h1>Our Projects</h1>
+        <p>Explore completed lift installations and delivered projects from our live portfolio.</p>
+      </section>
+
+      <div className={styles.grid}>
         {projects.length ? (
           projects.map((project) => (
-            <article key={project._id} style={{ border: "1px solid #ddd", borderRadius: 10, padding: 16 }}>
-              <h3>{project.name || "Untitled Project"}</h3>
+            <article key={project._id} className={styles.card}>
+              <h3>{project.title || "Untitled Project"}</h3>
               <p>{project.description || "Project details will be shared on request."}</p>
             </article>
           ))
         ) : (
-          <p>No projects available right now. Please check back soon.</p>
+          <p className={styles.empty}>No projects available right now. Please check back soon.</p>
         )}
       </div>
-      <Link href="/contact" style={{ display: "inline-block", marginTop: 24 }}>
+
+      <Link href="/contact" className={styles.cta}>
         Request project portfolio
       </Link>
     </main>
