@@ -1,39 +1,34 @@
 "use client";
 import styles from "./ProductCategories.module.css";
 import Link from "next/link";
-
-const categories = [
-  {
-    id: 1,
-    title: "Home Lifts",
-    image:
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80",
-    href: "/products/home-lifts",
-  },
-  {
-    id: 2,
-    title: "Passenger Lift",
-    image:
-      "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=600&q=80",
-    href: "/products/passenger-lifts",
-  },
-  {
-    id: 3,
-    title: "Car Lift",
-    image:
-      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=600&q=80",
-    href: "/products/car-lifts",
-  },
-  {
-    id: 4,
-    title: "Dumb Waiter",
-    image:
-      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=600&q=80",
-    href: "/products/dumb-waiters",
-  },
-];
+import { useEffect, useMemo, useState } from "react";
+import { getCategories } from "@/services/categories.service";
 
 export default function ProductCategories() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const response = await getCategories();
+        setCategories(Array.isArray(response) ? response : []);
+      } catch (_error) {
+        setCategories([]);
+      }
+    };
+
+    loadCategories();
+  }, []);
+
+  const activeCategories = useMemo(
+    () =>
+      categories
+        .filter((category) => category?._id && category?.name)
+        .filter((category) => category?.isActive !== false && category?.status !== "inactive")
+        .slice(0, 6),
+    [categories]
+  );
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -71,17 +66,17 @@ export default function ProductCategories() {
 
         {/* ── Category Cards ── */}
         <div className={styles.grid}>
-          {categories.map((cat, i) => (
+          {activeCategories.map((cat, i) => (
             <Link
-              key={cat.id}
-              href={cat.href}
+              key={cat._id}
+              href={`/categories/${cat._id}`}
               className={styles.card}
               style={{ "--delay": `${i * 0.08}s` }}
             >
               {/* Background image */}
               <div
                 className={styles.cardBg}
-                style={{ backgroundImage: `url(${cat.image})` }}
+                style={{ backgroundImage: `url(${cat.image || "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=600&q=80"})` }}
               />
 
               {/* Gradient overlay */}
@@ -89,7 +84,7 @@ export default function ProductCategories() {
 
               {/* Content */}
               <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>{cat.title}</h3>
+                <h3 className={styles.cardTitle}>{cat.name}</h3>
                 <span className={styles.discoverLink}>
                   Discover more
                   <span className={styles.discoverArrow}>↗</span>
@@ -100,6 +95,24 @@ export default function ProductCategories() {
               <div className={styles.cardAccent} />
             </Link>
           ))}
+
+          {!activeCategories.length ? (
+            <Link href="/categories" className={styles.card}>
+              <div
+                className={styles.cardBg}
+                style={{ backgroundImage: "url(https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=600&q=80)" }}
+              />
+              <div className={styles.cardOverlay} />
+              <div className={styles.cardContent}>
+                <h3 className={styles.cardTitle}>Explore Categories</h3>
+                <span className={styles.discoverLink}>
+                  Discover more
+                  <span className={styles.discoverArrow}>↗</span>
+                </span>
+              </div>
+              <div className={styles.cardAccent} />
+            </Link>
+          ) : null}
         </div>
 
       </div>

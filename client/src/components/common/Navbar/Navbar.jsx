@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { getProducts } from "@/services/products.service";
+import { getCategories } from "@/services/categories.service";
+import { getProjects } from "@/services/projects.service";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
@@ -10,6 +12,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [projects, setProjects] = useState([]);
   const closeTimeoutRef = useRef(null);
   const productsMenuRef = useRef(null);
 
@@ -72,6 +76,7 @@ export default function Navbar() {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/categories", label: "Our Categories" },
+    { href: "/projects", label: "Projects" },
     { href: "/blogs", label: "Blogs" },
     { href: "/about", label: "About Us" },
     { href: "/contact", label: "Contact" },
@@ -80,6 +85,23 @@ export default function Navbar() {
   const featuredProducts = useMemo(
     () => products.filter((item) => item?.name && item?._id),
     [products]
+  );
+
+  const activeCategories = useMemo(
+    () =>
+      categories
+        .filter((item) => item?._id && item?.name)
+        .filter((item) => item?.isActive !== false && item?.status !== "inactive")
+        .slice(0, 6),
+    [categories]
+  );
+
+  const featuredProjects = useMemo(
+    () =>
+      projects
+        .filter((item) => item?._id && item?.title)
+        .slice(0, 3),
+    [projects]
   );
 
   const openProductsMenu = () => {
@@ -95,6 +117,24 @@ export default function Navbar() {
       setProductsOpen(false);
     }, 130);
   };
+
+  useEffect(() => {
+    const loadMenuData = async () => {
+      try {
+        const [categoryRes, projectRes] = await Promise.all([
+          getCategories(),
+          getProjects(),
+        ]);
+        setCategories(Array.isArray(categoryRes) ? categoryRes : []);
+        setProjects(Array.isArray(projectRes) ? projectRes : []);
+      } catch (_error) {
+        setCategories([]);
+        setProjects([]);
+      }
+    };
+
+    loadMenuData();
+  }, []);
 
   return (
     <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
@@ -141,6 +181,7 @@ export default function Navbar() {
                     <ul>
                       <li><Link href="/products" onClick={() => setProductsOpen(false)}>All Products</Link></li>
                       <li><Link href="/categories" onClick={() => setProductsOpen(false)}>Product Categories</Link></li>
+                      <li><Link href="/projects" onClick={() => setProductsOpen(false)}>Projects</Link></li>
                       <li><Link href="/contact" onClick={() => setProductsOpen(false)}>Request Consultation</Link></li>
                     </ul>
                   </div>
@@ -158,12 +199,38 @@ export default function Navbar() {
                           <p>{product.description || "View complete product details."}</p>
                         </Link>
                       ))
-                    ) : (
+                    ) : null}
+
+                    {activeCategories.map((category) => (
+                      <Link
+                        key={category._id}
+                        href={`/categories/${category._id}`}
+                        className={styles.productCard}
+                        onClick={() => setProductsOpen(false)}
+                      >
+                        <h4>{category.name}</h4>
+                        <p>{category.description || "Explore products in this category."}</p>
+                      </Link>
+                    ))}
+
+                    {featuredProjects.map((project) => (
+                      <Link
+                        key={project._id}
+                        href="/projects"
+                        className={styles.productCard}
+                        onClick={() => setProductsOpen(false)}
+                      >
+                        <h4>{project.title}</h4>
+                        <p>{project.location || project.description || "View completed project details."}</p>
+                      </Link>
+                    ))}
+
+                    {!featuredProducts.length && !activeCategories.length && !featuredProjects.length ? (
                       <Link href="/products" className={styles.productCard} onClick={() => setProductsOpen(false)}>
                         <h4>Explore Catalog</h4>
                         <p>Browse our complete list of elevators and lift solutions.</p>
                       </Link>
-                    )}
+                    ) : null}
                   </div>
                 </div>
               </div>
