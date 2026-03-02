@@ -1,0 +1,267 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 560px;
+  max-height: 740px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+/* ── Background ── */
+.bgWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bgImg {
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.06);
+  transition: transform 10s ease;
+}
+
+.hero:hover .bgImg {
+  transform: scale(1.02);
+}
+
+/* ── Overlays ── */
+.overlayTop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 5, 5, 0.55) 0%,
+    transparent 45%
+  );
+}
+
+.overlayBottom {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    0deg,
+    rgba(5, 5, 5, 0.92) 0%,
+    rgba(5, 5, 5, 0.6) 40%,
+    transparent 70%
+  );
+}
+
+.overlayNoise {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ── Breadcrumb ── */
+.breadcrumb {
+  position: absolute;
+  top: 88px;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bcLink {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+  letter-spacing: 0.01em;
+}
+
+.bcLink:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.bcChevron {
+  color: rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+
+.bcActive {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.01em;
+}
+
+/* ── Main Content ── */
+.content {
+  position: relative;
+  z-index: 5;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 40px 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Eyebrow ── */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.eyebrowDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+/* ── Heading ── */
+.heading {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: clamp(42px, 6.5vw, 82px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  margin: 0;
+  max-width: 800px;
+}
+
+/* ── Description ── */
+.description {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: clamp(13.5px, 1.4vw, 16px);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.72;
+  margin: 0;
+  max-width: 520px;
+}
+
+/* ── Stats Row ── */
+.statsRow {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 4px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.statNum {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.statLbl {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.42);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.statSep {
+  width: 1px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Scroll Indicator ── */
+.scrollWrap {
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.scrollLabel {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+.scrollTrack {
+  width: 1.5px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.scrollThumb {
+  width: 100%;
+  height: 40%;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
+  animation: scrollAnim 2s ease-in-out infinite;
+}
+
+@keyframes scrollAnim {
+  0%   { transform: translateY(0); opacity: 1; }
+  80%  { transform: translateY(150%); opacity: 0.3; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hero {
+    max-height: 600px;
+  }
+
+  .content {
+    padding: 0 20px 80px;
+    gap: 16px;
+  }
+
+  .breadcrumb {
+    padding: 0 20px;
+    top: 80px;
+  }
+
+  .scrollWrap {
+    display: none;
+  }
+
+  .statsRow {
+    gap: 18px;
+  }
+}

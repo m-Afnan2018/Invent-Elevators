@@ -1,0 +1,333 @@
+.section {
+  background: #f4f4f1;
+  padding: 100px 0;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+}
+
+/* ── Header ── */
+.header {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 64px;
+  align-items: end;
+  padding-bottom: 48px;
+  border-bottom: 1px solid #e4e4e0;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eyebrow {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #aaaaaa;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.heading {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.headerDesc {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #6b6b6b;
+  line-height: 1.75;
+  margin: 0;
+  max-width: 420px;
+  align-self: end;
+}
+
+/* ── Group Nav Pills ── */
+.groupNav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.groupNavPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #5f5f5f;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: 1.5px solid #e0e0dc;
+  background: #ffffff;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.groupNavPill:hover {
+  background: #0a0a0a;
+  color: #ffffff;
+  border-color: #0a0a0a;
+  transform: translateY(-2px);
+}
+
+.groupNavIcon {
+  display: flex;
+  align-items: center;
+  color: inherit;
+}
+
+/* ── Spec Groups ── */
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.group {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.05);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+/* Group header */
+.groupHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 28px;
+  border-bottom: 1px solid #f0f0ec;
+  background: #fafaf8;
+}
+
+.groupIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #0a0a0a;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.groupTitle {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -0.01em;
+  margin: 0;
+  flex: 1;
+}
+
+.groupCount {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #aaaaaa;
+  background: #f0f0ec;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+}
+
+/* ── Table ── */
+.table {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 28px;
+  border-bottom: 1px solid #f5f5f2;
+  transition: background 0.15s ease;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: #fafaf8;
+}
+
+.rowEven {
+  background: #fdfdfc;
+}
+
+.rowEven:hover {
+  background: #f7f7f4;
+}
+
+.rowLabel {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #4a4a4a;
+  white-space: nowrap;
+  min-width: 180px;
+  flex-shrink: 0;
+}
+
+.rowDots {
+  flex: 1;
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    #d8d8d4 0px,
+    #d8d8d4 4px,
+    transparent 4px,
+    transparent 10px
+  );
+  opacity: 0.5;
+}
+
+.rowValue {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0a0a0a;
+  white-space: nowrap;
+  text-align: right;
+  letter-spacing: -0.01em;
+}
+
+/* ── Download Strip ── */
+.downloadStrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 32px;
+  background: #0a0a0a;
+  border-radius: 16px;
+  flex-wrap: wrap;
+}
+
+.downloadLeft {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.downloadIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.downloadTitle {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+
+.downloadSub {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.45);
+  margin: 0;
+}
+
+.downloadBtn {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #0a0a0a;
+  background: #ffffff;
+  text-decoration: none;
+  padding: 12px 26px;
+  border-radius: 10px;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.downloadBtn:hover {
+  background: #e8e8e4;
+  transform: translateY(-1px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .header {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 64px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+    gap: 36px;
+  }
+
+  .groupHeader {
+    padding: 16px 20px;
+  }
+
+  .row {
+    padding: 14px 20px;
+    gap: 12px;
+  }
+
+  .rowLabel {
+    min-width: 130px;
+    font-size: 12.5px;
+  }
+
+  .rowValue {
+    font-size: 13px;
+  }
+
+  .downloadStrip {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 20px;
+  }
+
+  .downloadBtn {
+    width: 100%;
+    text-align: center;
+  }
+}

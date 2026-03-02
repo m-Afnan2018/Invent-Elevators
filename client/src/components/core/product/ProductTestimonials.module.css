@@ -1,0 +1,379 @@
+.section {
+  background: #ffffff;
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Subtle background accent ── */
+.bgAccent {
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f4f4f1 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eyebrow {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #aaaaaa;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.heading {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+/* ── Main 2-col layout ── */
+.main {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* ── Quote Column ── */
+.quoteCol {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.quoteMark {
+  color: #0a0a0a;
+  margin-bottom: -20px;
+}
+
+.quoteText {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.fadeIn {
+  animation: fadeIn 0.35s ease forwards;
+}
+
+.fadeOut {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+
+/* ── Quote text ── */
+.quote {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 500;
+  color: #0a0a0a;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+/* ── Author row ── */
+.author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatarWrap {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid #f0f0ec;
+}
+
+.avatar {
+  object-fit: cover;
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stars {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 2px;
+}
+
+.starFilled {
+  color: #0a0a0a;
+}
+
+.starEmpty {
+  color: #d8d8d4;
+}
+
+.authorName {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.authorMeta {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #888888;
+  line-height: 1;
+}
+
+/* ── Controls ── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid #e0e0dc;
+  background: #ffffff;
+  color: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.navBtn:hover {
+  background: #0a0a0a;
+  border-color: #0a0a0a;
+  color: #ffffff;
+  transform: scale(1.08);
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.progressDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d8d8d4;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.25s, transform 0.25s, width 0.25s;
+}
+
+.progressDotActive {
+  background: #0a0a0a;
+  transform: scale(1.2);
+  width: 22px;
+  border-radius: 4px;
+}
+
+.counter {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #aaaaaa;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* ── Stack Column ── */
+.stackCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 56px;
+  position: relative;
+}
+
+/* ── Stack Cards ── */
+.stackCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+}
+
+.stackCardActive {
+  background: #0a0a0a;
+  border-color: #0a0a0a;
+  transform: scale(1.02);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+}
+
+.stackCardPrev,
+.stackCardNext {
+  background: #f7f7f5;
+  border-color: #eeeeea;
+  opacity: 0.65;
+  transform: scale(0.97);
+}
+
+.stackCardPrev:hover,
+.stackCardNext:hover {
+  opacity: 0.9;
+  transform: scale(0.99);
+  border-color: #d8d8d4;
+}
+
+/* Avatar in stack */
+.stackAvatarWrap {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+.stackAvatar {
+  object-fit: cover;
+}
+
+.stackInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.stackName {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: inherit;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.stackCardActive .stackName {
+  color: #ffffff;
+}
+
+.stackCardPrev .stackName,
+.stackCardNext .stackName {
+  color: #0a0a0a;
+}
+
+.stackRole {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 11.5px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.stackCardActive .stackRole {
+  color: rgba(255,255,255,0.5);
+}
+
+.stackCardPrev .stackRole,
+.stackCardNext .stackRole {
+  color: #888888;
+}
+
+.stackActiveDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  flex-shrink: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .main {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .stackCol {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-top: 0;
+    gap: 8px;
+  }
+
+  .stackCard {
+    flex: 1;
+    min-width: 160px;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 64px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+    gap: 40px;
+  }
+
+  .quote {
+    font-size: 17px;
+  }
+
+  .stackCol {
+    display: none;
+  }
+}

@@ -1,0 +1,399 @@
+.section {
+  background: #f4f4f1;
+  padding: 56px 0 0;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ── Section Label ── */
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.labelLine {
+  width: 32px;
+  height: 1.5px;
+  background: #0a0a0a;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.labelText {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #0a0a0a;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ── Magazine Row ── */
+.row {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+/* ══════════════════════════════
+   LARGE CARD
+══════════════════════════════ */
+.largeCard {
+  display: block;
+  text-decoration: none;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  min-height: 480px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.largeCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.14);
+}
+
+.largeImgWrap {
+  position: absolute;
+  inset: 0;
+}
+
+.largeImg {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.largeCard:hover .largeImg {
+  transform: scale(1.06);
+}
+
+.largeOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(0,0,0,0.88) 0%,
+    rgba(0,0,0,0.45) 45%,
+    rgba(0,0,0,0.1) 100%
+  );
+  z-index: 1;
+}
+
+/* Content overlaid on image */
+.largeContent {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 28px 28px 30px;
+  gap: 12px;
+}
+
+.largeMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.largeCat {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(6px);
+  padding: 4px 11px;
+  border-radius: 20px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.largeReadTime {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.55);
+}
+
+.largeTitle {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.largeExcerpt {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 13.5px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.largeFoot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.largeAuthor {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.65);
+}
+
+.largeDot {
+  color: rgba(255,255,255,0.25);
+  font-size: 12px;
+}
+
+.largeDate {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ══════════════════════════════
+   SMALL STACK
+══════════════════════════════ */
+.smallStack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Small Card ── */
+.smallCard {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  text-decoration: none;
+  flex: 1;
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+  position: relative;
+}
+
+.smallCard:hover {
+  box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+  transform: translateY(-3px);
+}
+
+/* Image */
+.smallImgWrap {
+  position: relative;
+  overflow: hidden;
+  background: #e8e8e4;
+}
+
+.smallImg {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.smallCard:hover .smallImg {
+  transform: scale(1.08);
+}
+
+.smallOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.2), transparent);
+  z-index: 1;
+}
+
+.smallCat {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 2;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  padding: 3px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Content */
+.smallContent {
+  padding: 18px 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.smallMeta {
+  display: flex;
+  align-items: center;
+}
+
+.smallReadTime {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: #aaaaaa;
+}
+
+.smallTitle {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+.smallFoot {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: auto;
+}
+
+.smallAuthor {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #5f5f5f;
+}
+
+.smallDot {
+  color: #cccccc;
+  font-size: 11px;
+}
+
+.smallDate {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 11.5px;
+  font-weight: 400;
+  color: #aaaaaa;
+}
+
+/* Arrow */
+.smallArrow {
+  position: absolute;
+  bottom: 16px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #f4f4f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  transition: background 0.25s, color 0.25s, transform 0.25s;
+}
+
+.smallCard:hover .smallArrow {
+  background: #0a0a0a;
+  color: #ffffff;
+  transform: translate(2px, -2px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .largeCard {
+    min-height: 380px;
+  }
+
+  .smallStack {
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .smallCard {
+    flex: 1;
+    grid-template-columns: 1fr;
+    grid-template-rows: 160px 1fr;
+  }
+
+  .smallImgWrap {
+    height: 160px;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 40px 0 0;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .smallStack {
+    flex-direction: column;
+  }
+
+  .smallCard {
+    grid-template-columns: 120px 1fr;
+    grid-template-rows: auto;
+  }
+
+  .smallImgWrap {
+    height: auto;
+  }
+
+  .largeCard {
+    min-height: 320px;
+  }
+}
