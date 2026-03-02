@@ -133,7 +133,7 @@ export default function ProductTestimonials({ product }) {
             <div
               className={`${styles.quoteText} ${isAnimating ? styles.fadeOut : styles.fadeIn}`}
             >
-              <p className={styles.quote}>"{current.message}"</p>
+              <p className={styles.quote}>&ldquo;{current.message}&rdquo;</p>
 
               <div className={styles.author}>
                 {/* Avatar */}
