@@ -79,7 +79,7 @@ export default function ProductComponents({ product }) {
         {/* ── Header ── */}
         <div className={styles.header}>
           <div className={styles.headerText}>
-            <span className={styles.eyebrow}>What's Included</span>
+            <span className={styles.eyebrow}>What&apos;s Included</span>
             <h2 className={styles.heading}>Product Components</h2>
           </div>
           <p className={styles.headerDesc}>

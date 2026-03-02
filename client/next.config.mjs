@@ -1,9 +1,13 @@
-/** @type {import('next').NextConfig} */
+/** @type {import("next").NextConfig} */
 const nextConfig = {
-  /* config options here */
   reactCompiler: true,
   images: {
-    domains: ['placehold.co', 'images.unsplash.com', 'via.placeholder.com', 'ui-avatars.com'],
+    remotePatterns: [
+      { protocol: "https", hostname: "placehold.co" },
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "via.placeholder.com" },
+      { protocol: "https", hostname: "ui-avatars.com" },
+    ],
   },
 };
 

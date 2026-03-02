@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./BlogGrid.module.css";
@@ -212,10 +212,6 @@ export default function BlogGrid({ posts, searchQuery = "", isLoading = false })
     });
   }, [data, activeCategory, searchQuery]);
 
-  // Reset pagination on filter change
-  useEffect(() => {
-    setVisibleCount(ITEMS_PER_PAGE);
-  }, [activeCategory, searchQuery]);
 
   const shown = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
