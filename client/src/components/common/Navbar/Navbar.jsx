@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { getProducts } from "@/services/products.service";
+import { getCategories } from "@/services/categories.service";
+import { getProjects } from "@/services/projects.service";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
@@ -10,6 +12,9 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const closeTimeoutRef = useRef(null);
   const productsMenuRef = useRef(null);
 
@@ -30,7 +35,7 @@ export default function Navbar() {
     const loadProducts = async () => {
       try {
         const response = await getProducts();
-        setProducts(Array.isArray(response) ? response.slice(0, 4) : []);
+        setProducts(Array.isArray(response) ? response : []);
       } catch (_error) {
         setProducts([]);
       }
@@ -72,6 +77,7 @@ export default function Navbar() {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/categories", label: "Our Categories" },
+    { href: "/projects", label: "Projects" },
     { href: "/blogs", label: "Blogs" },
     { href: "/about", label: "About Us" },
     { href: "/contact", label: "Contact" },
@@ -81,6 +87,68 @@ export default function Navbar() {
     () => products.filter((item) => item?.name && item?._id),
     [products]
   );
+
+  const activeCategories = useMemo(
+    () =>
+      categories
+        .filter((item) => item?._id && item?.name)
+        .filter((item) => item?.isActive !== false && item?.status !== "inactive"),
+    [categories]
+  );
+
+  const featuredProjects = useMemo(
+    () =>
+      projects
+        .filter((item) => item?._id && item?.title)
+        .slice(0, 3),
+    [projects]
+  );
+
+  const productsByCategory = useMemo(() => {
+    const grouped = new Map();
+
+    activeCategories.forEach((category) => {
+      grouped.set(category._id, []);
+    });
+
+    products
+      .filter((product) => product?._id && product?.name)
+      .forEach((product) => {
+        const categoryIds = [
+          product?.category?._id || product?.category,
+          ...(Array.isArray(product?.categories)
+            ? product.categories.map((entry) => entry?._id || entry)
+            : []),
+        ].filter(Boolean);
+
+        categoryIds.forEach((categoryId) => {
+          if (!grouped.has(categoryId)) {
+            return;
+          }
+
+          const currentList = grouped.get(categoryId) || [];
+          if (!currentList.some((item) => item._id === product._id)) {
+            grouped.set(categoryId, [...currentList, product]);
+          }
+        });
+      });
+
+    return grouped;
+  }, [activeCategories, products]);
+
+  const resolvedActiveCategoryId = useMemo(() => {
+    if (activeCategories.some((category) => category._id === hoveredCategoryId)) {
+      return hoveredCategoryId;
+    }
+    return activeCategories[0]?._id || null;
+  }, [activeCategories, hoveredCategoryId]);
+
+  const activeCategoryProducts = useMemo(() => {
+    if (!resolvedActiveCategoryId) return [];
+    return (productsByCategory.get(resolvedActiveCategoryId) || []).slice(0, 6);
+  }, [productsByCategory, resolvedActiveCategoryId]);
+
+  const categoryProductsToShow = activeCategoryProducts || [];
 
   const openProductsMenu = () => {
     if (closeTimeoutRef.current) {
@@ -95,6 +163,24 @@ export default function Navbar() {
       setProductsOpen(false);
     }, 130);
   };
+
+  useEffect(() => {
+    const loadMenuData = async () => {
+      try {
+        const [categoryRes, projectRes] = await Promise.all([
+          getCategories(),
+          getProjects(),
+        ]);
+        setCategories(Array.isArray(categoryRes) ? categoryRes : []);
+        setProjects(Array.isArray(projectRes) ? projectRes : []);
+      } catch (_error) {
+        setCategories([]);
+        setProjects([]);
+      }
+    };
+
+    loadMenuData();
+  }, []);
 
   return (
     <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
@@ -140,14 +226,32 @@ export default function Navbar() {
                   <div className={styles.productsLeft}>
                     <ul>
                       <li><Link href="/products" onClick={() => setProductsOpen(false)}>All Products</Link></li>
-                      <li><Link href="/categories" onClick={() => setProductsOpen(false)}>Product Categories</Link></li>
+                      <li><Link href="/categories" onClick={() => setProductsOpen(false)}>All Categories</Link></li>
+                      <li><Link href="/projects" onClick={() => setProductsOpen(false)}>Projects</Link></li>
                       <li><Link href="/contact" onClick={() => setProductsOpen(false)}>Request Consultation</Link></li>
+                    </ul>
+
+                    <p className={styles.categoryTitle}>Categories</p>
+                    <ul className={styles.categoryList}>
+                      {activeCategories.map((category) => (
+                        <li key={category._id}>
+                          <Link
+                            href={`/categories/${category._id}`}
+                            className={`${styles.categoryLink} ${resolvedActiveCategoryId === category._id ? styles.categoryLinkActive : ""}`}
+                            onMouseEnter={() => setHoveredCategoryId(category._id)}
+                            onFocus={() => setHoveredCategoryId(category._id)}
+                            onClick={() => setProductsOpen(false)}
+                          >
+                            {category.name}
+                          </Link>
+                        </li>
+                      ))}
                     </ul>
                   </div>
 
                   <div className={styles.productsRight}>
-                    {featuredProducts.length ? (
-                      featuredProducts.map((product) => (
+                    {categoryProductsToShow.length ? (
+                      categoryProductsToShow.map((product) => (
                         <Link
                           key={product._id}
                           href={`/products/${product._id}`}
@@ -158,12 +262,38 @@ export default function Navbar() {
                           <p>{product.description || "View complete product details."}</p>
                         </Link>
                       ))
-                    ) : (
+                    ) : featuredProducts.length ? (
+                      featuredProducts.slice(0, 6).map((product) => (
+                        <Link
+                          key={product._id}
+                          href={`/products/${product._id}`}
+                          className={styles.productCard}
+                          onClick={() => setProductsOpen(false)}
+                        >
+                          <h4>{product.name}</h4>
+                          <p>{product.description || "View complete product details."}</p>
+                        </Link>
+                      ))
+                    ) : null}
+
+                    {featuredProjects.map((project) => (
+                      <Link
+                        key={project._id}
+                        href="/projects"
+                        className={styles.productCard}
+                        onClick={() => setProductsOpen(false)}
+                      >
+                        <h4>{project.title}</h4>
+                        <p>{project.location || project.description || "View completed project details."}</p>
+                      </Link>
+                    ))}
+
+                    {!featuredProducts.length && !featuredProjects.length ? (
                       <Link href="/products" className={styles.productCard} onClick={() => setProductsOpen(false)}>
                         <h4>Explore Catalog</h4>
                         <p>Browse our complete list of elevators and lift solutions.</p>
                       </Link>
-                    )}
+                    ) : null}
                   </div>
                 </div>
               </div>
