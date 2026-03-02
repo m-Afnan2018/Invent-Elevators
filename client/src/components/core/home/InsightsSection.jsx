@@ -65,7 +65,7 @@ export default function InsightsSection() {
               insights in elevator technology, installation practices, and
               vertical mobility solutions.
             </p>
-            <Link href="/blog" className={styles.viewAllBtn}>
+            <Link href="/blogs" className={styles.viewAllBtn}>
               View all references
               <span className={styles.btnArrow}>→</span>
             </Link>

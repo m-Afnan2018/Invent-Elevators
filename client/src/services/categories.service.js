@@ -98,7 +98,7 @@ export const getSubCategories = async () => {
  */
 export const getSubCategoriesByCategory = async (categoryId) => {
   try {
-    const response = await apiGet(`${ENDPOINTS.SUB_CATEGORIES}?parent=${categoryId}`);
+    const response = await apiGet(`${ENDPOINTS.SUB_CATEGORIES}/by-category/${categoryId}`);
     return response.data || response;
   } catch (error) {
     throw error;

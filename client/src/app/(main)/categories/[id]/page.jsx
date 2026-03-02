@@ -1,12 +1,6 @@
-import CategoryHero from "@/components/core/category/CategoryHero";
-import ProductsGrid from "@/components/core/category/ProductsGrid";
-import SubCategoryTabs from "@/components/core/category/SubCategoryTabs";
+import CategoryPageClient from "@/components/core/category/CategoryPageClient";
 
-
-export default function Categories() {
-    return <>
-        <CategoryHero />
-        <SubCategoryTabs />
-        <ProductsGrid />
-    </>
+export default async function CategoryByIdPage({ params }) {
+  const resolvedParams = await params;
+  return <CategoryPageClient categoryId={resolvedParams?.id} />;
 }

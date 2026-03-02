@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./ProductsGrid.module.css";
@@ -190,7 +190,7 @@ function ProductCard({ product, index }) {
         )}
 
         {/* CTA */}
-        <Link href={`/products/${slug || _id}`} className={styles.cta}>
+        <Link href={`/products/${_id}`} className={styles.cta}>
           <span>View Product</span>
           <span className={styles.ctaArrow}>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -216,9 +216,6 @@ export default function ProductsGrid({
   const data = products ?? MOCK_PRODUCTS;
   const [visible, setVisible] = useState(ITEMS_PER_PAGE);
 
-  useEffect(() => {
-    setVisible(ITEMS_PER_PAGE);
-  }, [activeSubCategory]);
 
   const activeLabel =
     activeSubCategory === "all" || !activeSubCategory
