@@ -17,7 +17,7 @@ jobs:
           username: bitnami
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/bitnami/yourrepo
+            cd /home/bitnami/invent_elevators/Invent-Elevators
             git pull origin main
             docker compose down
             docker compose up -d --build
