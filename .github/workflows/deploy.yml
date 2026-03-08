@@ -17,7 +17,16 @@ jobs:
           username: bitnami
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e
+
             cd /home/bitnami/invent_elevators/Invent-Elevators
-            git pull origin main
+            git fetch origin main
+            git reset --hard origin/main
+
+            cd server && npm install --omit=dev && cd ..
+            cd client && npm install && cd ..
+
             docker-compose down
             docker-compose up -d --build
+
+            docker image prune -f
