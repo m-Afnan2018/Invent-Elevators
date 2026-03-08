@@ -16,6 +16,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.server
+      network: host
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     container_name: mern-backend
     restart: always
     ports:
@@ -27,6 +31,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.client
+      network: host
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     container_name: mern-frontend
     restart: always
     ports:
