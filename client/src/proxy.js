@@ -8,6 +8,7 @@ export function proxy(request) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
+  
   return NextResponse.next();
 }
 
