@@ -12,7 +12,7 @@ services:
             MONGO_INITDB_ROOT_PASSWORD: strongpassword
 
     backend:
-        image: ${DOCKER_USERNAME}/invent-elevators-server:latest # ← pulled from Docker Hub, not built
+        image: mafnan2018/invent-elevators-server:latest # ← pulled from Docker Hub, not built
         container_name: mern-backend
         restart: always
         ports:
@@ -26,7 +26,7 @@ services:
             - 1.1.1.1
 
     frontend:
-        image: ${DOCKER_USERNAME}/invent-elevators-client:latest # ← pulled from Docker Hub, not built
+        image: mafnan2018/invent-elevators-client:latest # ← pulled from Docker Hub, not built
         container_name: mern-frontend
         restart: always
         ports:
