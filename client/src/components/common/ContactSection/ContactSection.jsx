@@ -2,6 +2,8 @@
 import Image from "next/image";
 import styles from "./ContactSection.module.css";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { createLead } from "@/services/leads.service";
 
 const countries = [
   "Afghanistan", "Australia", "Canada", "China", "France",
@@ -14,16 +16,46 @@ export default function ContactSection() {
     firstname: "", lastname: "", phone: "", email: "", country: "", message: "", agreed: false,
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.agreed) return;
-    setSubmitted(true);
+
+    if (!form.agreed) {
+      toast.error("Please accept the privacy policy to continue.");
+      return;
+    }
+
+    if (!form.firstname || !form.lastname || !form.email) {
+      toast.error("Please fill required details.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await createLead({
+        firstName: form.firstname,
+        lastName: form.lastname,
+        email: form.email,
+        phone: form.phone,
+        country: form.country,
+        message: form.message,
+        source: "website-contact-section",
+      });
+
+      setSubmitted(true);
+      toast.success("Thanks! Your request has been submitted.");
+    } catch (_error) {
+      toast.error("Could not submit right now. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -209,9 +241,9 @@ export default function ContactSection() {
                 <button
                   type="submit"
                   className={styles.submitBtn}
-                  disabled={!form.agreed}
+                  disabled={!form.agreed || isSubmitting}
                 >
-                  Submit
+                  {isSubmitting ? "Submitting..." : "Submit"}
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
                   </svg>

@@ -1,0 +1,26 @@
+.publicSiteShell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 8% 8%, rgba(220, 165, 90, 0.09), transparent 24%),
+    radial-gradient(circle at 94% 16%, rgba(21, 67, 105, 0.12), transparent 28%),
+    #f6f8fb;
+}
+
+.pageContent {
+  position: relative;
+}
+
+.pageContent :global(main),
+.pageContent :global(section) {
+  position: relative;
+}
+
+.pageContent :global(h1),
+.pageContent :global(h2),
+.pageContent :global(h3) {
+  letter-spacing: -0.02em;
+}
+
+.pageContent :global(p) {
+  text-wrap: pretty;
+}

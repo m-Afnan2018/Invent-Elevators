@@ -2,12 +2,14 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { getProducts } from "@/services/products.service";
 import { getCategories } from "@/services/categories.service";
 import { getProjects } from "@/services/projects.service";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
@@ -69,6 +71,8 @@ export default function Navbar() {
     { href: "/about", label: "About Us" },
     { href: "/contact", label: "Contact" },
   ];
+
+  const isActive = (href) => (href === "/" ? pathname === "/" : pathname?.startsWith(href));
 
   const featuredProducts = useMemo(
     () => products.filter((item) => item?.name && item?._id),
@@ -175,7 +179,7 @@ export default function Navbar() {
         <ul className={styles.navLinks}>
           {navLinks.map((link) => (
             <li key={link.href} style={{ position: "relative" }}>
-              <Link href={link.href} className={styles.navLink}>
+              <Link href={link.href} className={`${styles.navLink} ${isActive(link.href) ? styles.navLinkActive : ""}`}>
                 {link.label}
                 <span className={styles.linkUnderline} />
               </Link>
@@ -268,6 +272,7 @@ export default function Navbar() {
         </ul>
 
         <div className={styles.navRight}>
+          <span className={styles.liveBadge}>{products.length} Products</span>
           <Link href="/contact" className={styles.orderBtn}>
             <span>Get Quote</span>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -304,7 +309,7 @@ export default function Navbar() {
               >
                 <Link
                   href={link.href}
-                  className={styles.mobileLink}
+                  className={`${styles.mobileLink} ${isActive(link.href) ? styles.mobileLinkActive : ""}`}
                   onClick={() => setMenuOpen(false)}
                 >
                   <span className={styles.mobileLinkIndex}>0{i + 1}</span>

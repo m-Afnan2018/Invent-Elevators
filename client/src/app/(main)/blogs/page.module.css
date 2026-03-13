@@ -1,0 +1,52 @@
+.page {
+  width: 100%;
+  min-height: 100vh;
+  background: #f6f8fb;
+}
+
+.introBand {
+  padding: 2.2rem 0 1.2rem;
+}
+
+.introInner {
+  width: min(1180px, 92%);
+  margin: 0 auto;
+  border: 1px solid #e8edf4;
+  border-radius: 18px;
+  background: #fff;
+  padding: 1.25rem 1.4rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1.1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8f5d1f;
+}
+
+.introInner h2 {
+  margin-top: 0.35rem;
+  font-size: clamp(1.4rem, 2.1vw, 2rem);
+}
+
+.introInner p {
+  margin-top: 0.4rem;
+  color: #56657a;
+  max-width: 720px;
+  line-height: 1.65;
+}
+
+.cta {
+  text-decoration: none;
+  color: #0f2238;
+  border: 1px solid #cfd8e4;
+  border-radius: 999px;
+  padding: 0.62rem 1.05rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+}

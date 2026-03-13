@@ -24,6 +24,7 @@ export default function ProjectsPage() {
   return (
     <main className={styles.main}>
       <section className={styles.header}>
+        <p className={styles.eyebrow}>Live Portfolio</p>
         <h1>Our Projects</h1>
         <p>Explore completed lift installations and delivered projects from our live portfolio.</p>
       </section>
@@ -31,9 +32,10 @@ export default function ProjectsPage() {
       <div className={styles.grid}>
         {projects.length ? (
           projects.map((project) => (
-            <article key={project._id} style={{ border: "1px solid #ddd", borderRadius: 10, padding: 16 }}>
+            <article key={project._id} className={styles.card}>
               <h3>{project.title || "Untitled Project"}</h3>
               <p>{project.description || "Project details will be shared on request."}</p>
+              <span>{project.location || "Multiple locations"}</span>
             </article>
           ))
         ) : (

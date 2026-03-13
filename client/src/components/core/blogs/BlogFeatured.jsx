@@ -40,7 +40,7 @@ export default function BlogFeatured({ post }) {
         </div>
 
         {/* ── Featured Card ── */}
-        <Link href={`/blogs/${blog.slug || blog._id}`} className={styles.card}>
+        <Link href="/blogs" className={styles.card}>
 
           {/* Image — left 60% */}
           <div className={styles.imgCol}>

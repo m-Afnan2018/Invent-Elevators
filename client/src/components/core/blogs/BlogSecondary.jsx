@@ -53,7 +53,7 @@ function formatDate(date) {
 // ── Large card (left) ──
 function LargeCard({ post }) {
   return (
-    <Link href={`/blogs/${post.slug || post._id}`} className={styles.largeCard}>
+    <Link href="/blogs" className={styles.largeCard}>
       {/* Image */}
       <div className={styles.largeImgWrap}>
         <Image
@@ -99,7 +99,7 @@ function LargeCard({ post }) {
 // ── Small card (right stack) ──
 function SmallCard({ post }) {
   return (
-    <Link href={`/blogs/${post.slug || post._id}`} className={styles.smallCard}>
+    <Link href="/blogs" className={styles.smallCard}>
       {/* Image */}
       <div className={styles.smallImgWrap}>
         <Image

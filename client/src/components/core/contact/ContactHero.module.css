@@ -1,71 +1,85 @@
 .hero {
-    position: relative;
-    height: 420px;
-    background: url("https://images.unsplash.com/photo-1497366216548-37526070297c") center/cover no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #fff;
+  position: relative;
+  height: 470px;
+  background: url("https://images.unsplash.com/photo-1497366216548-37526070297c") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
 }
 
 .overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.45));
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg, rgba(5, 13, 26, 0.88), rgba(11, 36, 59, 0.58));
 }
 
 .content {
-    position: relative;
-    z-index: 2;
-    max-width: 800px;
-    padding: 0 20px;
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  padding: 0 20px;
 }
 
 .subtitle {
-    font-size: 14px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    color: #00c2ff;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  color: #dca55a;
 }
 
 .content h1 {
-    font-size: 48px;
-    font-weight: 700;
-    margin-bottom: 15px;
+  font-size: clamp(2.1rem, 5vw, 3.3rem);
+  font-weight: 700;
+  margin-bottom: 12px;
 }
 
 .description {
-    font-size: 18px;
-    opacity: 0.9;
-    margin-bottom: 20px;
+  font-size: 17px;
+  opacity: 0.9;
+  margin: 0 auto 18px;
+  max-width: 700px;
+  line-height: 1.75;
+}
+
+.facts {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 20px;
+}
+
+.facts span {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  padding: 0.32rem 0.72rem;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .breadcrumb {
-    font-size: 14px;
-    font-weight: 500;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .separator {
-    margin: 0 6px;
+  margin: 0 6px;
 }
 
 .active {
-    color: #00c2ff;
+  color: #dca55a;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-    .hero {
-        height: 350px;
-    }
+  .hero {
+    height: 390px;
+  }
 
-    .content h1 {
-        font-size: 36px;
-    }
-
-    .description {
-        font-size: 16px;
-    }
+  .description {
+    font-size: 15px;
+  }
 }

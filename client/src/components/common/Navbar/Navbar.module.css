@@ -541,3 +541,26 @@
     display: none;
   }
 }
+
+
+.navLinkActive {
+  color: #fff;
+}
+
+.navLinkActive .linkUnderline {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.liveBadge {
+  font-size: 0.72rem;
+  color: #f0cc99;
+  border: 1px solid rgba(211, 155, 84, 0.4);
+  background: rgba(211, 155, 84, 0.14);
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  white-space: nowrap;
+}
+
+.mobileLinkActive {
+  color: #fff;
+}
