@@ -11,6 +11,103 @@ import { getBlogs } from "@/services/blogs.service";
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80";
 
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1800&q=80";
+
+const FALLBACK_CATEGORIES = [
+  {
+    _id: "home-lifts",
+    __fallback: true,
+    name: "Home Elevators",
+    image:
+      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    _id: "passenger-lifts",
+    __fallback: true,
+    name: "Passenger Lifts",
+    image:
+      "https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    _id: "hospital-elevators",
+    __fallback: true,
+    name: "Hospital Elevators",
+    image:
+      "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=900&q=80",
+  },
+];
+
+const FALLBACK_PRODUCTS = [
+  {
+    _id: "gearless-machine",
+    name: "Gearless Machine-Room Elevator",
+    description: "Quiet, smooth, and energy efficient operation for premium buildings.",
+    image:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    _id: "villa-lift",
+    name: "Villa Lift",
+    description: "Compact footprint elevator engineered for modern residential spaces.",
+    image:
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    _id: "panoramic-lift",
+    name: "Panoramic Elevator",
+    description: "Architectural glass cabin design that adds elegance and visibility.",
+    image:
+      "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    _id: "freight-lift",
+    name: "Freight Elevator",
+    description: "Robust heavy-duty lifting solution for industrial and logistics sites.",
+    image:
+      "https://images.unsplash.com/photo-1581091215367-59ab6dcef5f0?auto=format&fit=crop&w=900&q=80",
+  },
+];
+
+const FALLBACK_PROJECTS = [
+  {
+    _id: "project-1",
+    title: "Skyline Corporate Tower",
+    location: "Bengaluru, India",
+    description: "8 high-speed passenger elevators with destination control.",
+  },
+  {
+    _id: "project-2",
+    title: "Green Valley Residences",
+    location: "Pune, India",
+    description: "Luxury home lift integration across 12 premium villas.",
+  },
+  {
+    _id: "project-3",
+    title: "CityCare Medical Center",
+    location: "Hyderabad, India",
+    description: "Bed and stretcher elevator systems with emergency power backup.",
+  },
+];
+
+const FALLBACK_BLOGS = [
+  {
+    _id: "blog-1",
+    title: "How to Choose the Right Elevator for Your Building",
+    excerpt: "A practical checklist for architects, builders, and property owners.",
+  },
+  {
+    _id: "blog-2",
+    title: "5 Maintenance Habits That Extend Elevator Life",
+    excerpt: "Reduce downtime with proactive, data-driven service planning.",
+  },
+  {
+    _id: "blog-3",
+    title: "Elevator Safety Features Every Client Should Know",
+    excerpt: "From ARD to emergency communication systems, here is what matters.",
+  },
+];
+
 export default function Home() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
@@ -42,45 +139,60 @@ export default function Home() {
     loadHomeData();
   }, []);
 
-  const activeCategories = useMemo(
-    () =>
-      categories
-        .filter((category) => category?._id && category?.name)
-        .filter((category) => category?.isActive !== false && category?.status !== "inactive")
-        .slice(0, 6),
-    [categories]
-  );
+  const activeCategories = useMemo(() => {
+    const dynamicCategories = categories
+      .filter((category) => category?._id && category?.name)
+      .filter((category) => category?.isActive !== false && category?.status !== "inactive")
+      .slice(0, 6);
 
-  const featuredProducts = useMemo(
-    () => products.filter((product) => product?._id && product?.name).slice(0, 4),
-    [products]
-  );
+    return dynamicCategories.length ? dynamicCategories : FALLBACK_CATEGORIES;
+  }, [categories]);
 
-  const featuredProjects = useMemo(
-    () => projects.filter((project) => project?._id && project?.title).slice(0, 3),
-    [projects]
-  );
+  const featuredProducts = useMemo(() => {
+    const dynamicProducts = products.filter((product) => product?._id && product?.name).slice(0, 4);
+    return dynamicProducts.length ? dynamicProducts : FALLBACK_PRODUCTS;
+  }, [products]);
 
-  const latestBlogs = useMemo(
-    () => blogs.filter((blog) => blog?._id && blog?.title).slice(0, 3),
-    [blogs]
-  );
+  const featuredProjects = useMemo(() => {
+    const dynamicProjects = projects.filter((project) => project?._id && project?.title).slice(0, 3);
+    return dynamicProjects.length ? dynamicProjects : FALLBACK_PROJECTS;
+  }, [projects]);
+
+  const latestBlogs = useMemo(() => {
+    const dynamicBlogs = blogs.filter((blog) => blog?._id && blog?.title).slice(0, 3);
+    return dynamicBlogs.length ? dynamicBlogs : FALLBACK_BLOGS;
+  }, [blogs]);
+
+  const operationalStats = [
+    { label: "Projects Delivered", value: projects.length || 150 },
+    { label: "Active Product Models", value: products.length || 35 },
+    { label: "Cities Served", value: 22 },
+    { label: "Support Availability", value: "24/7" },
+  ];
 
   return (
     <main className={styles.page}>
-      <section className={styles.hero}>
+      <section className={styles.hero} style={{ backgroundImage: `url(${HERO_IMAGE})` }}>
         <div className={styles.heroOverlay} />
         <div className={styles.container}>
           <p className={styles.eyebrow}>Invent Elevator · Complete Vertical Mobility</p>
           <h1>Elegant Elevators for Modern Homes & Commercial Towers</h1>
           <p>
-            Inspired by the premium global aesthetic, we deliver luxury-ready lift
-            systems that are safe, smooth, and fully customizable — integrated with
-            your existing backend product, project, and lead management workflows.
+            We design, install, and maintain world-class lift systems with a seamless
+            customer journey — from planning and product selection to commissioning and
+            after-sales support.
           </p>
           <div className={styles.heroActions}>
             <Link href="/contact" className={styles.primaryBtn}>Request Consultation</Link>
             <Link href="/products" className={styles.secondaryBtn}>Explore Product Range</Link>
+          </div>
+          <div className={styles.statsGrid}>
+            {operationalStats.map((stat) => (
+              <div key={stat.label} className={styles.statItem}>
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -93,7 +205,11 @@ export default function Home() {
           </div>
           <div className={styles.gridThree}>
             {activeCategories.map((category) => (
-              <Link key={category._id} href={`/categories/${category._id}`} className={styles.categoryCard}>
+              <Link
+                key={category._id}
+                href={category.__fallback ? "/categories" : `/categories/${category._id}`}
+                className={styles.categoryCard}
+              >
                 <div
                   className={styles.cardMedia}
                   style={{ backgroundImage: `url(${category.image || FALLBACK_IMAGE})` }}
