@@ -7,6 +7,41 @@ import { getProducts } from "@/services/products.service";
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=700&q=80";
 
+const FALLBACK_PRODUCTS = [
+  {
+    _id: "fallback-1",
+    __fallback: true,
+    name: "Premium Passenger Elevator",
+    description: "Smooth, low-noise vertical mobility for commercial and residential towers.",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+    subCategory: { name: "Passenger" },
+  },
+  {
+    _id: "fallback-2",
+    __fallback: true,
+    name: "Hydraulic Cargo Lift",
+    description: "Heavy-duty lift system engineered for warehouses and industrial floors.",
+    image: "https://images.unsplash.com/photo-1581091215367-59ab6dcef5f0?auto=format&fit=crop&w=800&q=80",
+    subCategory: { name: "Cargo" },
+  },
+  {
+    _id: "fallback-3",
+    __fallback: true,
+    name: "Panoramic Glass Elevator",
+    description: "Contemporary glass cabin solution designed to elevate modern architecture.",
+    image: "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?auto=format&fit=crop&w=800&q=80",
+    subCategory: { name: "Panoramic" },
+  },
+  {
+    _id: "fallback-4",
+    __fallback: true,
+    name: "Compact Home Lift",
+    description: "Space-efficient home elevator with reliable safety systems and elegant finish.",
+    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+    subCategory: { name: "Home" },
+  },
+];
+
 export default function OurProducts() {
   const [items, setItems] = useState([]);
 
@@ -23,7 +58,13 @@ export default function OurProducts() {
     loadProducts();
   }, []);
 
-  const products = useMemo(() => items.slice(0, 4), [items]);
+  const products = useMemo(() => {
+    const liveProducts = items.filter((item) => item?._id && item?.name);
+    const source = liveProducts.length ? liveProducts : FALLBACK_PRODUCTS;
+    return source.slice(0, 4);
+  }, [items]);
+
+  const usingFallbackData = products.some((item) => item?.__fallback);
 
   return (
     <section className={styles.section}>
@@ -47,6 +88,12 @@ export default function OurProducts() {
             </Link>
           </div>
         </div>
+
+        {usingFallbackData && (
+          <p className={styles.headerDesc}>
+            Showing temporary sample products while live catalog data is being synced.
+          </p>
+        )}
 
         <div className={styles.grid}>
           {products.map((product, i) => (
