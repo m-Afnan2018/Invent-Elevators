@@ -91,6 +91,8 @@ const MOCK_PRODUCTS = [
   },
 ];
 
+const DEMO_DATA_NOTE = "Showing sample products until live catalog data is available.";
+
 // ── Skeleton Card ──
 function SkeletonCard() {
   return (
@@ -212,8 +214,9 @@ export default function ProductsGrid({
   activeSubCategory = "all",
   subCategories = [],
 }) {
-  // Use mock data if no products provided
-  const data = products ?? MOCK_PRODUCTS;
+  // Use mock data when API returns no products yet.
+  const hasLiveData = Array.isArray(products) && products.length > 0;
+  const data = hasLiveData ? products : MOCK_PRODUCTS;
   const [visible, setVisible] = useState(ITEMS_PER_PAGE);
 
 
@@ -237,6 +240,9 @@ export default function ProductsGrid({
               <span className={styles.countPill}>{data.length} products</span>
             )}
           </div>
+          {!isLoading && !hasLiveData && (
+            <span className={styles.countPill}>{DEMO_DATA_NOTE}</span>
+          )}
         </div>
 
         {/* ── Grid or States ── */}
