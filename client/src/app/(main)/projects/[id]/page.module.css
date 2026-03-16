@@ -1,0 +1,94 @@
+.main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 120px 24px 72px;
+}
+
+.status {
+  margin: 0;
+  color: #334155;
+}
+
+.backLink {
+  display: inline-flex;
+  margin-bottom: 1rem;
+  text-decoration: none;
+  color: #0b63c9;
+  font-weight: 600;
+}
+
+.card {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 14px 28px rgba(12, 37, 66, 0.08);
+}
+
+.hero {
+  height: 320px;
+  background-size: cover;
+  background-position: center;
+}
+
+.content {
+  padding: 1.4rem;
+}
+
+.kicker {
+  margin: 0;
+  width: fit-content;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8f5d1f;
+  background: #fff3e2;
+  border-radius: 999px;
+  padding: 0.28rem 0.7rem;
+}
+
+.content h1 {
+  margin: 0.8rem 0 0.7rem;
+  color: #0f172a;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+}
+
+.content > p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.metaGrid {
+  margin-top: 1.2rem;
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metaGrid div {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+}
+
+.metaGrid span {
+  display: block;
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.metaGrid strong {
+  color: #0f172a;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 720px) {
+  .hero {
+    height: 230px;
+  }
+
+  .metaGrid {
+    grid-template-columns: 1fr;
+  }
+}
