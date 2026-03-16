@@ -20,6 +20,13 @@ import { getProducts, createProduct, updateProduct, deleteProduct } from '@/serv
 import { getCategories, getSubCategories } from '@/services/categories.service';
 import { getComponents } from '@/services/components.service';
 
+const toId = (value) => (typeof value === 'object' && value !== null ? value._id : value);
+
+const normalizeIdArray = (values = []) => {
+    if (!Array.isArray(values)) return [];
+    return values.map(toId).filter(Boolean);
+};
+
 const ProductsPage = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -36,6 +43,8 @@ const ProductsPage = () => {
         categories: [],
         subCategories: [],
         components: [],
+        category: '',
+        subCategory: '',
     });
     const [imagePreview, setImagePreview] = useState('');
 
@@ -120,13 +129,18 @@ const ProductsPage = () => {
     const openModal = (product = null) => {
         if (product) {
             setEditingProduct(product);
+            const normalizedCategories = normalizeIdArray(product.categories);
+            const normalizedSubCategories = normalizeIdArray(product.subCategories);
+
             setFormData({
-                name: product.name,
-                description: product.description,
-                image: product.image,
-                categories: product.categories,
-                subCategories: product.subCategories,
-                components: product.components,
+                name: product.name || '',
+                description: product.description || '',
+                image: product.image || '',
+                categories: normalizedCategories,
+                subCategories: normalizedSubCategories,
+                components: normalizeIdArray(product.components),
+                category: toId(product.category) || normalizedCategories[0] || '',
+                subCategory: toId(product.subCategory) || normalizedSubCategories[0] || '',
             });
             setImagePreview(product.image);
         } else {
@@ -138,6 +152,8 @@ const ProductsPage = () => {
                 categories: [],
                 subCategories: [],
                 components: [],
+                category: '',
+                subCategory: '',
             });
             setImagePreview('');
         }
@@ -154,6 +170,8 @@ const ProductsPage = () => {
             categories: [],
             subCategories: [],
             components: [],
+            category: '',
+            subCategory: '',
         });
         setImagePreview('');
     };
@@ -161,11 +179,17 @@ const ProductsPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const payload = {
+            ...formData,
+            category: formData.category || formData.categories[0] || undefined,
+            subCategory: formData.subCategory || formData.subCategories[0] || undefined,
+        };
+
         try {
             if (editingProduct) {
-                await updateProduct(editingProduct._id, formData);
+                await updateProduct(editingProduct._id, payload);
             } else {
-                await createProduct(formData);
+                await createProduct(payload);
             }
             await fetchProducts();
             closeModal();
@@ -185,22 +209,22 @@ const ProductsPage = () => {
         }
     };
 
-    const getCategoryNames = (categoryIds) => {
-        return categoryIds
+    const getCategoryNames = (categoryIds = []) => {
+        return normalizeIdArray(categoryIds)
             .map((id) => categories.find((c) => c._id === id)?.name)
             .filter(Boolean)
             .join(', ');
     };
 
-    const getSubCategoryNames = (subCategoryIds) => {
-        return subCategoryIds
+    const getSubCategoryNames = (subCategoryIds = []) => {
+        return normalizeIdArray(subCategoryIds)
             .map((id) => subCategories.find((s) => s._id === id)?.name)
             .filter(Boolean)
             .join(', ');
     };
 
-    const getComponentNames = (componentIds) => {
-        return componentIds
+    const getComponentNames = (componentIds = []) => {
+        return normalizeIdArray(componentIds)
             .map((id) => components.find((c) => c._id === id)?.name)
             .filter(Boolean)
             .join(', ');
