@@ -72,18 +72,21 @@ const FALLBACK_PRODUCTS = [
 const FALLBACK_PROJECTS = [
   {
     _id: "project-1",
+    __fallback: true,
     title: "Skyline Corporate Tower",
     location: "Bengaluru, India",
     description: "8 high-speed passenger elevators with destination control.",
   },
   {
     _id: "project-2",
+    __fallback: true,
     title: "Green Valley Residences",
     location: "Pune, India",
     description: "Luxury home lift integration across 12 premium villas.",
   },
   {
     _id: "project-3",
+    __fallback: true,
     title: "CityCare Medical Center",
     location: "Hyderabad, India",
     description: "Bed and stretcher elevator systems with emergency power backup.",
@@ -252,7 +255,11 @@ export default function Home() {
           </div>
           <div className={styles.gridThree}>
             {featuredProjects.map((project) => (
-              <Link key={project._id} href="/projects" className={styles.projectCard}>
+              <Link
+                key={project._id}
+                href={project.__fallback ? "/projects" : `/projects/${project._id}`}
+                className={styles.projectCard}
+              >
                 <h3>{project.title}</h3>
                 <p>{project.location || project.description || "Custom-installed for demanding spaces."}</p>
               </Link>

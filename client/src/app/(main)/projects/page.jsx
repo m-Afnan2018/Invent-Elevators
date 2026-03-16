@@ -8,6 +8,7 @@ import styles from "./page.module.css";
 const FALLBACK_PROJECTS = [
   {
     _id: "skyline-tower",
+    __fallback: true,
     title: "Skyline Corporate Tower",
     description: "High-speed passenger elevator installation with smart destination control.",
     location: "Bengaluru, India",
@@ -16,6 +17,7 @@ const FALLBACK_PROJECTS = [
   },
   {
     _id: "ocean-view",
+    __fallback: true,
     title: "Ocean View Residences",
     description: "Premium panoramic lifts integrated into luxury residential towers.",
     location: "Mumbai, India",
@@ -24,6 +26,7 @@ const FALLBACK_PROJECTS = [
   },
   {
     _id: "citycare-center",
+    __fallback: true,
     title: "CityCare Medical Center",
     description: "Hospital-grade stretcher elevators built for continuous reliability.",
     location: "Hyderabad, India",
@@ -66,7 +69,11 @@ export default function ProjectsPage() {
 
       <div className={styles.grid}>
         {showcaseProjects.map((project) => (
-          <article key={project._id} className={styles.card}>
+          <Link
+            key={project._id}
+            href={project.__fallback ? "/projects" : `/projects/${project._id}`}
+            className={styles.card}
+          >
             <div
               className={styles.cardImage}
               style={{
@@ -78,7 +85,7 @@ export default function ProjectsPage() {
               <p>{project.description || "Project details will be shared on request."}</p>
               <span>{project.location || "Multiple locations"}</span>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
 

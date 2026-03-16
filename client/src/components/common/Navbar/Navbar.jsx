@@ -256,7 +256,7 @@ export default function Navbar() {
                     {featuredProjects.map((project) => (
                       <Link
                         key={project._id}
-                        href="/projects"
+                        href={project.__fallback ? "/projects" : `/projects/${project._id}`}
                         className={styles.productCard}
                         onClick={() => setProductsOpen(false)}
                       >

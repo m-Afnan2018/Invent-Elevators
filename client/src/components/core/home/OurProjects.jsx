@@ -60,7 +60,7 @@ export default function OurProjects() {
           {/* Large card — left */}
           {visibleProjects[0] ? (
             <Link
-              href="/projects"
+              href={visibleProjects[0].__fallback ? "/projects" : `/projects/${visibleProjects[0]._id}`}
               className={`${styles.card} ${styles.cardLarge}`}
               onMouseEnter={() => setHovered(0)}
               onMouseLeave={() => setHovered(null)}
@@ -85,7 +85,7 @@ export default function OurProjects() {
             {visibleProjects.slice(1).map((project, i) => (
               <Link
                 key={project._id}
-                href="/projects"
+                href={project.__fallback ? "/projects" : `/projects/${project._id}`}
                 className={`${styles.card} ${styles.cardSmall}`}
                 onMouseEnter={() => setHovered(i + 1)}
                 onMouseLeave={() => setHovered(null)}
