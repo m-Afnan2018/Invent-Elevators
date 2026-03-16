@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
     RiAddLine,
     RiSearchLine,
@@ -40,7 +41,7 @@ const AttributesPage = () => {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
-        category: '',
+        categories: [],
         status: 'active',
         fields: [],
     });
@@ -73,7 +74,12 @@ const AttributesPage = () => {
     }, []);
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, options } = e.target;
+        if (name === 'categories') {
+            const selected = Array.from(options).filter((option) => option.selected).map((option) => option.value);
+            setFormData({ ...formData, categories: selected });
+            return;
+        }
         setFormData({ ...formData, [name]: value });
     }
 
@@ -154,7 +160,7 @@ const AttributesPage = () => {
             setFormData({
                 name: attribute.name,
                 description: attribute.description,
-                category: attribute.category,
+                categories: (attribute.categories || []).map((c) => (typeof c === 'string' ? c : c._id)),
                 status: attribute.status,
                 fields: attribute.fields,
             });
@@ -163,7 +169,7 @@ const AttributesPage = () => {
             setFormData({
                 name: '',
                 description: '',
-                category: '',
+                categories: [],
                 status: 'active',
                 fields: [],
             });
@@ -177,7 +183,7 @@ const AttributesPage = () => {
         setFormData({
             name: '',
             description: '',
-            category: '',
+            categories: [],
             status: 'active',
             fields: [],
         });
@@ -193,9 +199,11 @@ const AttributesPage = () => {
                 await createAttribute(formData);
             }
             await fetchAttributes();
+            toast.success(`Attribute ${editingAttribute ? 'updated' : 'created'} successfully`);
             closeModal();
         } catch (error) {
             console.error('Error saving attribute:', error);
+            toast.error(error?.message || 'Failed to save attribute');
         }
     };
 
@@ -204,14 +212,20 @@ const AttributesPage = () => {
             try {
                 await deleteAttribute(attributeId);
                 await fetchAttributes();
+                toast.success('Attribute deleted successfully');
             } catch (error) {
                 console.error('Error deleting attribute:', error);
+                toast.error(error?.message || 'Failed to delete attribute');
             }
         }
     };
 
-    const getCategoryName = (categoryId) => {
-        return categories.find((c) => c._id === categoryId)?.name || 'N/A';
+    const getCategoryName = (categoryIds = []) => {
+        const ids = Array.isArray(categoryIds) ? categoryIds : [categoryIds];
+        const names = ids
+            .map((id) => categories.find((c) => c._id === (id?._id || id))?.name)
+            .filter(Boolean);
+        return names.length ? names.join(', ') : 'N/A';
     };
 
     const filteredAttributes = attributes.filter((attr) =>
@@ -289,7 +303,7 @@ const AttributesPage = () => {
                                     <td className={styles.attributeDescription}>
                                         {attribute.description.substring(0, 60)}...
                                     </td>
-                                    <td>{getCategoryName(attribute.category)}</td>
+                                    <td>{getCategoryName(attribute.categories)}</td>
                                     <td>
                                         <span className={styles.fieldCount}>{attribute.fields.length} fields</span>
                                     </td>
@@ -336,7 +350,7 @@ const AttributesPage = () => {
                                         {attribute.status}
                                     </span>
                                 </div>
-                                <span className={styles.categoryBadge}>{getCategoryName(attribute.category)}</span>
+                                <span className={styles.categoryBadge}>{getCategoryName(attribute.categories)}</span>
                             </div>
                             <p className={styles.cardDescription}>{attribute.description}</p>
                             <div className={styles.fieldsList}>
@@ -402,14 +416,14 @@ const AttributesPage = () => {
                                         />
                                     </div>
                                     <div className={styles.formGroup}>
-                                        <label>Category *</label>
+                                        <label>Categories *</label>
                                         <select
-                                            name="category"
-                                            value={formData.category}
+                                            name="categories"
+                                            value={formData.categories}
                                             onChange={handleInputChange}
                                             required
+                                            multiple
                                         >
-                                            <option value="">Select Category</option>
                                             {categories.map((category) => (
                                                 <option key={category._id} value={category._id}>
                                                     {category.name}

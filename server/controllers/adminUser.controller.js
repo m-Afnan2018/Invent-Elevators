@@ -19,6 +19,9 @@ export const createAdminUser = async (req, res) => {
       payload.lastName = names.lastName;
     }
 
+    if (!payload.role) payload.role = "viewer";
+    if (!payload.status) payload.status = "pending";
+
     const user = await AdminUser.create(payload);
     res.status(201).json({ success: true, data: user.safeObject() });
   } catch (error) {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 // import AdminLayout from '@/components/AdminLayout';
 import {
     RiAddLine,
@@ -227,21 +228,22 @@ const UsersPage = () => {
         e.preventDefault();
 
         if (passwordData.newPassword !== passwordData.confirmPassword) {
-            alert('Passwords do not match!');
+            toast.error('Passwords do not match!');
             return;
         }
 
         if (passwordData.newPassword.length < 6) {
-            alert('Password must be at least 6 characters long');
+            toast.error('Password must be at least 6 characters long');
             return;
         }
 
         try {
             await resetUserPassword(passwordResetUser._id, { password: passwordData.newPassword });
-            alert(`Password reset successfully for ${passwordResetUser.email}`);
+            toast.success(`Password reset successfully for ${passwordResetUser.email}`);
             closePasswordModal();
         } catch (error) {
             console.error('Error resetting password:', error);
+            toast.error(error?.message || 'Failed to reset password');
         }
     };
 
@@ -261,9 +263,11 @@ const UsersPage = () => {
                 await createUser(finalData);
             }
             await fetchUsers();
+            toast.success(`User ${editingUser ? 'updated' : 'created'} successfully`);
             closeModal();
         } catch (error) {
             console.error('Error saving user:', error);
+            toast.error(error?.message || 'Failed to save user');
         }
     };
 
@@ -272,8 +276,10 @@ const UsersPage = () => {
             try {
                 await deleteUser(userId);
                 await fetchUsers();
+                toast.success('User deleted successfully');
             } catch (error) {
                 console.error('Error deleting user:', error);
+                toast.error(error?.message || 'Failed to delete user');
             }
         }
     };

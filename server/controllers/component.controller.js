@@ -1,5 +1,6 @@
 import Component from "../models/Component.model.js";
 import ComponentType from "../models/ComponentType.model.js";
+import Product from "../models/Product.model.js";
 
 export const createComponent = async (req, res) => {
   try {
@@ -67,9 +68,18 @@ export const updateComponent = async (req, res) => {
 
 export const deleteComponent = async (req, res) => {
   try {
-    const component = await Component.findByIdAndUpdate(req.params.id, { isActive: false, status: "inactive" }, { new: true });
+    const component = await Component.findById(req.params.id);
     if (!component) return res.status(404).json({ success: false, message: "Component not found" });
-    res.status(200).json({ success: true, message: "Component disabled successfully" });
+
+    const linkedProduct = await Product.findOne({ components: component._id });
+
+    if (linkedProduct) {
+      await Component.findByIdAndUpdate(req.params.id, { isActive: false, status: "inactive" }, { new: true });
+      return res.status(200).json({ success: true, message: "Component is in use, marked as inactive" });
+    }
+
+    await Component.findByIdAndDelete(req.params.id);
+    res.status(200).json({ success: true, message: "Component deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

@@ -40,13 +40,12 @@ export default function ContactSection() {
 
     try {
       await createLead({
-        firstName: form.firstname,
-        lastName: form.lastname,
+        name: `${form.firstname} ${form.lastname}`.trim(),
         email: form.email,
         phone: form.phone,
-        country: form.country,
+        location: form.country,
         message: form.message,
-        source: "website-contact-section",
+        source: 'Website Contact Form',
       });
 
       setSubmitted(true);

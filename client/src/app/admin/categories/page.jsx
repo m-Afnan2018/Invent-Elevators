@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 // import AdminLayout from '@/components/AdminLayout';
 import {
     RiAddLine,
@@ -64,7 +65,7 @@ const CategoriesPage = () => {
             const categoriesWithSubs = (categoryRows || []).map((category) => ({
                 ...category,
                 subCategories: (subCategoryRows || []).filter(
-                    (subCategory) => String(subCategory.parentId) === String(category._id)
+                    (subCategory) => String(subCategory.category?._id || subCategory.category) === String(category._id)
                 ),
             }));
 
@@ -120,8 +121,9 @@ const CategoriesPage = () => {
     const openModal = (category = null, isSubCat = false, parentId = null) => {
         if (category) {
             setEditingCategory(category);
-            setIsSubCategory(!!category.parentId);
-            setParentCategoryId(category.parentId);
+            const resolvedParentId = category.parentId || category.category?._id || category.category || null;
+            setIsSubCategory(!!resolvedParentId);
+            setParentCategoryId(resolvedParentId);
             setFormData({
                 name: category.name,
                 description: category.description,
@@ -131,7 +133,7 @@ const CategoriesPage = () => {
                 order: category.order,
                 metaTitle: category.metaTitle,
                 metaDescription: category.metaDescription,
-                metaKeywords: category.metaKeywords,
+                metaKeywords: Array.isArray(category.metaKeywords) ? category.metaKeywords.join(', ') : (category.metaKeywords || ''),
             });
             setIconPreview(category.icon);
         } else {
@@ -171,7 +173,7 @@ const CategoriesPage = () => {
 
         try {
             if (editingCategory) {
-                if (editingCategory.parentId) {
+                if (editingCategory.parentId || editingCategory.category) {
                     await updateSubCategory(editingCategory._id, categoryData);
                 } else {
                     await updateCategory(editingCategory._id, categoryData);
@@ -183,9 +185,11 @@ const CategoriesPage = () => {
             }
 
             await fetchCategories();
+            toast.success(`${isSubCategory ? 'Sub-category' : 'Category'} ${editingCategory ? 'updated' : 'created'} successfully`);
             closeModal();
         } catch (error) {
             console.error('Error saving category:', error);
+            toast.error(error?.message || 'Failed to save category');
         }
     };
 
@@ -198,8 +202,10 @@ const CategoriesPage = () => {
                     await deleteCategory(categoryId);
                 }
                 await fetchCategories();
+                toast.success('Deleted successfully');
             } catch (error) {
                 console.error('Error deleting category:', error);
+                toast.error(error?.message || 'Failed to delete category');
             }
         }
     };

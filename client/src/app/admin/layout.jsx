@@ -66,6 +66,7 @@ const AdminLayout = ({ children }) => {
         ...(canAccessDashboard ? [{ name: 'Dashboard', icon: RiDashboardLine, path: '/admin/dashboard' }] : []),
         { name: 'Products', icon: RiProductHuntLine, path: '/admin/products' },
         { name: 'Categories', icon: RiStackLine, path: '/admin/categories' },
+        { name: 'Sub Categories', icon: RiStackLine, path: '/admin/sub-categories' },
         { name: 'Attributes', icon: RiPuzzleLine, path: '/admin/attributes' },
         { name: 'Components', icon: RiPagesLine, path: '/admin/components' },
         { name: 'Lead Forms', icon: RiFileListLine, path: '/admin/leadforms' },

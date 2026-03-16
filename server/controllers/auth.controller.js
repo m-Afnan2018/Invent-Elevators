@@ -51,8 +51,8 @@ export const signup = async (req, res) => {
             lastName: nameParts.lastName || "User",
             email,
             password,
-            role: "admin",
-            status: "active",
+            role: "viewer",
+            status: "pending",
         });
 
         const token = signToken(user._id);
@@ -75,6 +75,10 @@ export const login = async (req, res) => {
         const user = await AdminUser.findOne({ email: email.toLowerCase() }).select("+password");
         if (!user) {
             return res.status(401).json({ success: false, message: "Invalid credentials" });
+        }
+
+        if (user.status !== "active") {
+            return res.status(403).json({ success: false, message: "Your account is pending admin approval" });
         }
 
         const isMatch = await user.comparePassword(password);

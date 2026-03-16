@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
     RiAddLine,
     RiSearchLine,
@@ -103,13 +104,14 @@ const ComponentsPage = () => {
     const openModal = (component = null) => {
         if (component) {
             setEditingComponent(component);
-            const attribute = attributes.find((attr) => attr._id === component.attributeId);
+            const selectedId = component.attributeId?._id || component.attributeId;
+            const attribute = attributes.find((attr) => attr._id === selectedId);
             setSelectedAttribute(attribute);
             setFormData({
                 name: component.name,
                 description: component.description,
                 status: component.status,
-                attributeId: component.attributeId,
+                attributeId: component.attributeId?._id || component.attributeId,
                 filledData: component.filledData,
             });
         } else {
@@ -157,19 +159,23 @@ const ComponentsPage = () => {
             }
 
             await fetchComponents();
+            toast.success(`Component ${editingComponent ? 'updated' : 'created'} successfully`);
             closeModal();
         } catch (error) {
             console.error('Error saving component:', error);
+            toast.error(error?.message || 'Failed to save component');
         }
     };
 
     const handleDelete = async (componentId) => {
         if (confirm('Are you sure you want to delete this component?')) {
             try {
-                await deleteComponent(componentId);
+                const response = await deleteComponent(componentId);
                 await fetchComponents();
+                toast.success(response?.message || 'Component action completed');
             } catch (error) {
                 console.error('Error deleting component:', error);
+                toast.error(error?.message || 'Failed to delete component');
             }
         }
     };
@@ -407,7 +413,8 @@ const ComponentsPage = () => {
             ) : (
                 <div className={styles.cardGrid}>
                     {filteredComponents.map((component) => {
-                        const attribute = attributes.find((attr) => attr._id === component.attributeId);
+                        const selectedId = component.attributeId?._id || component.attributeId;
+            const attribute = attributes.find((attr) => attr._id === selectedId);
                         return (
                             <div key={component._id} className={styles.card}>
                                 <div className={styles.cardHeader}>
@@ -507,7 +514,6 @@ const ComponentsPage = () => {
                                             value={formData.attributeId}
                                             onChange={handleAttributeSelect}
                                             required
-                                            disabled={editingComponent !== null}
                                         >
                                             <option value="">Choose an attribute</option>
                                             {attributes.map((attribute) => (
@@ -516,11 +522,7 @@ const ComponentsPage = () => {
                                                 </option>
                                             ))}
                                         </select>
-                                        {editingComponent && (
-                                            <small className={styles.helpText}>
-                                                Attribute cannot be changed when editing
-                                            </small>
-                                        )}
+
                                     </div>
 
                                     <div className={styles.formGroup}>

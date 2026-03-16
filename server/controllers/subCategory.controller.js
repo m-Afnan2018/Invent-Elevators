@@ -3,13 +3,15 @@ import Category from "../models/Category.model.js";
 
 export const createSubCategory = async (req, res) => {
   try {
-    const { category } = req.body;
-    if (!category) return res.status(400).json({ success: false, message: "Parent category is required" });
+    const categoryId = req.body.category || req.body.parentId || req.body.categoryId;
+    if (!categoryId) return res.status(400).json({ success: false, message: "Parent category is required" });
 
-    const parent = await Category.findById(category);
+    const parent = await Category.findById(categoryId);
     if (!parent) return res.status(404).json({ success: false, message: "Parent category not found" });
 
-    const payload = { ...req.body };
+    const payload = { ...req.body, category: categoryId };
+    delete payload.parentId;
+    delete payload.categoryId;
     if (typeof payload.metaKeywords === "string") {
       payload.metaKeywords = payload.metaKeywords.split(",").map((item) => item.trim()).filter(Boolean);
     }
@@ -55,7 +57,12 @@ export const getSubCategoriesByCategory = async (req, res) => {
 
 export const updateSubCategory = async (req, res) => {
   try {
-    const updated = await SubCategory.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    const payload = { ...req.body };
+    if (payload.parentId && !payload.category) payload.category = payload.parentId;
+    if (payload.categoryId && !payload.category) payload.category = payload.categoryId;
+    delete payload.parentId;
+    delete payload.categoryId;
+    const updated = await SubCategory.findByIdAndUpdate(req.params.id, payload, { new: true, runValidators: true });
     if (!updated) return res.status(404).json({ success: false, message: "Sub-category not found" });
     res.status(200).json({ success: true, message: "Sub-category updated successfully", data: updated });
   } catch (error) {
