@@ -28,6 +28,7 @@ function formatDate(date) {
 
 export default function BlogFeatured({ post }) {
   const blog = post || MOCK_FEATURED;
+  const blogHref = blog?.slug ? `/blog/${blog.slug}` : "/blogs";
 
   return (
     <section className={styles.section}>
@@ -40,7 +41,7 @@ export default function BlogFeatured({ post }) {
         </div>
 
         {/* ── Featured Card ── */}
-        <Link href="/blogs" className={styles.card}>
+        <Link href={blogHref} className={styles.card}>
 
           {/* Image — left 60% */}
           <div className={styles.imgCol}>

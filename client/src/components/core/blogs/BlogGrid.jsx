@@ -100,7 +100,7 @@ function formatDate(date) {
 // ── Single Blog Card ──
 function BlogCard({ post }) {
   return (
-    <Link href="/blogs" className={styles.card}>
+    <Link href={post?.slug ? `/blog/${post.slug}` : "/blogs"} className={styles.card}>
       {/* Image */}
       <div className={styles.imgWrap}>
         <Image
