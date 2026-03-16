@@ -45,6 +45,12 @@ const ProductsPage = () => {
     const normalizeIds = (items = []) =>
         items.map((item) => (typeof item === 'object' && item !== null ? item._id : item)).filter(Boolean);
 
+    const ensureArray = (value) => {
+        if (Array.isArray(value)) return value;
+        if (!value) return [];
+        return [value];
+    };
+
     // Fetch data
 
     async function fetchProducts() {
@@ -150,8 +156,8 @@ const ProductsPage = () => {
                 description: product.description,
                 image: product.image,
                 images: product.images?.length ? product.images : (product.image ? [product.image] : []),
-                categories: normalizeIds(product.categories),
-                subCategories: normalizeIds(product.subCategories),
+                categories: normalizeIds(product.categories?.length ? product.categories : ensureArray(product.category)),
+                subCategories: normalizeIds(product.subCategories?.length ? product.subCategories : ensureArray(product.subCategory)),
                 components: normalizeIds(product.components),
             });
             setImagePreview(product.image);
@@ -225,15 +231,19 @@ const ProductsPage = () => {
         }
     };
 
-    const getCategoryNames = (categoryIds) => {
-        return categoryIds
+    const getCategoryNames = (categoryIds = [], singleCategory = null) => {
+        const normalizedIds = normalizeIds(categoryIds?.length ? categoryIds : ensureArray(singleCategory));
+
+        return normalizedIds
             .map((id) => categories.find((c) => c._id === id)?.name)
             .filter(Boolean)
             .join(', ');
     };
 
-    const getSubCategoryNames = (subCategoryIds) => {
-        return subCategoryIds
+    const getSubCategoryNames = (subCategoryIds = [], singleSubCategory = null) => {
+        const normalizedIds = normalizeIds(subCategoryIds?.length ? subCategoryIds : ensureArray(singleSubCategory));
+
+        return normalizedIds
             .map((id) => subCategories.find((s) => s._id === id)?.name)
             .filter(Boolean)
             .join(', ');
@@ -329,10 +339,10 @@ const ProductsPage = () => {
                                             {product.description.substring(0, 50)}...
                                         </td>
                                         <td className={styles.badges}>
-                                            {getCategoryNames(product.categories)}
+                                            {getCategoryNames(product.categories, product.category)}
                                         </td>
                                         <td className={styles.badges}>
-                                            {getSubCategoryNames(product.subCategories)}
+                                            {getSubCategoryNames(product.subCategories, product.subCategory)}
                                         </td>
                                         <td className={styles.badges}>
                                             {getComponentNames(product.components)}
@@ -372,13 +382,13 @@ const ProductsPage = () => {
                                         <div className={styles.metaItem}>
                                             <span className={styles.metaLabel}>Categories:</span>
                                             <span className={styles.metaValue}>
-                                                {getCategoryNames(product.categories) || 'N/A'}
+                                                {getCategoryNames(product.categories, product.category) || 'N/A'}
                                             </span>
                                         </div>
                                         <div className={styles.metaItem}>
                                             <span className={styles.metaLabel}>Sub Categories:</span>
                                             <span className={styles.metaValue}>
-                                                {getSubCategoryNames(product.subCategories) || 'N/A'}
+                                                {getSubCategoryNames(product.subCategories, product.subCategory) || 'N/A'}
                                             </span>
                                         </div>
                                         <div className={styles.metaItem}>
