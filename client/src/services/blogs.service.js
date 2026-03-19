@@ -3,6 +3,7 @@
 
 import { apiGet, apiPost, apiPut, apiDelete } from '@/lib/apiConnector';
 import { ENDPOINTS } from '@/lib/constants';
+import { extractData } from '@/lib/apiResponse';
 
 /**
  * Get all blogs
@@ -11,7 +12,7 @@ import { ENDPOINTS } from '@/lib/constants';
 export const getBlogs = async () => {
   try {
     const response = await apiGet(ENDPOINTS.BLOGS);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -25,7 +26,7 @@ export const getBlogs = async () => {
 export const getBlogById = async (id) => {
   try {
     const response = await apiGet(`${ENDPOINTS.BLOGS}/${id}`);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -39,7 +40,7 @@ export const getBlogById = async (id) => {
 export const getBlogBySlug = async (slug) => {
   try {
     const response = await apiGet(`${ENDPOINTS.BLOGS}/slug/${slug}`);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -53,7 +54,7 @@ export const getBlogBySlug = async (slug) => {
 export const createBlog = async (blogData) => {
   try {
     const response = await apiPost(ENDPOINTS.BLOGS, blogData);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -68,7 +69,7 @@ export const createBlog = async (blogData) => {
 export const updateBlog = async (id, blogData) => {
   try {
     const response = await apiPut(`${ENDPOINTS.BLOGS}/${id}`, blogData);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -96,7 +97,7 @@ export const deleteBlog = async (id) => {
 export const getBlogsByStatus = async (status) => {
   try {
     const response = await apiGet(`${ENDPOINTS.BLOGS}?status=${status}`);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -110,7 +111,7 @@ export const getBlogsByStatus = async (status) => {
 export const getBlogsByTag = async (tag) => {
   try {
     const response = await apiGet(`${ENDPOINTS.BLOGS}?tag=${tag}`);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }

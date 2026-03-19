@@ -1,11 +1,10 @@
-// lib/constants.js
-// API Configuration Constants
+const DEFAULT_API_BASE_URL = 'http://localhost:5000';
 
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const rawBaseUrl = process.env.NEXT_PUBLIC_API_URL || DEFAULT_API_BASE_URL;
 
-// API Endpoints
+export const API_BASE_URL = rawBaseUrl.replace(/\/$/, '');
+
 export const ENDPOINTS = {
-  // Auth
   AUTH: {
     SIGNUP: '/auth/signup',
     LOGIN: '/auth/login',
@@ -15,35 +14,18 @@ export const ENDPOINTS = {
     FORGOT_PASSWORD: '/auth/forgot-password',
     RESET_PASSWORD: '/auth/reset-password',
   },
-  
-  // Products
   PRODUCTS: '/api/products',
-  
-  // Categories
   CATEGORIES: '/api/categories',
   SUB_CATEGORIES: '/api/sub-categories',
-  
-  // Attributes & Components
   ATTRIBUTES: '/api/attributes',
   COMPONENTS: '/api/components',
-  
-  // Blogs
   BLOGS: '/api/blogs',
-  
-  // Projects
   PROJECTS: '/api/projects',
-  
-  // Leads
   LEADS: '/api/leads',
-  
-  // Users
   USERS: '/api/users',
-  
-  // Upload
   UPLOAD: '/api/upload',
 };
 
-// HTTP Status Codes
 export const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,

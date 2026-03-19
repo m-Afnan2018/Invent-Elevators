@@ -8,13 +8,7 @@ import BlogFeatured from "@/components/core/blogs/BlogFeatured";
 import BlogSecondary from "@/components/core/blogs/BlogSecondary";
 import BlogGrid from "@/components/core/blogs/BlogGrid";
 import { getBlogs } from "@/services/blogs.service";
-
-const toArray = (value) => {
-  if (Array.isArray(value)) return value;
-  if (Array.isArray(value?.data)) return value.data;
-  if (Array.isArray(value?.items)) return value.items;
-  return [];
-};
+import { extractCollection } from "@/lib/apiResponse";
 
 export default function Blogs() {
   const [posts, setPosts] = useState([]);
@@ -24,7 +18,7 @@ export default function Blogs() {
     const loadBlogs = async () => {
       try {
         const response = await getBlogs();
-        setPosts(toArray(response));
+        setPosts(extractCollection(response));
       } catch (_error) {
         setPosts([]);
       } finally {

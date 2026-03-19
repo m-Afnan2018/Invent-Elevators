@@ -7,6 +7,7 @@ import { getProducts } from "@/services/products.service";
 import { getCategories } from "@/services/categories.service";
 import { getProjects } from "@/services/projects.service";
 import styles from "./Navbar.module.css";
+import { extractCollection } from "@/lib/apiResponse";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -118,9 +119,9 @@ export default function Navbar() {
           getCategories(),
           getProjects(),
         ]);
-        setProducts(Array.isArray(productRes) ? productRes : []);
-        setCategories(Array.isArray(categoryRes) ? categoryRes : []);
-        setProjects(Array.isArray(projectRes) ? projectRes : []);
+        setProducts(extractCollection(productRes));
+        setCategories(extractCollection(categoryRes, ["categories"]));
+        setProjects(extractCollection(projectRes));
       } catch (_error) {
         setProducts([]);
         setCategories([]);

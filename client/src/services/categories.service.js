@@ -3,6 +3,7 @@
 
 import { apiGet, apiPost, apiPut, apiDelete } from '@/lib/apiConnector';
 import { ENDPOINTS } from '@/lib/constants';
+import { extractData } from '@/lib/apiResponse';
 
 // ==================== CATEGORIES ====================
 
@@ -13,7 +14,7 @@ import { ENDPOINTS } from '@/lib/constants';
 export const getCategories = async () => {
   try {
     const response = await apiGet(ENDPOINTS.CATEGORIES);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -27,7 +28,7 @@ export const getCategories = async () => {
 export const getCategoryById = async (id) => {
   try {
     const response = await apiGet(`${ENDPOINTS.CATEGORIES}/${id}`);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -41,7 +42,7 @@ export const getCategoryById = async (id) => {
 export const createCategory = async (categoryData) => {
   try {
     const response = await apiPost(ENDPOINTS.CATEGORIES, categoryData);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -56,7 +57,7 @@ export const createCategory = async (categoryData) => {
 export const updateCategory = async (id, categoryData) => {
   try {
     const response = await apiPut(`${ENDPOINTS.CATEGORIES}/${id}`, categoryData);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -85,7 +86,7 @@ export const deleteCategory = async (id) => {
 export const getSubCategories = async () => {
   try {
     const response = await apiGet(ENDPOINTS.SUB_CATEGORIES);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -99,7 +100,7 @@ export const getSubCategories = async () => {
 export const getSubCategoriesByCategory = async (categoryId) => {
   try {
     const response = await apiGet(`${ENDPOINTS.SUB_CATEGORIES}/by-category/${categoryId}`);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -113,7 +114,7 @@ export const getSubCategoriesByCategory = async (categoryId) => {
 export const createSubCategory = async (subCategoryData) => {
   try {
     const response = await apiPost(ENDPOINTS.SUB_CATEGORIES, subCategoryData);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -128,7 +129,7 @@ export const createSubCategory = async (subCategoryData) => {
 export const updateSubCategory = async (id, subCategoryData) => {
   try {
     const response = await apiPut(`${ENDPOINTS.SUB_CATEGORIES}/${id}`, subCategoryData);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }

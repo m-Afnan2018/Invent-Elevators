@@ -1,22 +1,13 @@
 /**
  * Server Entry + App Setup (Merged)
- * --------------------------------
- * This file:
- * - Loads environment variables
- * - Connects MongoDB
- * - Initializes Express app
- * - Registers all routes
- * - Starts the server
- *
- * No src/ folder used
  */
 
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
 
-/* -------------------- Route Imports -------------------- */
 import categoryRoutes from "./routes/category.routes.js";
 import subCategoryRoutes from "./routes/subCategory.routes.js";
 import componentTypeRoutes from "./routes/componentType.routes.js";
@@ -32,18 +23,30 @@ import authRoutes from "./routes/auth.routes.js";
 import connectDB from "./configs/db.js";
 import API_ROUTES from "./apis.js";
 
-/* -------------------- Config -------------------- */
 dotenv.config();
 
 const app = express();
+const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:3000")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
-/* -------------------- Database Connection -------------------- */
 connectDB();
-
-/* -------------------- Middlewares -------------------- */
+app.disable("x-powered-by");
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("CORS origin not allowed"));
+    },
     credentials: true,
   })
 );
@@ -51,9 +54,6 @@ app.use(express.json({ limit: "15mb" }));
 app.use(express.urlencoded({ limit: "15mb", extended: true }));
 app.use(cookieParser());
 
-/* -------------------- Routes -------------------- */
-
-// Health check
 app.get("/", (_req, res) => {
   res.status(200).json({
     success: true,
@@ -61,9 +61,16 @@ app.get("/", (_req, res) => {
   });
 });
 
-app.use("/auth", authRoutes);
+app.get("/api/health", (_req, res) => {
+  res.status(200).json({
+    success: true,
+    status: "ok",
+    environment: process.env.NODE_ENV || "development",
+    timestamp: new Date().toISOString(),
+  });
+});
 
-// Feature routes
+app.use("/auth", authRoutes);
 app.use(API_ROUTES.CATEGORIES, categoryRoutes);
 app.use(API_ROUTES.SUB_CATEGORIES, subCategoryRoutes);
 app.use(API_ROUTES.COMPONENT_TYPES, componentTypeRoutes);
@@ -76,7 +83,14 @@ app.use(API_ROUTES.BLOGS, blogRoutes);
 app.use(API_ROUTES.LEADS, leadRoutes);
 app.use(API_ROUTES.USERS, adminUserRoutes);
 
-/* -------------------- 404 Handler -------------------- */
+app.use((error, _req, res, _next) => {
+  if (error?.message === "CORS origin not allowed") {
+    return res.status(403).json({ success: false, message: error.message });
+  }
+
+  return res.status(500).json({ success: false, message: error.message || "Internal server error" });
+});
+
 app.use((_req, res) => {
   res.status(404).json({
     success: false,
@@ -84,9 +98,9 @@ app.use((_req, res) => {
   });
 });
 
-/* -------------------- Server -------------------- */
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running in ${process.env.NODE_ENV || "development"} mode on port ${PORT}`);
+  console.log(`🌐 Allowed origins: ${allowedOrigins.join(", ")}`);
 });

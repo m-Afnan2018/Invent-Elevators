@@ -6,12 +6,16 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import styles from "./page.module.css";
 import { getBlogs } from "@/services/blogs.service";
+import { extractCollection } from "@/lib/apiResponse";
 
-const toArray = (value) => {
-  if (Array.isArray(value)) return value;
-  if (Array.isArray(value?.data)) return value.data;
-  if (Array.isArray(value?.items)) return value.items;
-  return [];
+const sanitizeHtml = (html) => {
+  if (!html || typeof html !== "string") return "";
+
+  return html
+    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
+    .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, "")
+    .replace(/ on\w+=("[^"]*"|'[^']*'|[^\s>]+)/gi, "")
+    .replace(/javascript:/gi, "");
 };
 
 const normalize = (post) => ({
@@ -39,7 +43,7 @@ export default function BlogSlugPage() {
     const loadBlog = async () => {
       try {
         const response = await getBlogs();
-        const blogs = toArray(response).map(normalize);
+        const blogs = extractCollection(response).map(normalize);
         const selected = blogs.find((item) => item.slug === slug);
         setPost(selected || null);
       } catch (_error) {
@@ -54,7 +58,7 @@ export default function BlogSlugPage() {
 
   const contentHtml = useMemo(() => {
     if (!post?.content) return "";
-    if (typeof post.content === "string") return post.content;
+    if (typeof post.content === "string") return sanitizeHtml(post.content);
     return "";
   }, [post]);
 

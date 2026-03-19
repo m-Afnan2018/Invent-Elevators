@@ -2,11 +2,13 @@
   "name": "server",
   "version": "1.0.0",
   "description": "This is the backend for Invent Lift server",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
     "server": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "node --check index.js"
   },
   "author": "Mohammad Afnan",
   "license": "ISC",

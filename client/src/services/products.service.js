@@ -3,6 +3,7 @@
 
 import { apiGet, apiPost, apiPut, apiDelete } from '@/lib/apiConnector';
 import { ENDPOINTS } from '@/lib/constants';
+import { extractData } from '@/lib/apiResponse';
 
 /**
  * Get all products
@@ -11,7 +12,7 @@ import { ENDPOINTS } from '@/lib/constants';
 export const getProducts = async () => {
   try {
     const response = await apiGet(ENDPOINTS.PRODUCTS);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -25,7 +26,7 @@ export const getProducts = async () => {
 export const getProductById = async (id) => {
   try {
     const response = await apiGet(`${ENDPOINTS.PRODUCTS}/${id}`);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -39,7 +40,7 @@ export const getProductById = async (id) => {
 export const createProduct = async (productData) => {
   try {
     const response = await apiPost(ENDPOINTS.PRODUCTS, productData);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -54,7 +55,7 @@ export const createProduct = async (productData) => {
 export const updateProduct = async (id, productData) => {
   try {
     const response = await apiPut(`${ENDPOINTS.PRODUCTS}/${id}`, productData);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }
@@ -82,7 +83,7 @@ export const deleteProduct = async (id) => {
 export const getProductsByCategory = async (categoryId) => {
   try {
     const response = await apiGet(`${ENDPOINTS.PRODUCTS}?category=${categoryId}`);
-    return response.data || response;
+    return extractData(response);
   } catch (error) {
     throw error;
   }

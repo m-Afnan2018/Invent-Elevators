@@ -34,6 +34,7 @@ import styles from './page.module.css';
 import { apiGet } from '@/lib/apiConnector';
 import { ENDPOINTS } from '@/lib/constants';
 import { getDashboardAccess } from '@/services/auth.service';
+import { extractCollection } from '@/lib/apiResponse';
 
 const LEAD_STATUS_COLORS = {
     new: '#3b82f6',
@@ -69,11 +70,11 @@ const DashboardPage = () => {
                 apiGet(ENDPOINTS.USERS),
             ]);
 
-            const products = productsRes?.data || [];
-            const categories = categoriesRes?.data || [];
-            const projects = projectsRes?.data || [];
-            const leads = leadsRes?.data || [];
-            const users = usersRes?.data || [];
+            const products = extractCollection(productsRes);
+            const categories = extractCollection(categoriesRes, ['categories']);
+            const projects = extractCollection(projectsRes);
+            const leads = extractCollection(leadsRes);
+            const users = extractCollection(usersRes);
 
             const getCountByMonth = (list) => {
                 const now = new Date();

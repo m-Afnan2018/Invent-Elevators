@@ -7,6 +7,7 @@ import { getCategories } from "@/services/categories.service";
 import { getProducts } from "@/services/products.service";
 import { getProjects } from "@/services/projects.service";
 import { getBlogs } from "@/services/blogs.service";
+import { extractCollection } from "@/lib/apiResponse";
 
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80";
@@ -127,10 +128,10 @@ export default function Home() {
           getBlogs(),
         ]);
 
-        setCategories(Array.isArray(categoryRes) ? categoryRes : []);
-        setProducts(Array.isArray(productRes) ? productRes : []);
-        setProjects(Array.isArray(projectRes) ? projectRes : []);
-        setBlogs(Array.isArray(blogRes) ? blogRes : []);
+        setCategories(extractCollection(categoryRes, ["categories"]));
+        setProducts(extractCollection(productRes));
+        setProjects(extractCollection(projectRes));
+        setBlogs(extractCollection(blogRes));
       } catch (_error) {
         setCategories([]);
         setProducts([]);

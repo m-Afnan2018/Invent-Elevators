@@ -106,13 +106,13 @@
     color: rgba(255, 255, 255, 0.5);
 }
 
-.footer span {
+.footer a {
     color: #4fc3f7;
     cursor: pointer;
     font-weight: 600;
 }
 
-.footer span:hover {
+.footer a:hover {
     text-decoration: underline;
 }
 
@@ -147,6 +147,8 @@
     cursor: pointer;
     font-weight: 600;
     user-select: none;
+    background: transparent;
+    border: 0;
 }
 
 .toggle:hover {
@@ -160,11 +162,21 @@
     margin-top: -0.5rem;
 }
 
-.forgot span {
-    color: #4fc3f7;
-    cursor: pointer;
+
+.footerLinks {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -0.5rem;
+    font-size: 0.8rem;
 }
 
-.forgot span:hover {
+.footerLinks a,
+.forgot a {
+    color: #4fc3f7;
+    text-decoration: none;
+}
+
+.footerLinks a:hover,
+.forgot a:hover {
     text-decoration: underline;
 }

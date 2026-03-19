@@ -1,6 +1,13 @@
 :root {
   --font-primary: "Invent Sans", "DM Sans", "Inter", "Segoe UI", sans-serif;
   --font-display: "Invent Display", "Syne", "DM Sans", "Inter", sans-serif;
+  --color-bg: #f6f8fb;
+  --color-surface: #ffffff;
+  --color-text: #102239;
+  --color-muted: #526175;
+  --color-accent: #dca55a;
+  --color-accent-strong: #8f5d1f;
+  --shadow-soft: 0 24px 80px rgba(10, 29, 53, 0.08);
 }
 
 * {
@@ -9,13 +16,20 @@
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   width: 100%;
   overflow-x: hidden;
   font-family: var(--font-primary);
-  background: #f6f8fb;
-  color: #102239;
+  background:
+    radial-gradient(circle at top left, rgba(220, 165, 90, 0.15), transparent 28%),
+    radial-gradient(circle at top right, rgba(52, 129, 235, 0.08), transparent 22%),
+    var(--color-bg);
+  color: var(--color-text);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -29,4 +43,30 @@ body :where(button, input, select, textarea, p, span, li, a, label, div, small) 
 body :where(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-display) !important;
   letter-spacing: -0.01em;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(220, 165, 90, 0.22);
+  color: var(--color-text);
+}
+
+:focus-visible {
+  outline: 3px solid rgba(79, 195, 247, 0.45);
+  outline-offset: 3px;
 }

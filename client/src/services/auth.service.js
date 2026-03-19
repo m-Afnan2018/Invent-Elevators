@@ -3,6 +3,7 @@
 
 import { apiPost, apiGet } from '@/lib/apiConnector';
 import { ENDPOINTS } from '@/lib/constants';
+import { extractData } from '@/lib/apiResponse';
 
 /**
  * User Signup

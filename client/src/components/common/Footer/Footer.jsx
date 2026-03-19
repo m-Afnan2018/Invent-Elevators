@@ -7,13 +7,7 @@ import { getCategories } from "@/services/categories.service";
 import { getProducts } from "@/services/products.service";
 import { getProjects } from "@/services/projects.service";
 import { getBlogs } from "@/services/blogs.service";
-
-const toArray = (value) => {
-  if (Array.isArray(value)) return value;
-  if (Array.isArray(value?.data)) return value.data;
-  if (Array.isArray(value?.items)) return value.items;
-  return [];
-};
+import { extractCollection } from "@/lib/apiResponse";
 
 export default function Footer() {
   const [categories, setCategories] = useState([]);
@@ -30,10 +24,10 @@ export default function Footer() {
         getBlogs(),
       ]);
 
-      setCategories(categoriesRes.status === "fulfilled" ? toArray(categoriesRes.value) : []);
-      setProducts(productsRes.status === "fulfilled" ? toArray(productsRes.value) : []);
-      setProjects(projectsRes.status === "fulfilled" ? toArray(projectsRes.value) : []);
-      setBlogs(blogsRes.status === "fulfilled" ? toArray(blogsRes.value) : []);
+      setCategories(categoriesRes.status === "fulfilled" ? extractCollection(categoriesRes.value, ["categories"]) : []);
+      setProducts(productsRes.status === "fulfilled" ? extractCollection(productsRes.value) : []);
+      setProjects(projectsRes.status === "fulfilled" ? extractCollection(projectsRes.value) : []);
+      setBlogs(blogsRes.status === "fulfilled" ? extractCollection(blogsRes.value) : []);
     };
 
     loadFooterData();
