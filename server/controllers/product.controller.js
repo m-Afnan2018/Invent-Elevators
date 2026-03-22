@@ -30,7 +30,10 @@ export const getProductById = async (req, res) => {
       .populate("subCategory subCategories", "name")
       .populate({
         path: "components",
-        populate: { path: "componentType", select: "name" },
+        populate: [
+          { path: "componentType", select: "name" },
+          { path: "attributeId", select: "fields" },
+        ],
       });
 
     if (!product || !product.isActive) {

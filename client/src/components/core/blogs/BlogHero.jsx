@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import styles from "./BlogHero.module.css";
 
 export default function BlogHero({ totalPosts = 0, onSearch }) {
@@ -18,8 +20,19 @@ export default function BlogHero({ totalPosts = 0, onSearch }) {
 
   return (
     <section className={styles.hero}>
-      {/* Noise texture overlay */}
-      <div className={styles.noise} />
+      {/* Background image */}
+      <div className={styles.bgWrap}>
+        <Image
+          src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1800&q=80"
+          alt="Engineering and construction"
+          fill
+          priority
+          sizes="100vw"
+          className={styles.bgImg}
+        />
+      </div>
+      <div className={styles.overlayTop} />
+      <div className={styles.overlayBottom} />
 
       {/* Grid lines decoration */}
       <div className={styles.gridLines}>
@@ -28,33 +41,33 @@ export default function BlogHero({ totalPosts = 0, onSearch }) {
         ))}
       </div>
 
+      {/* Breadcrumb */}
+      <nav className={styles.breadcrumb}>
+        <Link href="/" className={styles.bcLink}>Home</Link>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className={styles.bcChevron}>
+          <path d="M4 2l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className={styles.bcActive}>Blog</span>
+      </nav>
+
       <div className={styles.container}>
 
-        {/* ── Top meta row ── */}
-        <div className={styles.metaRow}>
-          <div className={styles.metaPill}>
-            <span className={styles.metaDot} />
-            Journal &amp; Insights
-          </div>
+        {/* ── Eyebrow ── */}
+        <div className={styles.eyebrow}>
+          <span className={styles.eyebrowDot} />
+          <span>Journal &amp; Insights</span>
           {totalPosts > 0 && (
-            <span className={styles.metaCount}>{totalPosts} articles</span>
+            <span className={styles.postCount}>{totalPosts} articles</span>
           )}
         </div>
 
         {/* ── Heading ── */}
-        <div className={styles.headingWrap}>
-          <h1 className={styles.heading}>
-            <span className={styles.headingLine}>The Invent</span>
-            <span className={styles.headingLineAlt}>
-              Elevator
-              <span className={styles.headingAccent}> Blog</span>
-            </span>
-          </h1>
-          <p className={styles.subheading}>
-            Engineering insights, installation guides, industry news and
-            vertical mobility trends — straight from our team of experts.
-          </p>
-        </div>
+        <h1 className={styles.heading}>The Invent Elevator Blog</h1>
+
+        <p className={styles.subheading}>
+          Engineering insights, installation guides, industry news and vertical
+          mobility trends — straight from our team of experts.
+        </p>
 
         {/* ── Search bar ── */}
         <form className={styles.searchForm} onSubmit={handleSubmit}>
@@ -107,8 +120,13 @@ export default function BlogHero({ totalPosts = 0, onSearch }) {
 
       </div>
 
-      {/* Bottom fade into content */}
-      <div className={styles.bottomFade} />
+      {/* Scroll indicator */}
+      <div className={styles.scrollWrap}>
+        <span className={styles.scrollLabel}>Scroll to explore</span>
+        <div className={styles.scrollTrack}>
+          <div className={styles.scrollThumb} />
+        </div>
+      </div>
     </section>
   );
 }

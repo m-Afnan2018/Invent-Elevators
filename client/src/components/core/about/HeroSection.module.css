@@ -1,99 +1,151 @@
-/* ============================================================
-   HeroSection.module.css
-   ============================================================ */
-
 .hero {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 560px;
+  max-height: 740px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   overflow: hidden;
-  font-family: "Georgia", "Times New Roman", serif;
 }
 
-/* ---------- Background ---------- */
-.bgWrapper {
+/* ── Background ── */
+.bgWrap {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
 
-.bgImage {
-  width: 100%;
-  height: 100%;
+.bgImg {
   object-fit: cover;
   object-position: center 30%;
-  transform: scale(1.04);
-  animation: slowZoom 14s ease-out forwards;
+  transform: scale(1.06);
+  transition: transform 10s ease;
 }
 
-@keyframes slowZoom {
-  from { transform: scale(1.04); }
-  to   { transform: scale(1); }
+.hero:hover .bgImg {
+  transform: scale(1.02);
 }
 
-.overlay {
+/* ── Overlays ── */
+.overlayTop {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(5, 10, 18, 0.82) 0%,
-    rgba(10, 20, 35, 0.65) 60%,
-    rgba(5, 10, 18, 0.45) 100%
-  );
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(5,5,5,0.55) 0%, transparent 45%);
 }
 
-/* ---------- Content ---------- */
+.overlayBottom {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(0deg, rgba(5,5,5,0.92) 0%, rgba(5,5,5,0.6) 40%, transparent 70%);
+}
+
+/* ── Breadcrumb ── */
+.breadcrumb {
+  position: absolute;
+  top: 88px;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bcLink {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.bcLink:hover {
+  color: rgba(255,255,255,0.85);
+}
+
+.bcChevron {
+  color: rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+
+.bcActive {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+}
+
+/* ── Content ── */
 .content {
   position: relative;
-  z-index: 2;
-  max-width: 1200px;
+  z-index: 5;
+  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 60px;
-  padding-top: 120px;
-  animation: fadeUp 1s ease 0.2s both;
+  padding: 0 40px 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(32px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
+/* ── Eyebrow ── */
 .eyebrow {
-  font-family: "Helvetica Neue", "Arial", sans-serif;
-  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 11.5px;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
-  margin: 0 0 20px;
 }
 
-.headline {
-  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-  font-weight: 400;
-  line-height: 1.18;
+.eyebrowDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  flex-shrink: 0;
+}
+
+/* ── Heading ── */
+.heading {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: clamp(38px, 5.5vw, 72px);
+  font-weight: 700;
   color: #ffffff;
-  margin: 0 0 22px;
-  letter-spacing: -0.01em;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin: 0;
+  max-width: 800px;
 }
 
-.subtext {
-  font-family: "Helvetica Neue", "Arial", sans-serif;
-  font-size: 1.05rem;
-  color: rgba(255, 255, 255, 0.65);
-  margin: 0 0 44px;
-  font-weight: 300;
-  letter-spacing: 0.02em;
+/* ── Description ── */
+.description {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: clamp(13.5px, 1.4vw, 16px);
+  font-weight: 400;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.72;
+  margin: 0;
+  max-width: 560px;
 }
 
-/* ---------- CTA Buttons ---------- */
+/* ── CTA Buttons ── */
 .actions {
   display: flex;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
+  margin-top: 4px;
 }
 
 .btnPrimary,
@@ -101,15 +153,15 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 14px 32px;
-  border-radius: 6px;
-  font-family: "Helvetica Neue", "Arial", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  padding: 13px 28px;
+  border-radius: 8px;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
   text-decoration: none;
-  transition: all 0.28s ease;
+  transition: all 0.25s ease;
   cursor: pointer;
+  letter-spacing: 0.01em;
 }
 
 .btnPrimary {
@@ -122,76 +174,83 @@
   background: #9a6427;
   border-color: #9a6427;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(176, 116, 46, 0.45);
+  box-shadow: 0 8px 24px rgba(176,116,46,0.4);
 }
 
 .btnSecondary {
   background: transparent;
   color: #ffffff;
-  border: 2px solid rgba(255, 255, 255, 0.45);
+  border: 2px solid rgba(255,255,255,0.35);
 }
 
 .btnSecondary:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.8);
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.7);
   transform: translateY(-2px);
 }
 
-/* ---------- Scroll Indicator ---------- */
-.scrollIndicator {
+/* ── Scroll Indicator ── */
+.scrollWrap {
   position: absolute;
-  bottom: 36px;
-  left: 60px;
-  z-index: 2;
+  right: 40px;
+  bottom: 40px;
+  z-index: 5;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14px;
-  animation: fadeIn 1s ease 1.2s both;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  gap: 8px;
 }
 
 .scrollLabel {
-  font-family: "Helvetica Neue", "Arial", sans-serif;
-  font-size: 0.78rem;
-  letter-spacing: 0.18em;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  writing-mode: vertical-rl;
 }
 
-.scrollArrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 50%;
-  color: rgba(255, 255, 255, 0.6);
-  animation: bounce 2.4s ease-in-out infinite;
+.scrollTrack {
+  width: 1.5px;
+  height: 52px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 2px;
+  overflow: hidden;
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(6px); }
+.scrollThumb {
+  width: 100%;
+  height: 40%;
+  background: rgba(255,255,255,0.5);
+  border-radius: 2px;
+  animation: scrollAnim 2s ease-in-out infinite;
 }
 
-/* ---------- Responsive ---------- */
+@keyframes scrollAnim {
+  0%   { transform: translateY(0); opacity: 1; }
+  80%  { transform: translateY(150%); opacity: 0.3; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
+  .hero {
+    max-height: 600px;
+  }
+
+  .breadcrumb {
+    padding: 0 20px;
+    top: 80px;
+  }
+
   .content {
-    padding: 0 24px;
-    padding-top: 100px;
+    padding: 0 20px 80px;
+    gap: 16px;
   }
 
-  .scrollIndicator {
-    left: 24px;
-  }
-
-  .headline {
-    font-size: clamp(1.8rem, 6vw, 2.6rem);
+  .scrollWrap {
+    display: none;
   }
 
   .actions {
@@ -200,7 +259,6 @@
 
   .btnPrimary,
   .btnSecondary {
-    width: 100%;
     justify-content: center;
   }
 }

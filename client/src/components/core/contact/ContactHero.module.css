@@ -1,74 +1,151 @@
 .hero {
   position: relative;
-  min-height: 470px;
-  padding-top: 72px;
-  background: url("https://images.unsplash.com/photo-1497366216548-37526070297c") center/cover no-repeat;
+  width: 100%;
+  height: 100vh;
+  min-height: 560px;
+  max-height: 740px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #fff;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
 }
 
-.overlay {
+/* ── Background ── */
+.bgWrap {
   position: absolute;
   inset: 0;
-  background: linear-gradient(125deg, rgba(5, 13, 26, 0.88), rgba(11, 36, 59, 0.58));
+  z-index: 0;
 }
 
+.bgImg {
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.06);
+  transition: transform 10s ease;
+}
+
+.hero:hover .bgImg {
+  transform: scale(1.02);
+}
+
+/* ── Overlays ── */
+.overlayTop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(5,5,5,0.55) 0%, transparent 45%);
+}
+
+.overlayBottom {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(0deg, rgba(5,5,5,0.92) 0%, rgba(5,5,5,0.6) 40%, transparent 70%);
+}
+
+/* ── Breadcrumb ── */
+.breadcrumb {
+  position: absolute;
+  top: 88px;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bcLink {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.bcLink:hover {
+  color: rgba(255,255,255,0.85);
+}
+
+.bcChevron {
+  color: rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+
+.bcActive {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+}
+
+/* ── Content ── */
 .content {
   position: relative;
-  z-index: 2;
-  max-width: 900px;
-  padding: 0 20px;
-}
-
-.subtitle {
-  font-size: 13px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  color: #dca55a;
-}
-
-.content h1 {
-  font-size: clamp(2.1rem, 5vw, 3.3rem);
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.description {
-  font-size: 17px;
-  opacity: 0.9;
-  margin: 0 auto 18px;
-  max-width: 700px;
-  line-height: 1.75;
-}
-
-.facts {
+  z-index: 5;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 40px 90px;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.facts span {
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 999px;
-  padding: 0.32rem 0.72rem;
-  background: rgba(255, 255, 255, 0.08);
+/* ── Eyebrow ── */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-/* Contact chips */
+.eyebrowDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  flex-shrink: 0;
+}
+
+/* ── Heading ── */
+.heading {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: clamp(38px, 5.5vw, 72px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin: 0;
+  max-width: 700px;
+}
+
+/* ── Description ── */
+.description {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: clamp(13.5px, 1.4vw, 16px);
+  font-weight: 400;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.72;
+  margin: 0;
+  max-width: 520px;
+}
+
+/* ── Contact Chips ── */
 .contactChips {
   display: flex;
-  justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-top: 4px;
 }
 
 .contactChip {
@@ -97,6 +174,7 @@
 
 .chipLabel {
   display: block;
+  font-family: "Sora", "Segoe UI", sans-serif;
   font-size: 0.68rem;
   color: rgba(255,255,255,0.5);
   text-transform: uppercase;
@@ -105,30 +183,95 @@
 
 .chipValue {
   display: block;
+  font-family: "Sora", "Segoe UI", sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
   color: #fff;
 }
 
-.breadcrumb {
-  font-size: 13px;
+/* ── Quick Facts ── */
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.facts span {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.75);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 999px;
+  padding: 0.32rem 0.72rem;
+  background: rgba(255,255,255,0.06);
+}
+
+/* ── Scroll Indicator ── */
+.scrollWrap {
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.scrollLabel {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 10px;
   font-weight: 500;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
 }
 
-.separator {
-  margin: 0 6px;
+.scrollTrack {
+  width: 1.5px;
+  height: 52px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 2px;
+  overflow: hidden;
 }
 
-.active {
-  color: #dca55a;
+.scrollThumb {
+  width: 100%;
+  height: 40%;
+  background: rgba(255,255,255,0.5);
+  border-radius: 2px;
+  animation: scrollAnim 2s ease-in-out infinite;
 }
 
+@keyframes scrollAnim {
+  0%   { transform: translateY(0); opacity: 1; }
+  80%  { transform: translateY(150%); opacity: 0.3; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
   .hero {
-    height: 390px;
+    max-height: 600px;
   }
 
-  .description {
-    font-size: 15px;
+  .breadcrumb {
+    padding: 0 20px;
+    top: 80px;
+  }
+
+  .content {
+    padding: 0 20px 80px;
+    gap: 16px;
+  }
+
+  .scrollWrap {
+    display: none;
+  }
+
+  .contactChips {
+    flex-direction: column;
+    gap: 8px;
   }
 }

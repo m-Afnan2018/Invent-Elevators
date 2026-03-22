@@ -34,12 +34,22 @@ export default function ProductComponents({ product }) {
         <div className={styles.grid}>
           {components.map((comp, i) => {
             const img = comp.image || FALLBACK_IMAGES[i % FALLBACK_IMAGES.length];
-            // Merge specs + filledData, show up to 4 entries
-            const mergedSpecs = {
+            // Build fieldId→fieldName map from populated attributeId
+            const fieldNameMap = {};
+            if (comp.attributeId?.fields?.length) {
+              comp.attributeId.fields.forEach(({ fieldId, fieldName }) => {
+                if (fieldId && fieldName) fieldNameMap[fieldId] = fieldName;
+              });
+            }
+
+            // Merge specs + filledData, resolve fieldId keys to human names
+            const rawSpecs = {
               ...(comp.specs || {}),
               ...(comp.filledData || {}),
             };
-            const specEntries = Object.entries(mergedSpecs).slice(0, 4);
+            const specEntries = Object.entries(rawSpecs)
+              .map(([key, val]) => [fieldNameMap[key] || key.replace(/([A-Z])/g, " $1").replace(/_/g, " ").replace(/^\w/, c => c.toUpperCase()), val])
+              .slice(0, 4);
             // componentType may be a populated object or a raw ObjectId string
             const typeName =
               typeof comp.componentType === "object" && comp.componentType !== null
@@ -73,11 +83,9 @@ export default function ProductComponents({ product }) {
                   {/* Inline specs */}
                   {specEntries.length > 0 && (
                     <div className={styles.specList}>
-                      {specEntries.map(([key, val]) => (
-                        <div key={key} className={styles.specItem}>
-                          <span className={styles.specKey}>
-                            {key.replace(/([A-Z])/g, " $1").replace(/^\w/, c => c.toUpperCase())}
-                          </span>
+                      {specEntries.map(([label, val]) => (
+                        <div key={label} className={styles.specItem}>
+                          <span className={styles.specKey}>{label}</span>
                           <span className={styles.specVal}>{val}</span>
                         </div>
                       ))}

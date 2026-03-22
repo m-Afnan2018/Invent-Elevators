@@ -85,8 +85,34 @@ export default function ProjectsPage() {
     <main className={styles.main}>
       {/* ── Hero ── */}
       <section className={styles.hero}>
+        {/* Background image */}
+        <div className={styles.heroBgWrap}>
+          <Image
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1800&q=80"
+            alt="Modern building projects"
+            fill
+            priority
+            sizes="100vw"
+            className={styles.heroBgImg}
+          />
+        </div>
+        <div className={styles.heroOverlayTop} />
+        <div className={styles.heroOverlayBottom} />
+
+        {/* Breadcrumb */}
+        <nav className={styles.heroBreadcrumb}>
+          <Link href="/" className={styles.heroBcLink}>Home</Link>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className={styles.heroBcChevron}>
+            <path d="M4 2l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <span className={styles.heroBcActive}>Projects</span>
+        </nav>
+
         <div className={styles.heroInner}>
-          <span className={styles.eyebrow}>Our Portfolio</span>
+          <div className={styles.eyebrow}>
+            <span className={styles.eyebrowDot} />
+            <span>Our Portfolio</span>
+          </div>
           <h1 className={styles.heroTitle}>Projects Delivered</h1>
           <p className={styles.heroDesc}>
             Explore completed lift installations and success stories across residential
@@ -106,6 +132,14 @@ export default function ProjectsPage() {
               <strong>10+</strong>
               <span>Years</span>
             </div>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className={styles.heroScrollWrap}>
+          <span className={styles.heroScrollLabel}>Scroll to explore</span>
+          <div className={styles.heroScrollTrack}>
+            <div className={styles.heroScrollThumb} />
           </div>
         </div>
       </section>

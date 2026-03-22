@@ -1,4 +1,5 @@
-import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 import styles from "./ContactHero.module.css";
 
 const quickFacts = [
@@ -34,11 +35,38 @@ const CONTACT_ITEMS = [
 const ContactHero = () => {
   return (
     <section className={styles.hero}>
-      <div className={styles.overlay}></div>
+      {/* Background image */}
+      <div className={styles.bgWrap}>
+        <Image
+          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1800&q=80"
+          alt="Modern office building"
+          fill
+          priority
+          sizes="100vw"
+          className={styles.bgImg}
+        />
+      </div>
+      <div className={styles.overlayTop} />
+      <div className={styles.overlayBottom} />
 
+      {/* Breadcrumb */}
+      <nav className={styles.breadcrumb}>
+        <Link href="/" className={styles.bcLink}>Home</Link>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className={styles.bcChevron}>
+          <path d="M4 2l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className={styles.bcActive}>Contact</span>
+      </nav>
+
+      {/* Content */}
       <div className={styles.content}>
-        <p className={styles.subtitle}>Get In Touch</p>
-        <h1>Let&apos;s Talk About Your Lift Project</h1>
+        <div className={styles.eyebrow}>
+          <span className={styles.eyebrowDot} />
+          <span>Get In Touch</span>
+        </div>
+
+        <h1 className={styles.heading}>Let&apos;s Talk About<br />Your Lift Project</h1>
+
         <p className={styles.description}>
           From early planning to post-installation support, our specialists are ready
           to guide you with reliable and premium mobility solutions.
@@ -61,11 +89,13 @@ const ContactHero = () => {
             <span key={fact}>✓ {fact}</span>
           ))}
         </div>
+      </div>
 
-        <div className={styles.breadcrumb}>
-          <span>Home</span>
-          <span className={styles.separator}> / </span>
-          <span className={styles.active}>Contact</span>
+      {/* Scroll indicator */}
+      <div className={styles.scrollWrap}>
+        <span className={styles.scrollLabel}>Scroll to explore</span>
+        <div className={styles.scrollTrack}>
+          <div className={styles.scrollThumb} />
         </div>
       </div>
     </section>

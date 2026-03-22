@@ -1,77 +1,136 @@
 .hero {
   position: relative;
-  background: #0a0a0a;
-  padding: 160px 0 100px;
+  width: 100%;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   overflow: hidden;
+  padding-bottom: 80px;
 }
 
-/* ── Noise texture ── */
-.noise {
+/* ── Background ── */
+.bgWrap {
   position: absolute;
   inset: 0;
   z-index: 0;
-  opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  pointer-events: none;
 }
 
-/* ── Grid line decorations ── */
+.bgImg {
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.06);
+  transition: transform 10s ease;
+}
+
+.hero:hover .bgImg {
+  transform: scale(1.02);
+}
+
+/* ── Overlays ── */
+.overlayTop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(5,5,5,0.6) 0%, transparent 40%);
+}
+
+.overlayBottom {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(0deg, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.75) 50%, transparent 80%);
+}
+
+/* ── Grid lines ── */
 .gridLines {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 2;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   pointer-events: none;
 }
 
 .gridLine {
-  border-left: 1px solid rgba(255, 255, 255, 0.03);
+  border-left: 1px solid rgba(255,255,255,0.025);
 }
 
 .gridLine:last-child {
-  border-right: 1px solid rgba(255, 255, 255, 0.03);
+  border-right: 1px solid rgba(255,255,255,0.025);
+}
+
+/* ── Breadcrumb ── */
+.breadcrumb {
+  position: absolute;
+  top: 88px;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bcLink {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.bcLink:hover {
+  color: rgba(255,255,255,0.85);
+}
+
+.bcChevron {
+  color: rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+
+.bcActive {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
 }
 
 /* ── Container ── */
 .container {
   position: relative;
-  z-index: 2;
+  z-index: 5;
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 40px;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 28px;
 }
 
-/* ── Meta row ── */
-.metaRow {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.metaPill {
+/* ── Eyebrow ── */
+.eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-family: "Sora", "Segoe UI", sans-serif;
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255,255,255,0.5);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 6px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
 }
 
-.metaDot {
-  width: 5px;
-  height: 5px;
+.eyebrowDot {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255,255,255,0.4);
+  flex-shrink: 0;
   animation: blink 2.5s ease-in-out infinite;
 }
 
@@ -80,154 +139,122 @@
   50%       { opacity: 0.3; }
 }
 
-.metaCount {
-  font-family: "Sora", "Segoe UI", sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.25);
-  letter-spacing: 0.04em;
+.postCount {
+  padding: 2px 10px;
+  background: rgba(176,116,46,0.15);
+  border: 1px solid rgba(176,116,46,0.3);
+  border-radius: 999px;
+  color: #dca55a;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
 }
 
 /* ── Heading ── */
-.headingWrap {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.heading {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: clamp(36px, 5vw, 68px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin: 0;
   max-width: 760px;
 }
 
-.heading {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin: 0;
-}
-
-.headingLine {
-  font-family: "Sora", "Segoe UI", sans-serif;
-  font-size: clamp(52px, 8vw, 108px);
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  display: block;
-}
-
-.headingLineAlt {
-  font-family: "Sora", "Segoe UI", sans-serif;
-  font-size: clamp(52px, 8vw, 108px);
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  display: block;
-}
-
-.headingAccent {
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
-}
-
+/* ── Subheading ── */
 .subheading {
   font-family: "Sora", "Segoe UI", sans-serif;
-  font-size: clamp(14px, 1.5vw, 16px);
+  font-size: clamp(13.5px, 1.4vw, 16px);
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.42);
-  line-height: 1.75;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.72;
   margin: 0;
-  max-width: 520px;
+  max-width: 560px;
 }
 
 /* ── Search ── */
 .searchForm {
-  width: 100%;
-  max-width: 600px;
+  max-width: 580px;
 }
 
 .searchWrap {
   display: flex;
   align-items: center;
-  gap: 0;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1.5px solid rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
-  overflow: hidden;
-  transition: border-color 0.25s, background 0.25s;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 12px;
+  padding: 6px 6px 6px 16px;
+  gap: 8px;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.2s, background 0.2s;
 }
 
 .searchWrap:focus-within {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(176,116,46,0.5);
+  background: rgba(255,255,255,0.11);
 }
 
 .searchIcon {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0 16px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255,255,255,0.4);
   flex-shrink: 0;
 }
 
 .searchInput {
   flex: 1;
-  font-family: "Sora", "Segoe UI", sans-serif;
-  font-size: 14.5px;
-  font-weight: 400;
-  color: #ffffff;
   background: transparent;
   border: none;
   outline: none;
-  padding: 16px 0;
+  color: #ffffff;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
   min-width: 0;
 }
 
 .searchInput::placeholder {
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255,255,255,0.35);
 }
 
 .clearBtn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  background: none;
   border: none;
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.4);
   cursor: pointer;
-  margin-right: 6px;
+  color: rgba(255,255,255,0.4);
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.2s;
   flex-shrink: 0;
-  transition: background 0.2s, color 0.2s;
 }
 
 .clearBtn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255,255,255,0.8);
 }
 
 .searchBtn {
+  background: #b0742e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 20px;
   font-family: "Sora", "Segoe UI", sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: #0a0a0a;
-  background: #ffffff;
-  border: none;
-  padding: 0 24px;
-  height: 52px;
   cursor: pointer;
-  white-space: nowrap;
-  letter-spacing: 0.01em;
   transition: background 0.2s;
   flex-shrink: 0;
+  letter-spacing: 0.02em;
 }
 
 .searchBtn:hover {
-  background: #e8e8e4;
+  background: #9a6427;
 }
 
-/* ── Tags row ── */
+/* ── Popular Tags ── */
 .tagsRow {
   display: flex;
   align-items: center;
@@ -238,76 +265,95 @@
 .tagsLabel {
   font-family: "Sora", "Segoe UI", sans-serif;
   font-size: 11.5px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255,255,255,0.35);
   letter-spacing: 0.04em;
   flex-shrink: 0;
 }
 
 .tagChip {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 999px;
+  color: rgba(255,255,255,0.65);
   font-family: "Sora", "Segoe UI", sans-serif;
   font-size: 12px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.5);
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 5px 13px;
+  padding: 4px 14px;
   cursor: pointer;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
-  white-space: nowrap;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
 
 .tagChip:hover {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(176,116,46,0.15);
+  border-color: rgba(176,116,46,0.35);
+  color: #dca55a;
 }
 
-/* ── Bottom fade ── */
-.bottomFade {
+/* ── Scroll Indicator ── */
+.scrollWrap {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 80px;
-  background: linear-gradient(to bottom, transparent, #f4f4f1);
-  z-index: 2;
-  pointer-events: none;
+  right: 40px;
+  bottom: 40px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.scrollLabel {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+.scrollTrack {
+  width: 1.5px;
+  height: 52px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.scrollThumb {
+  width: 100%;
+  height: 40%;
+  background: rgba(255,255,255,0.5);
+  border-radius: 2px;
+  animation: scrollAnim 2s ease-in-out infinite;
+}
+
+@keyframes scrollAnim {
+  0%   { transform: translateY(0); opacity: 1; }
+  80%  { transform: translateY(150%); opacity: 0.3; }
+  100% { transform: translateY(0); opacity: 0; }
 }
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .hero {
-    padding: 130px 0 80px;
+    min-height: 520px;
+    padding-bottom: 60px;
+  }
+
+  .breadcrumb {
+    padding: 0 20px;
+    top: 80px;
   }
 
   .container {
     padding: 0 20px;
-    gap: 32px;
+    gap: 20px;
   }
 
-  .headingLine,
-  .headingLineAlt {
-    font-size: clamp(40px, 12vw, 72px);
-  }
-
-  .searchForm {
-    max-width: 100%;
+  .scrollWrap {
+    display: none;
   }
 
   .tagsRow {
     gap: 6px;
-  }
-}
-
-@media (max-width: 480px) {
-  .searchBtn {
-    padding: 0 16px;
-    font-size: 12px;
-  }
-
-  .metaRow {
-    flex-wrap: wrap;
   }
 }
