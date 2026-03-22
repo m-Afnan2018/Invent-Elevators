@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
+import path from "path";
 
 import categoryRoutes from "./routes/category.routes.js";
 import subCategoryRoutes from "./routes/subCategory.routes.js";
@@ -53,6 +54,9 @@ app.use(
 app.use(express.json({ limit: "15mb" }));
 app.use(express.urlencoded({ limit: "15mb", extended: true }));
 app.use(cookieParser());
+
+// Serve uploaded images statically
+app.use("/uploads", express.static(path.resolve("uploads")));
 
 app.get("/", (_req, res) => {
   res.status(200).json({

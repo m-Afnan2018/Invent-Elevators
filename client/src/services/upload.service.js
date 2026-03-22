@@ -1,69 +1,75 @@
 // services/upload.service.js
-// File Upload API service — uploads directly to Cloudinary via the backend.
-// Returns Cloudinary HTTPS URLs, never base64 strings.
+// File Upload API service — uploads to local server storage via the backend.
+// Returns full absolute URLs so they can be stored in the DB and used directly
+// in Next.js <Image> without any further transformation.
 
 import apiConnector from '@/lib/apiConnector';
-import { ENDPOINTS } from '@/lib/constants';
+import { ENDPOINTS, API_BASE_URL } from '@/lib/constants';
+
+/** Convert a relative server path to a full URL. */
+const toFullUrl = (path) => {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  return `${API_BASE_URL}${path}`;
+};
 
 /**
  * Upload a single image file.
- * FormData field name must match backend multer config: "image"
- *
- * @param {File} file - Image File object
- * @returns {Promise<string>} Cloudinary secure_url
+ * @param {File} file
+ * @param {string} [folder] - storage subfolder: products|categories|blogs|users|misc
+ * @returns {Promise<string>} absolute URL to the uploaded image
  */
-export const uploadImage = async (file) => {
+export const uploadImage = async (file, folder = 'misc') => {
   if (!file.type.startsWith('image/')) {
     throw new Error('File must be an image');
   }
 
   const formData = new FormData();
-  formData.append('image', file); // field name matches multer.single("image")
+  formData.append('image', file);
 
-  // Content-Type is deleted by the apiConnector interceptor for FormData
-  const response = await apiConnector.post(ENDPOINTS.UPLOAD, formData);
+  const response = await apiConnector.post(`${ENDPOINTS.UPLOAD}?folder=${folder}`, formData);
 
-  // response shape: { success, data: { url, public_id } }
   const url = response?.data?.url;
   if (!url) throw new Error('Upload failed — no URL returned');
-  return url;
+  return toFullUrl(url);
 };
 
 /**
  * Upload multiple image files (up to 20).
- * FormData field name must match backend multer config: "images"
- *
- * @param {File[]|FileList} files - Array of image File objects
- * @returns {Promise<string[]>} Array of Cloudinary secure_urls
+ * @param {File[]|FileList} files
+ * @param {string} [folder] - storage subfolder: products|categories|blogs|users|misc
+ * @returns {Promise<string[]>} array of absolute URLs
  */
-export const uploadMultipleImages = async (files) => {
+export const uploadMultipleImages = async (files, folder = 'misc') => {
   const fileArray = Array.from(files);
   if (!fileArray.length) return [];
 
   const formData = new FormData();
-  fileArray.forEach((f) => formData.append('images', f)); // field name matches multer.array("images")
+  fileArray.forEach((f) => formData.append('images', f));
 
-  const response = await apiConnector.post(`${ENDPOINTS.UPLOAD}/multiple`, formData);
+  const response = await apiConnector.post(`${ENDPOINTS.UPLOAD}/multiple?folder=${folder}`, formData);
 
-  // response shape: { success, data: [{ url, public_id }, ...] }
   const results = response?.data;
   if (!Array.isArray(results)) throw new Error('Upload failed — unexpected response');
-  return results.map((r) => r.url);
+  return results.map((r) => toFullUrl(r.url));
 };
 
 /**
- * Delete an image from Cloudinary by public_id.
- * @param {string} publicId
+ * Delete a local image by its URL or relative path.
+ * @param {string} fileUrl - full URL or relative path like /uploads/images/products/foo.jpg
  * @returns {Promise<void>}
  */
-export const deleteImage = async (publicId) => {
-  await apiConnector.delete(ENDPOINTS.UPLOAD, { data: { public_id: publicId } });
+export const deleteImage = async (fileUrl) => {
+  // Extract the relative path from a full URL if needed
+  const filePath = fileUrl.startsWith('http')
+    ? new URL(fileUrl).pathname
+    : fileUrl;
+  await apiConnector.delete(ENDPOINTS.UPLOAD, { data: { filePath } });
 };
 
 /**
  * Convert a file to a local base64 data URL (for instant preview before upload).
  * Does NOT upload anything — purely local.
- *
  * @param {File} file
  * @returns {Promise<string>} base64 data URL
  */

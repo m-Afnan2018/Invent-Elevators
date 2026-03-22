@@ -105,7 +105,7 @@ const CategoriesPage = () => {
         if (!file) return;
         setIsUploading(true);
         try {
-            const url = await uploadImage(file);
+            const url = await uploadImage(file, 'categories');
             setIconPreview(url);
             setFormData((prev) => ({ ...prev, icon: url }));
         } catch (err) {

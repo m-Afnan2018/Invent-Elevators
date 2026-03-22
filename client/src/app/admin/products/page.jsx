@@ -127,7 +127,7 @@ const ProductsPage = () => {
         setIsUploading(true);
         setSaveError('');
         try {
-            const urls = await uploadMultipleImages(files);
+            const urls = await uploadMultipleImages(files, 'products');
             setImagePreview(urls[0]);
             setFormData((prev) => ({ ...prev, image: urls[0], images: urls }));
         } catch (err) {

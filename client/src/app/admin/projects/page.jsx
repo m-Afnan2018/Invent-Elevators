@@ -152,7 +152,7 @@ const ProjectsPage = () => {
         if (!file) return;
         setIsUploading(true);
         try {
-            const url = await uploadImage(file);
+            const url = await uploadImage(file, 'projects');
             setFeaturedImagePreview(url);
             setFormData((prev) => ({ ...prev, featuredImage: url }));
         } catch (err) {
@@ -173,7 +173,7 @@ const ProjectsPage = () => {
 
         setIsUploading(true);
         try {
-            const urls = await uploadMultipleImages(files);
+            const urls = await uploadMultipleImages(files, 'projects');
             setFormData((prev) => ({
                 ...prev,
                 galleryImages: [...prev.galleryImages, ...urls],

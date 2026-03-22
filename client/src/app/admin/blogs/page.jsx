@@ -106,7 +106,7 @@ const BlogsPage = () => {
         if (!file) return;
         setIsUploading(true);
         try {
-            const url = await uploadImage(file);
+            const url = await uploadImage(file, 'blogs');
             if (field === 'featuredImage') {
                 setImagePreview(url);
                 setFormData((prev) => ({ ...prev, featuredImage: url }));

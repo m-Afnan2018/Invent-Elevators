@@ -12,13 +12,17 @@ services:
             MONGO_INITDB_ROOT_PASSWORD: strongpassword
 
     backend:
-        image: mafnan2018/invent-elevators-server:latest # ← pulled from Docker Hub, not built
+        build:
+            context: .
+            dockerfile: Dockerfile.server
         container_name: mern-backend
         restart: always
         ports:
             - "5000:5000"
         env_file:
             - ./server/.env
+        volumes:
+            - uploads-data:/app/uploads
         depends_on:
             - mongodb
         dns:
@@ -26,7 +30,9 @@ services:
             - 1.1.1.1
 
     frontend:
-        image: mafnan2018/invent-elevators-client:latest # ← pulled from Docker Hub, not built
+        build:
+            context: .
+            dockerfile: Dockerfile.client
         container_name: mern-frontend
         restart: always
         ports:
@@ -39,46 +45,4 @@ services:
 
 volumes:
     mongo-data:
-
-# services:
-#   mongodb:
-#     image: mongo:7
-#     container_name: mongodb
-#     restart: always
-#     ports:
-#       - "27017:27017"
-#     volumes:
-#       - mongo-data:/data/db
-#     environment:
-#       MONGO_INITDB_ROOT_USERNAME: admin
-#       MONGO_INITDB_ROOT_PASSWORD: strongpassword
-#   backend:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile.server
-#       network: host
-#     dns:
-#       - 8.8.8.8
-#       - 1.1.1.1
-#     container_name: mern-backend
-#     restart: always
-#     ports:
-#       - "5000:5000"
-#     env_file:
-#       - ./server/.env
-
-#   frontend:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile.client
-#       network: host
-#     dns:
-#       - 8.8.8.8
-#       - 1.1.1.1
-#     container_name: mern-frontend
-#     restart: always
-#     ports:
-#       - "3000:3000"
-
-# volumes:
-#   mongo-data:
+    uploads-data:
