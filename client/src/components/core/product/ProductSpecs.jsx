@@ -37,24 +37,6 @@ const groupSpecs = (specs) => {
   }, {});
 };
 
-// Fallback mock specs
-const MOCK_SPECS = [
-  { label: "Load Capacity",       value: "400 kg",           group: "Performance"   },
-  { label: "Travel Speed",        value: "0.15 m/s",         group: "Performance"   },
-  { label: "Number of Stops",     value: "2 – 8",            group: "Performance"   },
-  { label: "Max Travel Height",   value: "Up to 14 m",       group: "Performance"   },
-  { label: "Drive System",        value: "Screw & Nut",      group: "Technical"     },
-  { label: "Power Supply",        value: "230V / 1-phase",   group: "Technical"     },
-  { label: "Energy Consumption",  value: "1.1 kW",           group: "Technical"     },
-  { label: "Machine Room",        value: "Not required",     group: "Technical"     },
-  { label: "Pit Depth",           value: "Not required",     group: "Technical"     },
-  { label: "Shaft Type",          value: "Self-supporting",  group: "Installation"  },
-  { label: "Installation Time",   value: "1 – 3 days",       group: "Installation"  },
-  { label: "Noise Level",         value: "< 60 dB",          group: "Installation"  },
-  { label: "Warranty",            value: "2 Years",          group: "Compliance"    },
-  { label: "Safety Standard",     value: "EN 81-41",         group: "Compliance"    },
-  { label: "Certifications",      value: "CE, ISO 9001",     group: "Compliance"    },
-];
 
 const GROUP_ICONS = {
   Performance: (
@@ -83,8 +65,8 @@ const GROUP_ICONS = {
 };
 
 export default function ProductSpecs({ product }) {
-  const rawSpecs = buildSpecs(product);
-  const specs    = rawSpecs.length > 0 ? rawSpecs : MOCK_SPECS;
+  const specs = buildSpecs(product);
+  if (specs.length === 0) return null;
   const groups   = groupSpecs(specs);
   const groupKeys = Object.keys(groups);
 

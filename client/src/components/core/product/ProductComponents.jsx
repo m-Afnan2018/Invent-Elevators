@@ -10,67 +10,9 @@ const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80",
 ];
 
-// Mock components matching Component model
-const MOCK_COMPONENTS = [
-  {
-    _id: "1",
-    name: "Drive Cabin",
-    description: "Premium powder-coated steel cabin with reinforced floor and smooth interior finish. Available in multiple color configurations.",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
-    componentType: { name: "Cabin" },
-    price: 0,
-    specs: { material: "Steel", finish: "Powder Coated", maxLoad: "400 kg" },
-  },
-  {
-    _id: "2",
-    name: "Hydraulic Drive Unit",
-    description: "Compact hydraulic power unit engineered for whisper-quiet operation and energy-efficient vertical movement.",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80",
-    componentType: { name: "Machine" },
-    price: 0,
-    specs: { power: "1.1 kW", voltage: "230V", noise: "< 55 dB" },
-  },
-  {
-    _id: "3",
-    name: "Automatic Sliding Door",
-    description: "Precision-engineered automatic sliding door system with safety sensors and soft-close mechanism.",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80",
-    componentType: { name: "Door" },
-    price: 0,
-    specs: { type: "Sliding", width: "800 mm", sensor: "Infrared" },
-  },
-  {
-    _id: "4",
-    name: "Smart Controller",
-    description: "Advanced microprocessor-based control system with touchscreen interface, diagnostic display and remote monitoring capability.",
-    image: "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=600&q=80",
-    componentType: { name: "Controller" },
-    price: 0,
-    specs: { display: "Touchscreen", connectivity: "Wi-Fi", protocol: "CAN Bus" },
-  },
-  {
-    _id: "5",
-    name: "Safety Buffer System",
-    description: "Dual-redundant buffer and overspeed governor ensuring full compliance with EN 81-41 safety standards.",
-    image: "https://images.unsplash.com/photo-1590504805261-29a56cc04b06?w=600&q=80",
-    componentType: { name: "Safety" },
-    price: 0,
-    specs: { standard: "EN 81-41", type: "Dual Buffer", rating: "IP54" },
-  },
-  {
-    _id: "6",
-    name: "Structural Steel Frame",
-    description: "Self-supporting galvanised steel shaft structure that requires no load-bearing walls — ready-to-install and fully modular.",
-    image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80",
-    componentType: { name: "Structure" },
-    price: 0,
-    specs: { material: "Galvanised Steel", assembly: "Modular", finish: "Powder Coated" },
-  },
-];
-
 export default function ProductComponents({ product }) {
-  const components =
-    product?.components?.length > 0 ? product.components : MOCK_COMPONENTS;
+  const components = product?.components ?? [];
+  if (components.length === 0) return null;
 
   return (
     <section className={styles.section}>

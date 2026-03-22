@@ -48,51 +48,6 @@ function Avatar({ src, name, size = 56 }) {
   );
 }
 
-const AVATAR_FALLBACKS = [
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80",
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&q=80",
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&q=80",
-  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&q=80",
-];
-
-const MOCK_TESTIMONIALS = [
-  {
-    name: "Rajesh Mehta",
-    company: "Mehta Constructions Pvt. Ltd.",
-    role: "Project Director",
-    message:
-      "Invent Elevator delivered beyond our expectations. The installation was seamless, and the build quality is exceptional. Our clients are extremely satisfied with the smooth operation and elegant cabin finish.",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80",
-    rating: 5,
-  },
-  {
-    name: "Anita Sharma",
-    company: "Greenfield Residences",
-    role: "Head of Operations",
-    message:
-      "We've installed Invent lifts across three of our residential towers. The low maintenance requirement and energy efficiency have saved us significantly. Their after-sales support is prompt and professional.",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&q=80",
-    rating: 5,
-  },
-  {
-    name: "David Thompson",
-    company: "Thompson Logistics Hub",
-    role: "Facility Manager",
-    message:
-      "Our cargo lift has been running for over two years without a single issue. The load capacity is exactly as advertised, and the hydraulic system operates whisper-quiet. Highly recommended for industrial use.",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&q=80",
-    rating: 5,
-  },
-  {
-    name: "Priya Nair",
-    company: "Skyline Architects",
-    role: "Principal Architect",
-    message:
-      "As an architect, I value products that integrate well with design intent. Invent Elevator's panoramic models fit perfectly into our contemporary projects. The customisation options are extensive and the team is highly collaborative.",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&q=80",
-    rating: 5,
-  },
-];
 
 function StarRating({ rating = 5 }) {
   return (
@@ -116,8 +71,8 @@ function StarRating({ rating = 5 }) {
 }
 
 export default function ProductTestimonials({ product }) {
-  const testimonials =
-    product?.testimonials?.length > 0 ? product.testimonials : MOCK_TESTIMONIALS;
+  const testimonials = product?.testimonials ?? [];
+  if (testimonials.length === 0) return null;
 
   const [active, setActive] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
