@@ -32,9 +32,14 @@
   font-family: "Sora", "Segoe UI", sans-serif;
   font-size: 11px;
   font-weight: 600;
-  color: #aaaaaa;
+  color: #b0742e;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  background: #fff8ee;
+  border: 1px solid #e3c99a;
+  border-radius: 999px;
+  padding: 4px 12px;
+  width: fit-content;
 }
 
 .heading {
@@ -68,6 +73,50 @@
   height: 2px;
   background: #e0e0dc;
   border-radius: 2px;
+}
+
+/* ── Quick Stats Strip ── */
+.quickStats {
+  display: flex;
+  gap: 0;
+  border: 1px solid #eeeeea;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.quickStat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 12px;
+  background: #fafaf8;
+  border-right: 1px solid #eeeeea;
+  text-align: center;
+}
+
+.quickStat:last-child {
+  border-right: none;
+}
+
+.quickStatValue {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.quickStatLabel {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #aaaaaa;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 /* ── Gallery ── */

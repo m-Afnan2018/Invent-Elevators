@@ -256,19 +256,20 @@
   font-family: "Sora", "Segoe UI", sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: #ffffff;
+  color: #0a0a0a;
   text-decoration: none;
   padding: 10px 22px;
-  border: 1.5px solid rgba(255,255,255,0.2);
+  border: 1.5px solid transparent;
   border-radius: 10px;
   white-space: nowrap;
-  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  background: #b0742e;
+  color: #ffffff;
+  transition: background 0.2s, transform 0.2s;
   flex-shrink: 0;
 }
 
 .noteLink:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.4);
+  background: #9a6427;
   transform: translateX(2px);
 }
 

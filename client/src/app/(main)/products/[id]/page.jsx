@@ -4,6 +4,7 @@ import ProductSpecs from "@/components/core/product/ProductSpecs";
 import ProductComponents from "@/components/core/product/ProductComponents";
 import ProductTestimonials from "@/components/core/product/ProductTestimonials";
 import ProductCTA from "@/components/core/product/ProductCTA";
+import ProductSectionNav from "@/components/core/product/ProductSectionNav";
 import { getProductById } from "@/services/products.service";
 
 export default async function ProductDetailPage({ params }) {
@@ -19,11 +20,22 @@ export default async function ProductDetailPage({ params }) {
   return (
     <>
       <ProductHero product={product} />
-      <ProductOverview product={product} />
-      <ProductSpecs product={product} />
-      <ProductComponents product={product} />
-      <ProductTestimonials product={product} />
-      <ProductCTA product={product} />
+      <ProductSectionNav productName={product?.name || "Product Details"} />
+      <div id="overview">
+        <ProductOverview product={product} />
+      </div>
+      <div id="specs">
+        <ProductSpecs product={product} />
+      </div>
+      <div id="components">
+        <ProductComponents product={product} />
+      </div>
+      <div id="testimonials">
+        <ProductTestimonials product={product} />
+      </div>
+      <div id="quote">
+        <ProductCTA product={product} />
+      </div>
     </>
   );
 }

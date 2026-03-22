@@ -120,7 +120,18 @@ function ProductCard({ product, index }) {
     slug,
     isFeatured,
     subCategory,
+    subCategories = [],
+    category,
+    categories = [],
   } = product;
+
+  // Resolve display category: subCategory > subCategories[0] > category > categories[0]
+  const displayCat =
+    subCategory?.name ||
+    subCategories[0]?.name ||
+    category?.name ||
+    categories[0]?.name ||
+    null;
 
   const fallbackImg = FALLBACK_IMAGES[index % FALLBACK_IMAGES.length];
 
@@ -148,8 +159,8 @@ function ProductCard({ product, index }) {
               Featured
             </span>
           )}
-          {subCategory?.name && (
-            <span className={styles.badgeCat}>{subCategory.name}</span>
+          {displayCat && (
+            <span className={styles.badgeCat}>{displayCat}</span>
           )}
         </div>
       </div>

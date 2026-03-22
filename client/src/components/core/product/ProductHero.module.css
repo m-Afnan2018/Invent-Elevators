@@ -181,20 +181,22 @@
 .ctaPrimary {
   font-family: "Sora", "Segoe UI", sans-serif;
   font-size: 14px;
-  font-weight: 600;
-  color: #0a0a0a;
-  background: #ffffff;
+  font-weight: 700;
+  color: #ffffff;
+  background: #b0742e;
   text-decoration: none;
   padding: 13px 30px;
   border-radius: 10px;
   letter-spacing: 0.01em;
-  transition: background 0.25s, transform 0.2s;
+  transition: background 0.25s, transform 0.2s, box-shadow 0.2s;
   white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(176, 116, 46, 0.5);
 }
 
 .ctaPrimary:hover {
-  background: #e8e8e4;
+  background: #9a6427;
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(176, 116, 46, 0.6);
 }
 
 .ctaSecondary {

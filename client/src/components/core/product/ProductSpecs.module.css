@@ -83,9 +83,9 @@
 }
 
 .groupNavPill:hover {
-  background: #0a0a0a;
+  background: #b0742e;
   color: #ffffff;
-  border-color: #0a0a0a;
+  border-color: #b0742e;
   transform: translateY(-2px);
 }
 
