@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { getProjects } from "@/services/projects.service";
+import { extractCollection } from "@/lib/apiResponse";
 import styles from "./page.module.css";
 
 const FALLBACK_PROJECTS = [
@@ -42,7 +43,7 @@ export default function ProjectsPage() {
     const loadProjects = async () => {
       try {
         const response = await getProjects();
-        setProjects(Array.isArray(response) ? response : []);
+        setProjects(extractCollection(response));
       } catch (_error) {
         setProjects([]);
       }

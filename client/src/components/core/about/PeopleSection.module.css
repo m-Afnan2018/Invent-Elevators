@@ -111,7 +111,7 @@
 .floatingIcon {
   width: 42px;
   height: 42px;
-  background: rgba(26, 86, 219, 0.08);
+  background: rgba(176, 116, 46, 0.08);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -150,7 +150,7 @@
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #1a56db;
+  color: #b0742e;
   margin: 0 0 16px;
 }
 
@@ -166,13 +166,13 @@
 
 .headingEm {
   font-style: italic;
-  color: #1a56db;
+  color: #b0742e;
 }
 
 .divider {
   width: 48px;
   height: 3px;
-  background: #1a56db;
+  background: #b0742e;
   border-radius: 2px;
   margin-bottom: 28px;
 }
@@ -223,7 +223,7 @@
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
-  border: 2px solid rgba(26, 86, 219, 0.2);
+  border: 2px solid rgba(176, 116, 46, 0.2);
 }
 
 .memberImg {
@@ -265,17 +265,17 @@
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: #1a56db;
+  color: #b0742e;
   text-decoration: none;
   padding-bottom: 4px;
-  border-bottom: 2px solid rgba(26, 86, 219, 0.3);
+  border-bottom: 2px solid rgba(176, 116, 46, 0.3);
   width: fit-content;
   transition: gap 0.25s ease, border-color 0.25s ease;
 }
 
 .cta:hover {
   gap: 16px;
-  border-color: #1a56db;
+  border-color: #b0742e;
 }
 
 /* ---------- Responsive ---------- */

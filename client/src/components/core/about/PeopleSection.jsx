@@ -60,12 +60,12 @@ export default function PeopleSection() {
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
                   <path
                     d="M11 2C6.03 2 2 6.03 2 11s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z"
-                    stroke="#1a56db"
+                    stroke="#b0742e"
                     strokeWidth="1.6"
                   />
                   <path
                     d="M11 7v4l3 3"
-                    stroke="#1a56db"
+                    stroke="#b0742e"
                     strokeWidth="1.6"
                     strokeLinecap="round"
                     strokeLinejoin="round"

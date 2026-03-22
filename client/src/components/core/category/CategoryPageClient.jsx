@@ -6,13 +6,7 @@ import ProductsGrid from "./ProductsGrid";
 import SubCategoryTabs from "./SubCategoryTabs";
 import { getCategories, getSubCategoriesByCategory } from "@/services/categories.service";
 import { getProducts } from "@/services/products.service";
-
-const toArray = (value) => {
-  if (Array.isArray(value)) return value;
-  if (Array.isArray(value?.data)) return value.data;
-  if (Array.isArray(value?.items)) return value.items;
-  return [];
-};
+import { extractCollection } from "@/lib/apiResponse";
 
 export default function CategoryPageClient({ categoryId = null }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,8 +20,8 @@ export default function CategoryPageClient({ categoryId = null }) {
       setIsLoading(true);
       try {
         const [categoryRes, productRes] = await Promise.all([getCategories(), getProducts()]);
-        const allCategories = toArray(categoryRes);
-        const allProducts = toArray(productRes);
+        const allCategories = extractCollection(categoryRes, ["categories"]);
+        const allProducts = extractCollection(productRes);
 
         const activeCategory = categoryId
           ? allCategories.find((item) => item._id === categoryId)
@@ -51,7 +45,7 @@ export default function CategoryPageClient({ categoryId = null }) {
           getSubCategoriesByCategory(activeCategory._id),
         ]);
 
-        const mappedSubcategories = toArray(subCategoryRes);
+        const mappedSubcategories = extractCollection(subCategoryRes);
         setSubCategories(mappedSubcategories);
 
         const filteredByCategory = allProducts.filter((product) => {

@@ -214,3 +214,42 @@
   line-height: 1.6;
   font-size: 0.92rem;
 }
+
+.cardBody h3,
+.productCard h3,
+.projectCard h3,
+.blogCard h3 {
+  font-size: 1.05rem;
+  color: #102239;
+  line-height: 1.35;
+}
+
+.sectionHead a:hover {
+  color: #6b4316;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 680px) {
+  .gridThree {
+    grid-template-columns: 1fr;
+  }
+
+  .gridFour {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .section {
+    padding: 3rem 0;
+  }
+
+  .cardMedia {
+    height: 180px;
+  }
+}
+
+@media (max-width: 420px) {
+  .gridFour {
+    grid-template-columns: 1fr;
+  }
+}

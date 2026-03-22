@@ -1,5 +1,5 @@
 .main {
-  padding: 120px 24px 72px;
+  padding: calc(72px + 48px) 24px 72px;
   max-width: 1140px;
   margin: 0 auto;
 }
@@ -92,8 +92,18 @@
   gap: 0.5rem;
   margin-top: 1.25rem;
   text-decoration: none;
-  color: #0b63c9;
+  color: #8f5d1f;
   font-weight: 600;
+  border: 1px solid #e3c99a;
+  border-radius: 999px;
+  padding: 0.6rem 1.2rem;
+  background: #fff8ee;
+  transition: background 0.2s, color 0.2s;
+}
+
+.cta:hover {
+  background: #fff3e0;
+  color: #6b4316;
 }
 
 @media (max-width: 860px) {

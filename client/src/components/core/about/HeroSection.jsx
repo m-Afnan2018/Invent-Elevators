@@ -8,10 +8,11 @@ export default function HeroSection() {
       {/* Background image with overlay */}
       <div className={styles.bgWrapper}>
         <Image
-          width={100}
-          height={100}
+          fill
+          sizes="100vw"
           src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1800&q=85&fit=crop"
           alt="Modern building interior"
+          priority
           className={styles.bgImage}
         />
         <div className={styles.overlay} />

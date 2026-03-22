@@ -66,8 +66,8 @@ export default function ContactSection() {
           {/* Image */}
           <div className={styles.imageWrap}>
             <Image
-              width={100}
-              height={100}
+              width={800}
+              height={320}
               src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80"
               alt="Expert consultation"
               className={styles.consultImg}

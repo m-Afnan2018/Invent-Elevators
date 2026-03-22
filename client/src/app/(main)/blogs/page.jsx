@@ -13,6 +13,7 @@ import { extractCollection } from "@/lib/apiResponse";
 export default function Blogs() {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const loadBlogs = async () => {
@@ -42,7 +43,7 @@ export default function Blogs() {
   );
   return (
     <main className={styles.page}>
-      <BlogHero />
+      <BlogHero totalPosts={normalizedPosts.length} onSearch={setSearchQuery} />
 
       <section className={styles.introBand}>
         <div className={styles.introInner}>
@@ -62,7 +63,7 @@ export default function Blogs() {
 
       <BlogFeatured post={normalizedPosts[0]} />
       <BlogSecondary posts={normalizedPosts.slice(1, 4)} />
-      <BlogGrid posts={normalizedPosts} isLoading={isLoading} />
+      <BlogGrid posts={normalizedPosts} isLoading={isLoading} searchQuery={searchQuery} />
     </main>
   );
 }

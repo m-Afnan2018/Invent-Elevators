@@ -43,7 +43,7 @@ export default function HeritageSection() {
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                   <path
                     d="M3 9.5l4 4 8-8"
-                    stroke="#1a56db"
+                    stroke="#b0742e"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -57,7 +57,7 @@ export default function HeritageSection() {
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                   <path
                     d="M3 9.5l4 4 8-8"
-                    stroke="#1a56db"
+                    stroke="#b0742e"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -71,7 +71,7 @@ export default function HeritageSection() {
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                   <path
                     d="M3 9.5l4 4 8-8"
-                    stroke="#1a56db"
+                    stroke="#b0742e"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -85,7 +85,7 @@ export default function HeritageSection() {
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                   <path
                     d="M3 9.5l4 4 8-8"
-                    stroke="#1a56db"
+                    stroke="#b0742e"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
