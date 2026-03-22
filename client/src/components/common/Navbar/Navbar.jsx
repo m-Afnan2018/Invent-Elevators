@@ -327,7 +327,8 @@ export default function Navbar() {
                 <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
-            <p className={styles.drawerTagline}>Trusted vertical mobility partner for modern buildings</p>
+            <a href="tel:+971585723553" className={styles.drawerPhone}>+971 58 572 3553</a>
+            <p className={styles.drawerTagline}>Engineered in the UAE · Trusted Across Projects</p>
           </div>
         </div>
       </div>

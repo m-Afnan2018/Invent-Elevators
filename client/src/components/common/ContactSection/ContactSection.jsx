@@ -83,6 +83,7 @@ export default function ContactSection() {
               <div>
                 <p className={styles.supportLabel}>24/7 Support</p>
                 <p className={styles.supportContact}>info@inventelevator.com</p>
+                <p className={styles.supportContact}><a href="tel:+971585723553" style={{color:"inherit",textDecoration:"none"}}>+971 58 572 3553</a></p>
               </div>
             </div>
           </div>

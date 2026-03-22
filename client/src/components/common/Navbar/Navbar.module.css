@@ -354,6 +354,20 @@
   transform: translateX(3px);
 }
 
+.drawerPhone {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #dca55a;
+  text-decoration: none;
+  margin-bottom: 4px;
+  align-self: center;
+}
+
+.drawerPhone:hover { color: #b0742e; }
+
 .drawerTagline {
   font-family: "DM Sans", sans-serif;
   font-size: 0.75rem;

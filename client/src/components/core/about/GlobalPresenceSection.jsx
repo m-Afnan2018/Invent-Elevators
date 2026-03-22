@@ -15,13 +15,12 @@ export default function GlobalPresenceSection() {
         {/* Right: Body text */}
         <div className={styles.right}>
           <p className={styles.body}>
-            What began as a specialised vertical mobility firm has now grown into
-            Invent Elevator — one of the leading manufacturers of space-efficient,
-            ready-to-install lift solutions designed for modern residential and
-            commercial environments. Much like global elevator pioneers, we combine
-            advanced engineering with practical design to deliver vertical
-            transportation systems that fit seamlessly into homes, offices, and
-            public spaces.
+            Engineered in the UAE and trusted across projects throughout the region,
+            Invent Elevator delivers space-efficient, ready-to-install lift solutions
+            designed for modern residential and commercial environments. We combine
+            advanced engineering with refined aesthetics to deliver vertical
+            mobility systems that integrate seamlessly into villas, offices,
+            restaurants, and high-rise developments.
           </p>
         </div>
       </div>
@@ -38,16 +37,16 @@ export default function GlobalPresenceSection() {
         {/* Floating stat cards */}
         <div className={styles.statsRow}>
           <div className={styles.statCard}>
-            <span className={styles.statNumber}>25+</span>
-            <span className={styles.statLabel}>Years of Experience</span>
+            <span className={styles.statNumber}>100+</span>
+            <span className={styles.statLabel}>Projects Delivered</span>
           </div>
           <div className={styles.statCard}>
-            <span className={styles.statNumber}>5000+</span>
-            <span className={styles.statLabel}>Installations Worldwide</span>
+            <span className={styles.statNumber}>500+</span>
+            <span className={styles.statLabel}>Design Variations</span>
           </div>
           <div className={styles.statCard}>
-            <span className={styles.statNumber}>40+</span>
-            <span className={styles.statLabel}>Countries Served</span>
+            <span className={styles.statNumber}>10+</span>
+            <span className={styles.statLabel}>Years of Expertise</span>
           </div>
         </div>
       </div>

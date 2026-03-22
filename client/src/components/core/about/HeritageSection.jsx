@@ -15,7 +15,7 @@ export default function HeritageSection() {
             />
             {/* Floating badge */}
             <div className={styles.badge}>
-              <span className={styles.badgeNumber}>25+</span>
+              <span className={styles.badgeNumber}>10+</span>
               <span className={styles.badgeText}>Years of Engineering Excellence</span>
             </div>
           </div>

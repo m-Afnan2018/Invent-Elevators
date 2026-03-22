@@ -5,8 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import styles from "./page.module.css";
-import { getBlogs } from "@/services/blogs.service";
-import { extractCollection } from "@/lib/apiResponse";
+import { getBlogBySlug } from "@/services/blogs.service";
 
 const sanitizeHtml = (html) => {
   if (!html || typeof html !== "string") return "";
@@ -42,10 +41,8 @@ export default function BlogSlugPage() {
   useEffect(() => {
     const loadBlog = async () => {
       try {
-        const response = await getBlogs();
-        const blogs = extractCollection(response).map(normalize);
-        const selected = blogs.find((item) => item.slug === slug);
-        setPost(selected || null);
+        const data = await getBlogBySlug(slug);
+        setPost(data ? normalize(data) : null);
       } catch (_error) {
         setPost(null);
       } finally {

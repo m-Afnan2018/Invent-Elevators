@@ -19,6 +19,7 @@ export default function Contact() {
           </div>
           <div className={styles.links}>
             <a href="mailto:info@inventelevator.com">info@inventelevator.com</a>
+            <a href="tel:+971585723553">+971 58 572 3553</a>
             <Link href="/products">Explore Products</Link>
           </div>
         </div>

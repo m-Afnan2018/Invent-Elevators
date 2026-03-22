@@ -47,7 +47,7 @@ export default function Footer() {
       blogs
         .filter((blog) => blog?._id && blog?.title)
         .slice(0, 4)
-        .map((blog) => ({ label: blog.title, href: `/blogs` })),
+        .map((blog) => ({ label: blog.title, href: blog.slug ? `/blog/${blog.slug}` : `/blogs` })),
     [blogs]
   );
 
@@ -71,8 +71,9 @@ export default function Footer() {
       <div className={styles.topBand}>
         <div className={styles.topInner}>
           <div className={styles.topLeft}>
-            <p className={styles.topTagline}>Our experts are here to help</p>
+            <p className={styles.topTagline}>Engineered in the UAE | Trusted Across Projects</p>
             <a href="mailto:info@inventelevator.com" className={styles.topEmail}>info@inventelevator.com</a>
+            <a href="tel:+971585723553" className={styles.topEmail}>+971 58 572 3553</a>
           </div>
           <div className={styles.topRight}><Link href="/contact" className={styles.topCta}>Request a consultation →</Link></div>
         </div>
@@ -118,6 +119,7 @@ export default function Footer() {
             <h4 className={styles.colHeading}>Get in Touch</h4>
             <ul className={styles.linkList}>
               <li><a href="mailto:info@inventelevator.com" className={styles.footerLink}>info@inventelevator.com</a></li>
+              <li><a href="tel:+971585723553" className={styles.footerLink}>+971 58 572 3553</a></li>
               <li><a href="/contact" className={styles.footerLink}>Contact Us</a></li>
             </ul>
             <div className={styles.cookieWrap}>
