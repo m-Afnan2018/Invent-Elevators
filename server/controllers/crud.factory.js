@@ -32,7 +32,11 @@ export const getOne = (Model, populate = "") => async (req, res) => {
 
 export const updateOne = (Model) => async (req, res) => {
   try {
-    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    // Strip empty strings so they don't fail type casts (e.g. Date fields)
+    const body = Object.fromEntries(
+      Object.entries(req.body).filter(([, v]) => v !== "")
+    );
+    const doc = await Model.findByIdAndUpdate(req.params.id, body, { new: true, runValidators: true });
     if (!doc) return res.status(404).json({ success: false, message: "Record not found" });
     res.status(200).json({ success: true, data: doc });
   } catch (error) {

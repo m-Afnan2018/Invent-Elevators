@@ -16,6 +16,7 @@ import {
     RiSettings3Line,
     RiMenuFoldLine,
     RiMenuUnfoldLine,
+    RiMenuLine,
     RiMoonLine,
     RiSunLine,
 } from 'react-icons/ri';
@@ -23,7 +24,10 @@ import styles from './AdminLayout.module.css';
 import useAuthStore from '@/store/authStore';
 
 const AdminLayout = ({ children }) => {
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    // Start collapsed (hidden) on mobile, expanded on desktop
+    const [isCollapsed, setIsCollapsed] = useState(
+        typeof window !== 'undefined' && window.innerWidth <= 768
+    );
     const [isDarkMode, setIsDarkMode] = useState(true);
     const pathname = usePathname();
     const user = useAuthStore((state) => state.user);
@@ -55,6 +59,11 @@ const AdminLayout = ({ children }) => {
 
     return (
         <div className={`${styles.adminContainer} ${isDarkMode ? styles.dark : styles.light}`}>
+            {/* Mobile overlay backdrop */}
+            {!isCollapsed && (
+                <div className={styles.mobileBackdrop} onClick={toggleSidebar} />
+            )}
+
             {/* Sidebar */}
             <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}>
                 <div className={styles.sidebarHeader}>
@@ -68,11 +77,13 @@ const AdminLayout = ({ children }) => {
                     {menuItems.map((item) => {
                         const Icon = item.icon;
                         const isActive = pathname === item.path;
+                        const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
                         return (
                             <Link
                                 key={item.path}
                                 href={item.path}
                                 className={`${styles.navItem} ${isActive ? styles.active : ''}`}
+                                onClick={() => isMobile && setIsCollapsed(true)}
                             >
                                 <Icon className={styles.navIcon} />
                                 {!isCollapsed && <span>{item.name}</span>}
@@ -97,8 +108,14 @@ const AdminLayout = ({ children }) => {
             {/* Main Content */}
             <main className={styles.mainContent}>
                 <header className={styles.topBar}>
-                    <div className={styles.breadcrumb}>
-                        <span>Admin Panel</span>
+                    <div className={styles.topBarLeft}>
+                        {/* Hamburger — visible only on mobile */}
+                        <button onClick={toggleSidebar} className={styles.hamburgerBtn}>
+                            <RiMenuLine />
+                        </button>
+                        <div className={styles.breadcrumb}>
+                            <span>Admin Panel</span>
+                        </div>
                     </div>
                     <button onClick={toggleTheme} className={styles.themeToggle}>
                         {isDarkMode ? <RiSunLine /> : <RiMoonLine />}

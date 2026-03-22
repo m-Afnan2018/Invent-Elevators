@@ -169,22 +169,26 @@ const BlogsPage = () => {
     const openModal = (blog = null) => {
         if (blog) {
             setEditingBlog(blog);
+            // Format publishDate to YYYY-MM-DD for the date input
+            const publishDate = blog.publishDate
+                ? new Date(blog.publishDate).toISOString().split('T')[0]
+                : '';
             setFormData({
-                title: blog.title,
-                slug: blog.slug,
-                excerpt: blog.excerpt,
-                content: blog.content,
-                featuredImage: blog.featuredImage,
-                author: blog.author,
-                tags: blog.tags,
-                status: blog.status,
-                publishDate: blog.publishDate,
-                isFeatured: blog.isFeatured,
-                metaTitle: blog.metaTitle,
-                metaDescription: blog.metaDescription,
-                metaKeywords: blog.metaKeywords,
-                ogImage: blog.ogImage,
-                canonicalUrl: blog.canonicalUrl,
+                title: blog.title || '',
+                slug: blog.slug || '',
+                excerpt: blog.excerpt || '',
+                content: blog.content || '',
+                featuredImage: blog.featuredImage || '',
+                author: blog.author || '',
+                tags: blog.tags || [],
+                status: blog.status || 'draft',
+                publishDate,
+                isFeatured: blog.isFeatured || false,
+                metaTitle: blog.metaTitle || '',
+                metaDescription: blog.metaDescription || '',
+                metaKeywords: blog.metaKeywords || '',
+                ogImage: blog.ogImage || '',
+                canonicalUrl: blog.canonicalUrl || '',
             });
             setImagePreview(blog.featuredImage);
             setOgImagePreview(blog.ogImage);

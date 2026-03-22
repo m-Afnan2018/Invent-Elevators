@@ -184,23 +184,32 @@ const LeadFormsPage = () => {
   const openModal = (lead = null) => {
     if (lead) {
       setEditingLead(lead);
+      // Resolve assignedTo: could be a populated object or a plain ID string
+      const assignedToId =
+        lead.assignedTo && typeof lead.assignedTo === 'object'
+          ? lead.assignedTo._id
+          : lead.assignedTo || '';
       setFormData({
-        name: lead.name,
-        email: lead.email,
-        phone: lead.phone,
-        company: lead.company,
-        location: lead.location,
-        message: lead.message,
-        productInterest: Array.isArray(lead.productInterest) ? (lead.productInterest[0] || '') : lead.productInterest,
-        budget: lead.budget,
-        timeline: lead.timeline,
-        source: lead.source,
-        priority: lead.priority,
-        status: lead.status,
-        assignedTo: lead.assignedTo,
-        notes: lead.notes,
-        files: lead.files,
-        customFields: lead.customFields,
+        name: lead.name || '',
+        email: lead.email || '',
+        phone: lead.phone || '',
+        company: lead.company || '',
+        location: lead.location || '',
+        message: lead.message || '',
+        productInterest: Array.isArray(lead.productInterest)
+          ? (lead.productInterest[0] || '')
+          : (lead.productInterest || ''),
+        budget: lead.budget || '',
+        timeline: lead.timeline || '',
+        source: lead.source || 'Website',
+        priority: lead.priority || 'medium',
+        status: lead.status || 'new',
+        assignedTo: assignedToId,
+        notes: lead.notes || '',
+        files: Array.isArray(lead.files) ? lead.files : [],
+        customFields: lead.customFields && typeof lead.customFields === 'object'
+          ? lead.customFields
+          : {},
       });
     } else {
       setEditingLead(null);
