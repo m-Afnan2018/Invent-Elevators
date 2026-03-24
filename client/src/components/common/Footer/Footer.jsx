@@ -2,6 +2,7 @@
 
 import styles from "./Footer.module.css";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { getCategories } from "@/services/categories.service";
 import { getProducts } from "@/services/products.service";
@@ -82,7 +83,7 @@ export default function Footer() {
       <div className={styles.main}>
         <div className={styles.mainInner}>
           <div className={styles.brandCol}>
-            <Link href="/" className={styles.logo}><span className={styles.logoIcon}>▲</span><span className={styles.logoText}>Invent<strong>Elevator</strong></span></Link>
+            <Link href="/" className={styles.logo}><Image src="/logo-invent-png-without-bg-1.png" alt="Invent Elevator" width={140} height={48} /></Link>
             <p className={styles.brandDesc}>Elevating homes and businesses with precision-engineered lift solutions focused on quality, safety, and responsive support.</p>
             <div className={styles.utilRow}><span className={styles.langBadge}>🌐 English (Global)</span><Link href="/login" className={styles.loginLink}>Login</Link></div>
             <div className={styles.liveChips}>{liveInfo.map((chip) => <span key={chip}>{chip}</span>)}</div>

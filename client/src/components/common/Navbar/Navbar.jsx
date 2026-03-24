@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { getProducts } from "@/services/products.service";
 import { getCategories } from "@/services/categories.service";
@@ -171,10 +172,7 @@ export default function Navbar() {
     <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
       <div className={styles.navInner}>
         <Link href="/" className={styles.logo} onClick={() => setMenuOpen(false)}>
-          <span className={styles.logoIcon}>▲</span>
-          <span className={styles.logoText}>
-            Invent<strong>Elevator</strong>
-          </span>
+          <Image src="/logo-invent-png-without-bg-1.png" alt="Invent Elevator" width={140} height={48} priority />
         </Link>
 
         <ul className={styles.navLinks}>
